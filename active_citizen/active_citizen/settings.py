@@ -25,7 +25,10 @@ SECRET_KEY = 'django-insecure-de5e*vt6zz6i+odos%+dcz)@-z7%#8uj#irm4$l&7_2t&anql@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1'
+]
 
 
 # Application definition
@@ -37,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'users.apps.UsersConfig',
+    'ticket_system.apps.TicketSystemConfig',
 ]
 
 MIDDLEWARE = [
@@ -85,6 +90,8 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
+
+AUTH_USER_MODEL = 'users.CustomAbstractUser'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
