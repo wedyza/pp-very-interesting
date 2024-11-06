@@ -1,0 +1,17 @@
+:root {
+    --violet: #54156C;
+    --yellow: #FFF200;
+    --background: #F8FBFF;
+    --black-text: #180F25;
+    --gray-text: #656368;
+    --white-text: #FFFFFF;
+    --light-gray-text: #B5B5B5;
+    --green: #13C519;
+    --red: #E40A0A;
+    --light-red: #FF4949;
+    --light-gray: #CDCDCD;
+}
+
+body {
+    font-family: 'Inter';
+}
