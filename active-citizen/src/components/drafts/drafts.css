@@ -1,0 +1,10 @@
+.drafts {
+    margin-top: 48px;
+}
+
+.drafts-list {
+    margin-top: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}

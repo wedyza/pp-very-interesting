@@ -1,0 +1,43 @@
+.draft-card {
+    width: 506px;
+    height: 106px;
+    padding: 16px 24px 16px 24px;
+    gap: 0px;
+    border-radius: 10px;
+    border: 1px solid var(--light-gray);
+    opacity: 0px;
+    position: relative;
+}
+
+.draft-card__title {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 18px;
+    color: var(--black-text);
+    margin-bottom: 4px;
+}
+
+.draft-card__datetime {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 14px;
+    color: var(--gray-text);
+}
+
+.draft-card__continue {
+    position: absolute;
+    bottom: 16px;
+    left: 24px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 14px;
+    color: var(--violet);
+    display: flex;
+    gap: 4px;
+}
+
+.draft-card__delete {
+    position: absolute;
+    top: 16px;
+    right: 24px;
+}

@@ -1,0 +1,21 @@
+.select-subcategory_title {
+    font-family: Roboto Condensed;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 36px;
+    letter-spacing: -0.02em;
+    margin-top: 24px;
+    margin-bottom: 16px;
+}
+
+.select-subcategory_desc {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 14px;
+    color: var(--gray-text);
+}
+
+.subcategory-list {
+    margin-top: 24px;
+    display: flex;
+}

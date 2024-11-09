@@ -1,0 +1,13 @@
+.select-category_title {
+    margin-bottom: 16px;
+}
+
+.select-category_desc {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 14px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: var(--gray-text);
+}

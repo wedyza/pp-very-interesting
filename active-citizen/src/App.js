@@ -1,10 +1,13 @@
-import Header from './components/header/Header'
+import UserIndex from './components/userIndex/UserIndex'
+import CategoryPage from './components/categoryPage/CategoryPage'
+import { Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-    </div>
+    <Routes>
+         <Route path="/" element={<UserIndex />}/>
+         <Route path="/category/:categoryId" element={<CategoryPage />} />
+     </Routes>
   );
 }
 

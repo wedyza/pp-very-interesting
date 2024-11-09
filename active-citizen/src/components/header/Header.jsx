@@ -3,7 +3,7 @@ import { useState } from 'react';
 import './../header/header.css'
 import logo from './../../img/logo.svg'
 import avatar from './../../img/empty.jpg'
-import Menu from './../menu/Menu'
+import Menu from './menu/Menu'
 
 function Header () {
     const [isMenuVisible, setMenuVisible] = useState(false);

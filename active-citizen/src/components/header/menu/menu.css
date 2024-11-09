@@ -1,23 +1,25 @@
 .header__menu {
     position: absolute;
     top: calc(100% + 8px);
-    background-color: var(--violet);
-    border-radius: 10px;
     color: var(--white-text);
     font-weight: 300;
     font-size: 16px;
     font-weight: 300;
     line-height: 16px;
     text-align: center;
-    padding: 8px 40px;
-
+    width: 100%;
+    max-width: 1114px;
+    padding: 0 20px;
 }
 
 .menu__list {
     display: flex;
     align-items: center;
-    gap: 60px;
-    height: 100px;
+    justify-content: space-evenly;
+    height: 116px;
+    background-color: var(--violet);
+    border-radius: 10px;
+    padding: 8px 20px;
 }
 
 .menu__item {
