@@ -1,0 +1,53 @@
+.status_rejected {
+    color: var(--red);
+}
+
+.status_accepted {
+    color: var(--green);
+}
+
+.status_checking {
+    color: var(--gray-text);
+}
+
+.history__appeal-card {
+    position: relative;
+    width: 506px;
+    height: 145.5px;
+    padding: 16px 24px;
+    border-radius: 10px;
+    border: 1px solid var(--light-gray);
+    display: flex;
+    flex-direction: column;
+}
+
+.appeal-card__title {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 18px;
+}
+
+.appeal-card__datetime {
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 14px;
+    color: var(--gray-text);
+}
+
+.appeal-card__status {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.appeal-card__btns {
+    position: absolute;
+    top: 16px;
+    right: 24px;
+    display: flex;
+    align-items: center;
+    height: 24px;
+    gap: 16px;
+}
