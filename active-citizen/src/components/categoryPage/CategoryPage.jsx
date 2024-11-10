@@ -26,8 +26,8 @@ function CategoryPage () {
                 <span className="select-subcategory_desc">Выберете подкатегорию для вашего обращения</span>
             
                 <ul className="subcategory-list cards-list">
-                    {content.subcategories.map((subcategory) => (
-                        <li className="subcategory-list__item">
+                    {content.subcategories.map((subcategory, index) => (
+                        <li key={index} className="subcategory-list__item">
                             <SubcategoryCard subcategory={subcategory} />
                         </li>
                     ))}

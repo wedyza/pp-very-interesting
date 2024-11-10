@@ -12,7 +12,7 @@ function CategoryCardList () {
     return (
         <ul className="category-list cards-list">
             {categories.map((category) => (
-                <li className="category-list__item">
+                <li key={category.id} className="category-list__item">
                     <CategoryCard category={category} />
                 </li>
             ))}

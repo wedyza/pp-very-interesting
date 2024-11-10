@@ -1,0 +1,29 @@
+.notification {
+    border-top: 1px solid var(--light-gray);
+    display: flex;
+    height: 56px;
+    align-items: center;
+}
+
+.notification__text {
+    margin-left: 24px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19.2px;
+    color: var(--black-text);
+}
+
+.notification__text_accent {
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-underline-position: from-font;
+    color: var(--violet);
+}
+
+.notification__datetime {
+    margin-left: auto;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 14px;
+    color: var(--gray-text);
+}
