@@ -1,0 +1,54 @@
+.notify-option__name {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19.2px;
+}
+
+.toggle-switch {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.toggle-switch svg rect {
+    transition: fill 0.3s ease, stroke 0.3s ease;
+}
+
+.toggle-circle {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.toggle-switch svg circle {
+    transition: fill 0.3s ease, stroke 0.3s ease;
+}
+
+.toggle-switch rect {
+    stroke: var(--violet);
+}
+
+.toggle-circle circle {
+    fill: var(--violet);
+}
+
+.toggle-switch.active rect {
+    stroke: var(--yellow);
+}
+
+.toggle-switch.active .toggle-circle {
+    transform: translateX(20px);
+}
+
+.toggle-switch.active .toggle-circle circle {
+    fill: var(--yellow);
+}
+
+.notify-option {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}

@@ -1,0 +1,10 @@
+.notify-set {
+    margin-top: 48px;
+}
+
+.notify__list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 32px;
+}

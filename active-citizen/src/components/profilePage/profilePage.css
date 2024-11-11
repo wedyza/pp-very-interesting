@@ -1,0 +1,12 @@
+.profile__title {
+    margin-top: 24px;
+}
+
+.profile-subtitle {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 16px;
+    color: var(--gray-text);
+    border-bottom: 1px solid var(--light-gray);
+    padding-bottom: 10px;
+}
