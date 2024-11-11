@@ -4,6 +4,16 @@
     line-height: 19.2px;
 }
 
+.notify-option {
+    display: flex;
+    align-items: center;
+    margin: 8px 0;
+}
+
+.notify-option__name {
+    margin-right: 16px;
+}
+
 .toggle-switch {
     position: relative;
     width: 44px;
@@ -18,9 +28,12 @@
 
 .toggle-circle {
     position: absolute;
-    top: 2px;
-    left: 2px;
+    top: 50%;
+    left: 2.5px;
+    transform: translate(0, -50%);
     transition: transform 0.3s ease, background-color 0.3s ease;
+    width: 20px;
+    height: 20px;
 }
 
 .toggle-switch svg circle {
@@ -40,12 +53,13 @@
 }
 
 .toggle-switch.active .toggle-circle {
-    transform: translateX(20px);
+    transform: translate(19px, -50%);
 }
 
 .toggle-switch.active .toggle-circle circle {
     fill: var(--yellow);
 }
+
 
 .notify-option {
     display: flex;

@@ -10,3 +10,18 @@
     border-bottom: 1px solid var(--light-gray);
     padding-bottom: 10px;
 }
+
+.logout-btn {
+    margin-top: 150px;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19.2px;
+    gap: 16px;
+}
+
+.logout-btn__text {
+    color: var(--red);
+    text-decoration-line: underline;
+}
