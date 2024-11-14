@@ -1,57 +1,39 @@
 import './appealCard.css'
-import OpenAppeal from './../../openAppeal/OpenAppeal'
+import AppealOptions from '../../appealOptions/AppealOptions'
+import icon from '../../../img/community.svg'
 
 function AppealCard ({appeal}) {
     const statusConfig = {
         'Принято': {
-            textClass: 'status_accepted',
-            icon: (
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fillRule="evenodd" clipRule="evenodd" d="M9.75099 0.620117C4.43201 0.620117 0.120117 4.93185 0.120117 10.2506C0.120117 15.5694 4.43201 19.8812 9.75099 19.8812C15.07 19.8812 19.3819 15.5694 19.3819 10.2506C19.3819 4.93185 15.07 0.620117 9.75099 0.620117ZM5.74674 10.2235C5.48434 9.96108 5.0589 9.96108 4.7965 10.2235C4.5341 10.4859 4.5341 10.9113 4.7965 11.1737L7.48418 13.8613C7.74659 14.1237 8.17202 14.1237 8.43443 13.8613L14.7057 7.59022C14.9681 7.32783 14.9681 6.90241 14.7057 6.64002C14.4433 6.37763 14.0179 6.37763 13.7555 6.64002L7.9593 12.436L5.74674 10.2235Z" fill="#13C519"/>
-                </svg>
-            )
+            textClass: 'status_accepted'
         },
         'Отклонено': {
-            textClass: 'status_rejected',
-            icon: (
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fillRule="evenodd" clipRule="evenodd" d="M9.75099 0.119629C4.43201 0.119629 0.120117 4.43136 0.120117 9.75015C0.120117 15.0689 4.43201 19.3807 9.75099 19.3807C15.07 19.3807 19.3819 15.0689 19.3819 9.75015C19.3819 4.43136 15.07 0.119629 9.75099 0.119629ZM7.69191 6.74117C7.42951 6.47878 7.00407 6.47878 6.74167 6.74117C6.47927 7.00356 6.47927 7.42898 6.74167 7.69137L8.80052 9.75015L6.74167 11.8089C6.47927 12.0713 6.47927 12.4967 6.74167 12.7591C7.00407 13.0215 7.42951 13.0215 7.69191 12.7591L9.75076 10.7004L11.8096 12.7591C12.072 13.0215 12.4975 13.0215 12.7599 12.7591C13.0223 12.4967 13.0223 12.0713 12.7599 11.8089L10.701 9.75015L12.7599 7.69137C13.0223 7.42898 13.0223 7.00356 12.7599 6.74117C12.4975 6.47878 12.072 6.47878 11.8096 6.74117L9.75076 8.79995L7.69191 6.74117Z" fill="#E40A0A"/>
-                </svg>
-            )
+            textClass: 'status_rejected'
         },
         'На проверке': {
-            textClass: 'status_checking',
-            icon: (
-                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fillRule="evenodd" clipRule="evenodd" d="M17.4674 4.38928C13.9544 0.680186 8.09982 0.521174 4.39072 4.03412L3.35925 2.94505C7.66982 -1.13756 14.4738 -0.952761 18.5564 3.35781C22.6391 7.66838 22.4543 14.4724 18.1437 18.555L17.1122 17.4659C20.8213 13.953 20.9803 8.09838 17.4674 4.38928Z" fill="#656368"/>
-                    <path fillRule="evenodd" clipRule="evenodd" d="M4.41808 2.9745C4.70291 3.27524 4.69002 3.74994 4.38928 4.03477C4.09149 4.31681 3.81682 4.61365 3.56522 4.92299C3.30385 5.24433 2.83147 5.29294 2.51013 5.03157C2.18879 4.7702 2.14018 4.29782 2.40155 3.97649C2.69398 3.61695 3.01279 3.27247 3.35781 2.9457C3.65854 2.66087 4.13324 2.67376 4.41808 2.9745ZM1.54034 6.77602C1.93197 6.91092 2.14008 7.33777 2.00517 7.72939C1.56398 9.01016 1.41095 10.3711 1.54932 11.7093C1.59193 12.1213 1.29246 12.4899 0.880439 12.5325C0.468422 12.5751 0.09988 12.2756 0.0572775 11.8636C-0.103365 10.31 0.0741208 8.72959 0.586962 7.24085C0.72187 6.84922 1.14871 6.64111 1.54034 6.77602ZM2.21185 16.0141C2.5469 15.7705 3.01594 15.8447 3.25948 16.1798C3.49392 16.5023 3.75208 16.8136 4.03411 17.1114C4.31615 17.4092 4.613 17.6839 4.92233 17.9355C5.24367 18.1968 5.29229 18.6692 5.03092 18.9906C4.76955 19.3119 4.29717 19.3605 3.97583 19.0992C3.6163 18.8067 3.27181 18.4879 2.94505 18.1429C2.61828 17.7979 2.31864 17.4366 2.04615 17.0617C1.80261 16.7267 1.87679 16.2576 2.21185 16.0141ZM18.171 17.4954C18.4559 17.7961 18.443 18.2708 18.1422 18.5557C17.7972 18.8824 17.4359 19.1821 17.0611 19.4546C16.726 19.6981 16.257 19.6239 16.0134 19.2889C15.7699 18.9538 15.8441 18.4848 16.1791 18.2412C16.5017 18.0068 16.813 17.7486 17.1108 17.4666C17.4115 17.1818 17.8862 17.1946 18.171 17.4954ZM6.77536 19.9604C6.91027 19.5687 7.33711 19.3606 7.72874 19.4955C9.0095 19.9367 10.3704 20.0898 11.7086 19.9514C12.1207 19.9088 12.4892 20.2082 12.5318 20.6203C12.5744 21.0323 12.2749 21.4008 11.8629 21.4434C10.3093 21.6041 8.72894 21.4266 7.24019 20.9137C6.84857 20.7788 6.64045 20.352 6.77536 19.9604Z" fill="#656368"/>
-                </svg>
-            )
+            textClass: 'status_checking'
         }
     };
-    const { textClass, icon } = statusConfig[appeal.status] || {};
+    const { textClass } = statusConfig[appeal.status] || {};
 
     return (
         <div className='history__appeal-card'>
-            <span className='appeal-card__title'>{appeal.title}</span>
-            <span className='appeal-card__datetime'>{appeal.datetime}</span>
-            <div className={`appeal-card__status ${textClass}`}>
-                {icon}
-                <span>{appeal.status}</span>
-            </div>
-            <OpenAppeal text='Посмотреть заявку' />
-            <div className='appeal-card__btns'>
-                <button className='appeal-card__edit'>
-                    <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11.3632 2.65156L12.8431 1.17157C13.6242 0.390524 14.8905 0.390524 15.6716 1.17157L17.0858 2.58579C17.8668 3.36683 17.8668 4.63316 17.0858 5.41421L15.6058 6.8942M11.3632 2.65156L1.74749 12.2672C1.41542 12.5993 1.21079 13.0376 1.16947 13.5054L0.927381 16.2459C0.872609 16.8659 1.39148 17.3848 2.0115 17.33L4.75191 17.0879C5.21972 17.0466 5.65806 16.8419 5.99013 16.5099L15.6058 6.8942M11.3632 2.65156L15.6058 6.8942" stroke="black" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                </button>
-                <button className='appeal-card__delete'>
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M13 13L7.00002 7.00002M7.00002 7.00002L1 1M7.00002 7.00002L13 1M7.00002 7.00002L1 13" stroke="#180F25" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                </button>
-            </div>
+            <div className='appeal-card__icon'><img src={icon} /></div>
+            <div className="appeal-card__info">
+                <div className="appeal-card__info_main">
+                    <div className='appeal-card__title'><span>{appeal.title}</span></div>
+                    <span className='appeal-card__datetime'>{appeal.datetime}</span>
+                </div>
+                <div className='appeal-card__status'>
+                    <span className='appeal-card__status_label appeal-card__label'>Статус:</span>
+                    <span className={`appeal-card__status_value ${textClass}`}>{appeal.status}</span>
+                </div>
+                <div className='appeal-card__comm'>
+                    <span className='appeal-card__comm_label appeal-card__label'>Комментарий:</span>
+                    <span className='appeal-card__comm_value'>{appeal.comment}</span>
+                </div>
+            </div>     
+            <AppealOptions />
         </div>
     )
 }

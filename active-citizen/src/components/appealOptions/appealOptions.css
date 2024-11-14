@@ -1,11 +1,11 @@
 .appeal-options {
     background-color: var(--blue);
     position: absolute;
-    right: 0;
-    top: -2px;
+    right: -2px;
     bottom: -2px;
     border-radius: 0 20px 20px 0;
     width: 66px;
+    height: calc(100% + 4px);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -18,4 +18,39 @@
     align-items: center;
     justify-content: center;
     height: 50%;
+    position: relative;
+}
+
+.appeal-options > * svg {
+    stroke: white;
+    transition: .3s;
+}
+
+.appeal-options > *:hover svg {
+    stroke: #E7B510;
+}
+
+.appeal-options > *::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    border: 2px solid #E7B510;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity .3s ease;
+}
+
+.appeal-options > *:hover::after {
+    opacity: 1;
+}
+
+.appeal-options__delete::after {
+    border-radius: 0 20px 0 0;
+}
+
+.appeal-options__edit::after {
+    border-radius: 0 0 20px 0;
 }

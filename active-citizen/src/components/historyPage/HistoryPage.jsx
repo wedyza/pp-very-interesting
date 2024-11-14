@@ -6,9 +6,9 @@ import { useState } from 'react';
 
 function HistoryPage () {
     const historyData = [
-        {title: 'Невероятно кривая дорога', datetime: '10:15, 18.02.2024', status: 'На проверке'},
-        {title: 'Кривая дорога', datetime: '10:15, 17.02.2024', status: 'Отклонено'},
-        {title: 'Очень кривая дорога', datetime: '20:15, 17.02.2024', status: 'Принято'},
+        {title: 'Невероятно кривая дорога', datetime: '10:15, 18.02.2024', status: 'На проверке', comment: '-'},
+        {title: 'Кривая дорога', datetime: '10:15, 17.02.2024', status: 'Отклонено', comment: 'Недопустимые материелы'},
+        {title: 'Очень кривая дорога', datetime: '20:15, 17.02.2024', status: 'Принято', comment: 'Все отлично'},
     ];
 
     const [statusFilter, setStatusFilter] = useState('Статус');

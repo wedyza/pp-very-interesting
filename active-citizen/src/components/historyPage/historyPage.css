@@ -3,8 +3,10 @@
     gap: 20px;
 }
 .history__list {
+    border-top: 1px solid var(--light-blue);
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
     margin-top: 24px;
+    padding-top: 16px;
 }
