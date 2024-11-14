@@ -1,7 +1,7 @@
 from ticket_system.models import Ticket, Category, Notification
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-
+from djoser.serializers import UserSerializer
 
 class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -21,9 +21,9 @@ class TicketSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class UserSerializer(serializers.ModelSerializer):
+class CustomUserSerializer(UserSerializer):
     tickets = TicketSerializer(many=True, required=False)
 
     class Meta:
         model = get_user_model()
-        fields = '__all__'
+        fields = ('phone_number', 'id', 'first_name', 'last_name', 'rating', 'avatar')

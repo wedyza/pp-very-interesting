@@ -1,8 +1,42 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.core.validators import (
     RegexValidator, MaxValueValidator, MinValueValidator
 )
+
+
+class UserManager(BaseUserManager):
+    """Define a model manager for User model with no username field."""
+
+    use_in_migrations = True
+
+    def _create_user(self, phone_number, password, first_name=None, last_name=None, **extra_fields):
+        """Create and save a User with the given phone_number and password."""
+        if not phone_number:
+            raise ValueError('Должен быть номер телефона')
+        self.phone_number = phone_number
+        user = self.model(phone_number=phone_number, first_name=first_name, last_name=last_name, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_user(self, phone_number, password, first_name, last_name, **extra_fields):
+        """Create and save a regular User with the given phone_number and password."""
+        extra_fields.setdefault('is_staff', False)
+        extra_fields.setdefault('is_superuser', False)
+        return self._create_user(phone_number, password, first_name, last_name, **extra_fields)
+
+    def create_superuser(self, phone_number, password, **extra_fields):
+        """Create and save a SuperUser with the given phone_number and password."""
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+
+        return self._create_user(phone_number, password, **extra_fields)
 
 
 # class UserType(models.Model):
@@ -17,11 +51,16 @@ from django.core.validators import (
 
 
 class CustomAbstractUser(AbstractUser):
+    username = None
+    USERNAME_FIELD = 'phone_number'
+    objects = UserManager()
+    REQUIRED_FIELDS = ['first_name', 'last_name']
+
     first_name = models.CharField('Имя', max_length=40)
     last_name = models.CharField('Фамилия', max_length=40)
     avatar = models.ImageField()
     phone_regex = RegexValidator(
-        regex=r'^+7\d{10}$',
+        regex=r'^\+7\d{10}$',
         message='Номер телефона должен быть введен в формате +7XXXXXXXXXX.'
     )
     phone_number = models.CharField(
@@ -34,6 +73,9 @@ class CustomAbstractUser(AbstractUser):
         MinValueValidator(0),
         MaxValueValidator(10)
     ])
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
     # user_type = models.ForeignKey(
     #     UserType,
     #     verbose_name='Тип пользователя',
