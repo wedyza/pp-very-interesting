@@ -42,14 +42,9 @@ class Media(models.Model):
 
 class Ticket(BaseTicket):
     # location = models.GeoIp... - пока что просто заглушка, потом интегрирую
-    # библиотеку GeoDjango
     time = models.DateTimeField(
         'Время проишествия',
         null=True
-    )
-    false_ticket_mark = models.BooleanField(
-        'Метка лживого тикета',
-        default=False
     )
     edited = models.BooleanField(
         'Редактировано',
@@ -64,3 +59,19 @@ class Ticket(BaseTicket):
 
 class SupportTicket(BaseTicket):
     pass
+
+
+class Notification(models.Model):
+    text = models.CharField('Текст', max_length=128)
+    is_read = models.BooleanField('Прочитано', default=False)
+    user = models.ForeignKey(
+        'Пользователь',
+        User,
+        on_delete=models.CASCADE
+    )
+    ticket = models.ForeignKey(
+        'Заявка',
+        Ticket,
+        on_delete=models.CASCADE
+    )
+    created_at = models.DateTimeField('Создано', auto_now_add=True)
