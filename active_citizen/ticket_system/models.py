@@ -8,7 +8,7 @@ class StatusCode(models.Model):
     title = models.CharField('Название', max_length=100)
 
 
-class TicketType(models.Model):
+class Category(models.Model):
     title = models.CharField('Тип тикета', max_length=100)
 
 
@@ -26,8 +26,8 @@ class BaseTicket(models.Model):
         User,
         on_delete=models.CASCADE
     )
-    ticket_type = models.ForeignKey(
-        TicketType,
+    category = models.ForeignKey(
+        Category,
         on_delete=models.SET_NULL,
         null=True
     )
