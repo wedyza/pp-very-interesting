@@ -29,9 +29,11 @@ function Header () {
                             <span>Уведомления</span>
                         </div>
                     </Link>
-                    <div className="header__menu-avatar">     
-                        <img src={avatar} alt="Профиль" />
-                    </div>
+                    <Link to={'/profile'} className="menu__item">
+                        <div className="header__menu-avatar">     
+                            <img src={avatar} alt="Профиль" />
+                        </div>
+                    </Link>
                 </div>
             </div>
         </header>
