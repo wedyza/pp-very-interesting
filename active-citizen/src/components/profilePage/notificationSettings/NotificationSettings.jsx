@@ -21,7 +21,10 @@ function NotificationSettings() {
 
     return (
         <div className='notify-set'>
-            <h2 className='notify-set__title profile-subtitle'>Настройки уведомлений</h2>
+            <div className="notify-set__title_container">
+                <h2 className='notify-set__title'>Настройки уведомлений</h2>
+                <hr className="notify-set__title_line" />
+            </div>
             <ul className="notify__list">
                 {notifyOptions.map((notify, index) => (
                     <li key={index}>

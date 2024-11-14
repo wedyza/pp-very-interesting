@@ -50,12 +50,13 @@
     position: relative;
 }
 
-.profile__nav__item svg path {
+.profile__nav__item_btns svg path {
     stroke: var(--gray-text);
     transition: stroke .3s ease;
 }
 
-.profile__nav__item:hover svg path {
+.profile__nav__item_btns:hover svg path,
+.profile__nav__item_active svg path {
     stroke: url(#paint0_linear_242_3755);
 }
 
@@ -68,7 +69,8 @@
     fill: url(#paint0_linear_242_3755);
 }
 
-.profile__nav__item:hover span {
+.profile__nav__item:hover span,
+.profile__nav__item_active span {
     background-image: var(--gradient3);
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
@@ -88,7 +90,8 @@
     transition: opacity .3s ease;
 }
 
-.profile__nav__item:hover::before {
+.profile__nav__item:hover::before,
+.profile__nav__item_active::before {
     opacity: 1;
 }
 

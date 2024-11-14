@@ -4,12 +4,6 @@
     line-height: 19.2px;
 }
 
-.notify-option {
-    display: flex;
-    align-items: center;
-    margin: 8px 0;
-}
-
 .notify-option__name {
     margin-right: 16px;
 }
@@ -41,15 +35,15 @@
 }
 
 .toggle-switch rect {
-    stroke: var(--blue);
+    stroke: var(--gray-text);
 }
 
 .toggle-circle circle {
-    fill: var(--blue);
+    fill: var(--gray-text);
 }
 
 .toggle-switch.active rect {
-    stroke: var(--yellow);
+    stroke: var(--blue600);
 }
 
 .toggle-switch.active .toggle-circle {
@@ -57,7 +51,7 @@
 }
 
 .toggle-switch.active .toggle-circle circle {
-    fill: var(--yellow);
+    fill: var(--blue600);
 }
 
 

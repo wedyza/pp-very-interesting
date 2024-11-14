@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 function Header () {
     return (
         <header className="header">
+            <div className="header__overlay"></div>
             <div className="header__content">
                 <div className="header__logo">
                     <img src={logo} alt="Мой город" />
