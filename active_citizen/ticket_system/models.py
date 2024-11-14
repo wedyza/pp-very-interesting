@@ -65,12 +65,10 @@ class Notification(models.Model):
     text = models.CharField('Текст', max_length=128)
     is_read = models.BooleanField('Прочитано', default=False)
     user = models.ForeignKey(
-        'Пользователь',
         User,
         on_delete=models.CASCADE
     )
     ticket = models.ForeignKey(
-        'Заявка',
         Ticket,
         on_delete=models.CASCADE
     )
