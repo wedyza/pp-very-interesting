@@ -16,7 +16,7 @@
     align-items: center;
     justify-content: space-evenly;
     height: 116px;
-    background-color: var(--violet);
+    background-color: var(--blue);
     border-radius: 10px;
     padding: 8px 20px;
 }

@@ -22,8 +22,8 @@ function CategoryPage () {
                 <Link to={'/'}>
                     <BackButton />
                 </Link>
-                <h1 className="select-subcategory_title">{content.title}</h1>
-                <span className="select-subcategory_desc">Выберете подкатегорию для вашего обращения</span>
+                <h1 className="select-subcategory_title text-title">{content.title}</h1>
+                <span className="select-subcategory_desc description-text">Выберете подкатегорию для вашего обращения</span>
             
                 <ul className="subcategory-list cards-list">
                     {content.subcategories.map((subcategory, index) => (

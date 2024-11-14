@@ -1,19 +1,35 @@
 import './../draftCard/draftCard.css'
-import OpenAppeal from './../../openAppeal/OpenAppeal'
+import AppealOptions from '../../appealOptions/AppealOptions'
 
-function DraftCard () {
+function DraftCard ({draft}) {
+    const datetime = draft.datetime.split(', '); 
+    const date = datetime[0]; 
+    const time = datetime[1]; 
+
     return (
         <div className="draft-card">
-            <h2 className="draft-card__title">
-                Кривая дорога
+            <h2 className="draft-card__title appeal-title">
+                {draft.title}
             </h2>
-            <span className="draft-card__datetime">10:15, 17.02.2024</span>
-            <OpenAppeal text='Продолжить создание' />
-            <button className="draft-card__delete">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M13 13L7.00002 7.00002M7.00002 7.00002L1 1M7.00002 7.00002L13 1M7.00002 7.00002L1 13" stroke="#180F25" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-            </button>
+            <div className="draft-card__datetime">
+                <div className="draft-card__date">
+                    <span className="draft-card__date_label draft-card__datetime_label">
+                        Когда
+                    </span>
+                    <span className="draft-card__date_value draft-card__datetime_value">
+                        {time}
+                    </span>
+                </div>
+                <div className="draft-card__time">
+                    <span className="draft-card__time_label draft-card__datetime_label">
+                        Во сколько
+                    </span>
+                    <span className="draft-card__time_value draft-card__datetime_value">
+                        {date}
+                    </span>
+                </div>
+            </div>
+            <AppealOptions />
         </div>
     )
 }

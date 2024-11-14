@@ -5,20 +5,20 @@ import SelectButton from './../../../selectButton/SelectButton'
 
 function CategoryCard ({category}) {
     return (
-        <div className="category-card card-violet">
-            <div className="category-card__img">
-                <img src={community} />
+        <Link to={`/category/${category.id}`}>
+            <div className="category-card card-blue">
+                <div className="category-card__img">
+                    <img src={community} />
+                </div>
+                <h2 className="category-card__title">
+                    {category.title}
+                </h2>
+                <span className="category-card__disc">
+                    Поддержка культурных и образовательных инициатив.
+                </span>
+                    <SelectButton /> 
             </div>
-            <h2 className="category-card__title">
-                {category.title}
-            </h2>
-            <span className="category-card__disc">
-                Поддержка культурных и образовательных инициатив.
-            </span>
-            <Link to={`/category/${category.id}`}>
-                <SelectButton /> 
-            </Link>
-        </div>
+        </Link>
     )
 }
 

@@ -1,0 +1,21 @@
+.appeal-options {
+    background-color: var(--blue);
+    position: absolute;
+    right: 0;
+    top: -2px;
+    bottom: -2px;
+    border-radius: 0 20px 20px 0;
+    width: 66px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.appeal-options > * {
+    width: 100%;
+    object-fit: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50%;
+}

@@ -41,11 +41,11 @@
 }
 
 .toggle-switch rect {
-    stroke: var(--violet);
+    stroke: var(--blue);
 }
 
 .toggle-circle circle {
-    fill: var(--violet);
+    fill: var(--blue);
 }
 
 .toggle-switch.active rect {

@@ -42,7 +42,7 @@
     font-weight: 700;
     line-height: 36px;
     letter-spacing: -0.02em;
-    color: var(--violet);
+    color: var(--blue);
 }
 
 .user-info__avatar {
@@ -65,7 +65,7 @@
 .user-rating {
     height: 104px;
     width: 242px;
-    border: 1px solid var(--violet);
+    border: 1px solid var(--blue);
     border-radius: 10px;
     padding: 19px 0;
 }

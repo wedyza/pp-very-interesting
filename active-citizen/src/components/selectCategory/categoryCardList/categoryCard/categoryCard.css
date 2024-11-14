@@ -1,17 +1,15 @@
 .category-card {
-    height: 316px;
+    height: 311px;
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
 .category-card__title {
-    font-size: 18px;
-    font-weight: 600;
-    line-height: 18px;
-    text-align: left;
-    text-underline-position: from-font;
-    text-decoration-skip-ink: none;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 20px;
+    position: relative;
 }
 
 .category-card__disc {
@@ -21,4 +19,5 @@
     text-align: left;
     text-underline-position: from-font;
     text-decoration-skip-ink: none;
+    color: var(--light-blue);
 }
