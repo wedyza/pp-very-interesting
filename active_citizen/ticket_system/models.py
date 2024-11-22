@@ -10,6 +10,7 @@ class StatusCode(models.Model):
 
 class Category(models.Model):
     title = models.CharField('Тип тикета', max_length=100)
+    description = models.CharField('Описание', max_length=500)
 
 
 class BaseTicket(models.Model):

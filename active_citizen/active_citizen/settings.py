@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'ticket_system.apps.TicketSystemConfig',
     'api.apps.ApiConfig',
-    'djoser'
+    'djoser',
+    'drf_yasg'
 ]
 
 MIDDLEWARE = [
@@ -160,3 +161,14 @@ DJOSER = {
 
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+
+
+SWAGGER_SETTINGS = {
+   'SECURITY_DEFINITIONS': {
+      'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+      }
+   }
+}

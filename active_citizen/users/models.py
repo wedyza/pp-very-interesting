@@ -11,7 +11,6 @@ class UserManager(BaseUserManager):
     use_in_migrations = True
 
     def _create_user(self, phone_number, password, first_name=None, last_name=None, **extra_fields):
-        """Create and save a User with the given phone_number and password."""
         if not phone_number:
             raise ValueError('Должен быть номер телефона')
         self.phone_number = phone_number
@@ -21,13 +20,11 @@ class UserManager(BaseUserManager):
         return user
 
     def create_user(self, phone_number, password, first_name, last_name, **extra_fields):
-        """Create and save a regular User with the given phone_number and password."""
         extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
         return self._create_user(phone_number, password, first_name, last_name, **extra_fields)
 
     def create_superuser(self, phone_number, password, **extra_fields):
-        """Create and save a SuperUser with the given phone_number and password."""
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
 

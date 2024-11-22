@@ -12,7 +12,7 @@ class NotificationSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ('text',)
+        fields = '__all__'
 
 
 class TicketSerializer(serializers.ModelSerializer):
