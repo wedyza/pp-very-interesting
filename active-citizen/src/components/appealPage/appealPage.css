@@ -1,0 +1,45 @@
+.appeal-info {
+    margin-top: 32px;
+}
+
+.appeal-info__item {
+    border-top: 1px solid var(--light-gray-text);
+    display: grid;
+    grid-template-columns: 30% 1fr;
+    gap: 60px;
+    padding: 24px 0;
+}
+
+.appeal-info__item_label {
+    font-style: italic;
+    line-height: 16px;
+    color: var(--gray-text);    
+}
+
+.appeal-info__item_value {
+    font-weight: 700;
+    line-height: 16px;
+}
+
+.appeal-desc__value,
+.appeal-comm__value {
+    font-weight: 400;
+}
+
+.appeal__images {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.appeal__image {
+    width: 114px;
+    height: 114px;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.appeal__comm_label {
+    font-weight: 700;
+    margin-bottom: 8px;
+}

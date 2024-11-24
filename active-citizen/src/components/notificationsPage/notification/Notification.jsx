@@ -1,6 +1,7 @@
 import './notification.css'
+import { Link } from 'react-router-dom';
 
-function Notification () {
+function Notification ({notification}) {
     return (
         <div className="notification">
             <div className="notification__img">
@@ -16,7 +17,7 @@ function Notification () {
                 </svg>
             </div>
             <span className="notification__text">
-                Ваша заявка <span className="notification__text_accent">мусорка упала</span> отклонена
+                Ваша заявка <Link id="notification__text_accent" to={`/appeal/${notification.id}`}>{notification.title}</Link> отклонена
             </span>
             <span className="notification__datetime">
                 10:15, 17.02.2024

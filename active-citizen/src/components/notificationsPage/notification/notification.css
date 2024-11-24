@@ -15,7 +15,7 @@
     color: var(--black-text);
 }
 
-.notification__text_accent {
+#notification__text_accent {
     font-weight: 700;
     text-decoration-line: underline;
     text-decoration-style: solid;

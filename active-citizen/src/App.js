@@ -5,6 +5,7 @@ import HistoryPage from './components/historyPage/HistoryPage'
 import ProfilePage from './components/profilePage/ProfilePage'
 import { Routes, Route } from 'react-router-dom';
 import Login from './components/login/Login'
+import AppealPage from './components/appealPage/AppealPage'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
          <Route path="/history" element={<HistoryPage />}/>
          <Route path="/profile" element={<ProfilePage />}/>
          <Route path="/category/:categoryId" element={<CategoryPage />} />
+         <Route path="/appeal/:appealId" element={<AppealPage />} />
      </Routes>
   );
 }
