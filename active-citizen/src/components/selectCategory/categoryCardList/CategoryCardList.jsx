@@ -1,13 +1,7 @@
 import './../categoryCardList/categoryCardList.css'
 import CategoryCard from './categoryCard/CategoryCard'
 
-function CategoryCardList () {
-
-    const categoryContent = [
-        {id: 'community', title: 'Развитие социальной среды', subcategories: ['Плохая организация работы соц служб', 'Сообщение  о плачевном состоянии общественных пространств']},
-        {id: 'ecology', title: 'Экологические проблемы', subcategories: ['aaa', 'bbb']},
-    ];
-    const categories = Object.values(categoryContent);
+function CategoryCardList ({ categories }) {
 
     return (
         <ul className="category-list cards-list">

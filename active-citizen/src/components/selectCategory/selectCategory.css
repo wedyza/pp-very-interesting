@@ -1,3 +1,9 @@
 .select-category_title {
     margin-bottom: 8px;
 }
+
+.select-category__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

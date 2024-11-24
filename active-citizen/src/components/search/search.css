@@ -1,0 +1,14 @@
+.search {
+    border: 2px solid var(--blue);
+    border-radius: 10px;
+    width: 502px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+.search__input {
+    width: 100%;
+}

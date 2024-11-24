@@ -8,9 +8,11 @@ function Header () {
         <header className="header">
             <div className="header__overlay"></div>
             <div className="header__content">
-                <div className="header__logo">
-                    <img src={logo} alt="Мой город" />
-                </div>
+                <Link to={'/'}> 
+                    <div className="header__logo">
+                        <img src={logo} alt="Мой город" />
+                    </div>
+                </Link>
                 <div className="header__btns">
                     <Link to={'/history'}>
                         <div className="header__notifications header__btn">

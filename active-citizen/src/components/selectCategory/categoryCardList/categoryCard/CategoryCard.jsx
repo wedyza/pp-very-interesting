@@ -14,7 +14,7 @@ function CategoryCard ({category}) {
                     {category.title}
                 </h2>
                 <span className="category-card__disc">
-                    Поддержка культурных и образовательных инициатив.
+                    {category.desc}
                 </span>
                     <SelectButton /> 
             </div>

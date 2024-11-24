@@ -5,11 +5,14 @@ import SelectButton from './../../selectButton/SelectButton'
 function SubcategoryCard ({subcategory}) {
     return (
         <Link to='#'>
-            <div className="subcategory-card card-blue">
+            <div className="category-card subcategory-card card-blue">
                 <h2 className="category-card__title">
-                    {subcategory}
+                    {subcategory.title}
                 </h2>
-                    <SelectButton />
+                <span className="category-card__disc">
+                    {subcategory.desc}
+                </span>
+                <SelectButton />
             </div>
         </Link>
     )
