@@ -6,6 +6,7 @@ import ProfilePage from './components/profilePage/ProfilePage'
 import { Routes, Route } from 'react-router-dom';
 import Login from './components/login/Login'
 import AppealPage from './components/appealPage/AppealPage'
+import CreateAppeal from './components/createAppeal/CreateAppeal'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
          <Route path="/profile" element={<ProfilePage />}/>
          <Route path="/category/:categoryId" element={<CategoryPage />} />
          <Route path="/appeal/:appealId" element={<AppealPage />} />
+         <Route path="/create-appeal" element={<CreateAppeal />} />
      </Routes>
   );
 }

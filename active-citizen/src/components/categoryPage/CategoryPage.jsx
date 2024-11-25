@@ -46,7 +46,7 @@ function CategoryPage () {
                 <ul className="subcategory-list cards-list">
                     {filteredCategories.map((subcategory, index) => (
                         <li key={index} className="subcategory-list__item">
-                            <SubcategoryCard subcategory={subcategory} />
+                            <SubcategoryCard subcategory={subcategory} categoryId={categoryId} />
                         </li>
                     ))}
                 </ul>

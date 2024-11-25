@@ -1,0 +1,16 @@
+.map-container {
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.map {
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    padding: 24px;
+    gap: 24px;
+}
+
+.address-display {
+    display: block;
+    width: 100%;
+}
