@@ -1,5 +1,5 @@
 .header {
-    width: calc(100% - 32px);
+    width: calc(100% - var(--side-padding));
     max-width: var(--page-width);
     padding: 16px 24px;
     height: 72px;

@@ -10,13 +10,15 @@ function CategoryCard ({category}) {
                 <div className="category-card__img">
                     <img src={community} />
                 </div>
-                <h2 className="category-card__title">
-                    {category.title}
-                </h2>
-                <span className="category-card__disc">
-                    {category.desc}
-                </span>
-                    <SelectButton /> 
+                <div className="category-card__text">
+                    <h2 className="category-card__title">
+                        {category.title}
+                    </h2>
+                    <span className="category-card__disc">
+                        {category.desc}
+                    </span>
+                </div>
+                <SelectButton /> 
             </div>
         </Link>
     )

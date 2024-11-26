@@ -6,7 +6,6 @@
     border-radius: 20px;
     border: 2px solid var(--light-blue);
     border-right: none;
-    opacity: 0px;
     position: relative;
     display: flex;
     flex-direction: column;

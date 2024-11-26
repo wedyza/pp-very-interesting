@@ -2,11 +2,22 @@
     margin-top: 48px;
 }
 
+.drafts__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+
 .drafts-list {
     margin-top: 24px;
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+}
+
+.draft-list__item {
+    position: relative;
 }
 
 .draft-list__item:nth-child(4n-1) {

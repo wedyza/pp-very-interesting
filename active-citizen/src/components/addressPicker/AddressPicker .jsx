@@ -80,7 +80,7 @@ const AddressPicker = () => {
             <textarea
                 className="address-input"
                 value={address}
-                onChange={(e) => setAddress(e.target.value)}
+                onBlur={(e) => setAddress(e.target.value)}
                 placeholder="Введите адрес"
             />
         </div>

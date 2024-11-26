@@ -7,6 +7,7 @@ import { Routes, Route } from 'react-router-dom';
 import Login from './components/login/Login'
 import AppealPage from './components/appealPage/AppealPage'
 import CreateAppeal from './components/createAppeal/CreateAppeal'
+import './styles/media.css'
 
 function App() {
   return (

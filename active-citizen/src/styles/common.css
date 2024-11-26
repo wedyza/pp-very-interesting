@@ -21,7 +21,8 @@
     --gradient3: linear-gradient(206.15deg, #FFF200 2.44%, #ECBF2A 47.11%, #6219E8 97.8%);
     
     --light-gray: #CDCDCD;
-    --page-width: 1290px
+    --page-width: 1291px;
+    --side-padding: 36px;
 }
 
 body {
@@ -42,7 +43,7 @@ body {
 }
 
 .page_content {
-    width: calc(100% - 32px);
+    width: calc(100% - var(--side-padding));
     max-width: var(--page-width);
     height: 100%;
     padding: 168px 0 30px 0;
@@ -117,7 +118,7 @@ body {
     margin-top: 24px;
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 24px;
 }
 
 .text-title {
@@ -135,7 +136,7 @@ body {
 .text-title::before {
     content: '';
     position: absolute;
-    left: 27px;
+    left: 29px;
     top: 2px;
     background-color: var(--yellow);
     height: 28px;
