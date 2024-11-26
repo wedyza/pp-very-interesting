@@ -8,9 +8,17 @@
     grid-template-columns: min-content 1fr;
     padding: 24px;
     gap: 24px;
+    align-items: flex-start;
 }
 
 .address-display {
     display: block;
     width: 100%;
+}
+
+.address-input {
+    display: inline;
+    outline: none;
+    resize: none;
+    border-bottom: 1px solid var(--blue);
 }

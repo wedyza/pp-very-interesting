@@ -1,9 +1,11 @@
 import './appealPage.css'
 import Header from './../header/Header'
 import { useParams } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
 import BackButton from '../backButton/BackButton'
 import { Link } from 'react-router-dom'
 import empty from './../../img/empty.jpg'
+import { YMaps, Map, Placemark } from 'react-yandex-maps'
 
 function AppealPage () {
     const { appealId } = useParams();
@@ -16,7 +18,7 @@ function AppealPage () {
             subcategory: 'Плохая организация работы соц служб',
             datetime: '10:15, 17.09.2024',
             desc: 'Хотел бы выразить недовольство состоянием дорог в нашем районе. Они в ужасном состоянии: ямы, ухабы и кривизна — это не только неудобно, но и опасно. Машины постоянно повреждаются, а водителям приходится маневрировать, чтобы избежать аварий. Особенно это касается участков рядом с пешеходными переходами — тут нужно быть предельно осторожным. Кроме того, общественный транспорт страдает от этого: автобусы и маршрутки задерживаются, и людям приходится ждать дольше обычного. Прошу вас обратить внимание на эту проблему и сделать что-то с дорогами. Мы заслуживаем нормальных условий для передвижения!',
-            place: 'г. Екатеринбург ул. Малышева д 13',
+            adress: 'Россия, Свердловская область, Екатеринбург, улица Мира, 32',
             images: '',
             comment: 'Недопустимые материалы',
         },
@@ -27,7 +29,7 @@ function AppealPage () {
             subcategory: 'Плохая организация работы соц служб',
             datetime: '11:15, 17.09.2024',
             desc: 'Мусорка упала!',
-            place: 'г. Екатеринбург ул. Малышева д 13',
+            adress: 'Россия, Свердловская область, Екатеринбург, Комсомольская улица, 70',
             images: '',
             comment: 'Недопустимые материалы',
         },
@@ -38,12 +40,36 @@ function AppealPage () {
             subcategory: 'Плохая организация работы соц служб',
             datetime: '11:15, 18.09.2024',
             desc: 'Сегодня пасмурно, мне грустно! Исправьте!',
-            place: 'г. Екатеринбург ул. Малышева д 13',
+            adress: 'Россия, Свердловская область, Екатеринбург, улица Фонвизина, 8',
             images: '',
             comment: 'Не исправим АХАХАХХА',
         },
     ];
     const appeal = appeals.find((a) => a.id === appealId);
+    const [coords, setCoords] = useState([55.751574, 37.573856]);
+
+    useEffect(() => {
+        if (appeal?.adress) {
+            const fetchCoordinates = async () => {
+                const geocodeUrl = `https://geocode-maps.yandex.ru/1.x/?apikey=962fb11e-806c-46ab-abc2-19208bcfa8e6&geocode=${appeal.adress}&format=json`;
+                try {
+                    const response = await fetch(geocodeUrl);
+                    const data = await response.json();
+                    const geoObject =
+                        data.response.GeoObjectCollection.featureMember[0]?.GeoObject;
+
+                    if (geoObject) {
+                        const pos = geoObject.Point.pos.split(' ').map(Number);
+                        setCoords([pos[1], pos[0]]);
+                    }
+                } catch (error) {
+                    console.error('Ошибка при геокодировании адреса:', error);
+                }
+            };
+
+            fetchCoordinates();
+        }
+    }, [appeal]);
 
     return (
         <div className='App'>
@@ -92,6 +118,28 @@ function AppealPage () {
                         </div>
                         <div className="appeal-info__item_value appeal-desc__value">
                             {appeal.desc}                            
+                        </div>
+                    </div>
+                    <div className="appeal-info__item appeal-info__address">
+                        <div className="appeal-info__item_label">Адрес</div>
+                        <div className="map appeal-info__address_value">
+                            <div className="map-container">
+                                <YMaps>
+                                    <Map
+                                        state={{
+                                            center: coords,
+                                            zoom: 15,
+                                        }}
+                                        width="262px"
+                                        height="163px"
+                                    >
+                                        <Placemark geometry={coords} />
+                                    </Map>
+                                </YMaps>
+                            </div>
+                            <div className="appeal-info__item_value appeal-address__value">
+                                {appeal.adress}
+                            </div>
                         </div>
                     </div>
                     <div className="appeal-info__item appeal-info__images">

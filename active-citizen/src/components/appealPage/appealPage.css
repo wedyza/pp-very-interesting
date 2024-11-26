@@ -43,3 +43,13 @@
     font-weight: 700;
     margin-bottom: 8px;
 }
+
+.appeal-info__address > .map {
+    padding: 0;
+}
+
+.appeal-info__address_value > .appeal-info__item_value {
+    font-weight: 400;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--blue);
+}
