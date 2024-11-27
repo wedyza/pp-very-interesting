@@ -1,53 +1,46 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './addressPicker.css';
 import { YMaps, Map, Placemark } from 'react-yandex-maps';
+import API_KEY from '../../constants'
 
 const AddressPicker = () => {
     const [coords, setCoords] = useState([55.751574, 37.573856]);
     const [address, setAddress] = useState('');
-    const [debouncedAddress, setDebouncedAddress] = useState('');
+    const [prevAddress, setPrevAddress] = useState('');
 
-    useEffect(() => {
-        const handler = setTimeout(() => {
-            setDebouncedAddress(address);
-        }, 500);
+    const handleAddressChange = (e) => {
+        setAddress(e.target.value);
+    };
 
-        return () => {
-            clearTimeout(handler);
-        };
-    }, [address]);
+    const handleAddressBlur = async () => {
+        if (!address || address === prevAddress) return;
 
-    useEffect(() => {
-        if (!debouncedAddress) return;
+        setPrevAddress(address);
 
-        const fetchCoordinates = async () => {
-            const geocodeUrl = `https://geocode-maps.yandex.ru/1.x/?apikey=962fb11e-806c-46ab-abc2-19208bcfa8e6&geocode=${debouncedAddress}&format=json`;
-            try {
-                const response = await fetch(geocodeUrl);
-                const data = await response.json();
-                const geoObject =
-                    data.response.GeoObjectCollection.featureMember[0]?.GeoObject;
+        const geocodeUrl = `https://geocode-maps.yandex.ru/1.x/?apikey=${API_KEY}&geocode=${address}&format=json`;
+        try {
+            const response = await fetch(geocodeUrl);
+            const data = await response.json();
+            const geoObject =
+                data.response.GeoObjectCollection.featureMember[0]?.GeoObject;
 
-                if (geoObject) {
-                    const pos = geoObject.Point.pos.split(' ').map(Number);
-                    const newCoords = [pos[1], pos[0]];
-                    setCoords(newCoords);
-                } else {
-                    console.warn('Адрес не найден');
-                }
-            } catch (error) {
-                console.error('Ошибка при прямом геокодировании:', error);
+            if (geoObject) {
+                const pos = geoObject.Point.pos.split(' ').map(Number);
+                const newCoords = [pos[1], pos[0]];
+                setCoords(newCoords);
+            } else {
+                console.warn('Адрес не найден');
             }
-        };
-
-        fetchCoordinates();
-    }, [debouncedAddress]);
+        } catch (error) {
+            console.error('Ошибка при прямом геокодировании:', error);
+        }
+    };
 
     const handleMapClick = async (e) => {
         const newCoords = e.get('coords');
         setCoords(newCoords);
 
-        const geocodeUrl = `https://geocode-maps.yandex.ru/1.x/?apikey=962fb11e-806c-46ab-abc2-19208bcfa8e6&geocode=${newCoords[1]},${newCoords[0]}&format=json`;
+        const geocodeUrl = `https://geocode-maps.yandex.ru/1.x/?apikey=${API_KEY}&geocode=${newCoords[1]},${newCoords[0]}&format=json`;
         try {
             const response = await fetch(geocodeUrl);
             const data = await response.json();
@@ -80,7 +73,8 @@ const AddressPicker = () => {
             <textarea
                 className="address-input"
                 value={address}
-                onBlur={(e) => setAddress(e.target.value)}
+                onChange={handleAddressChange}
+                onBlur={handleAddressBlur} 
                 placeholder="Введите адрес"
             />
         </div>

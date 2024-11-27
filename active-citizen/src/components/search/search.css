@@ -1,7 +1,8 @@
 .search {
     border: 2px solid var(--blue);
     border-radius: 10px;
-    width: 502px;
+    width: 100%;
+    max-width: 502px;
     height: 55px;
     display: flex;
     align-items: center;

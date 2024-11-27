@@ -27,7 +27,7 @@ function SelectCategory () {
                     </h1>
                     <span className="select-category_desc description-text">
                         Начните создавать вашу заявку. 
-                        Выберете категорию для вашего обращения
+                        Выберите категорию для вашего обращения
                     </span>
                 </div>
                 <Search

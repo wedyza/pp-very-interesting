@@ -35,13 +35,11 @@ function Drafts () {
                         Пожалуйста, завершите их!
                     </span>
                 </div>
-                <div className="drafts__header_search">
-                    <Search 
-                        list={drafts}
-                        onResults={handleSearchResults}
-                        placeholder="Начните искать ваше обращение"
-                    />
-                </div>
+                <Search 
+                    list={drafts}
+                    onResults={handleSearchResults}
+                    placeholder="Начните искать ваше обращение"
+                />
             </div>
             <ul className="drafts-list">
                 {filteredDrafts.map((draft, index) => (

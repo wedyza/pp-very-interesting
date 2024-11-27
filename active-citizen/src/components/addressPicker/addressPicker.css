@@ -4,8 +4,9 @@
 }
 
 .map {
-    display: grid;
+    display: flex;
     grid-template-columns: min-content 1fr;
+    flex-wrap: wrap;
     padding: 24px;
     gap: 24px;
     align-items: flex-start;

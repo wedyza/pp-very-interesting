@@ -75,4 +75,35 @@
         top: 60px;
         left: -150px;       
     }
+    
+    .appeal-form__item_label {
+        padding: 24px;
+        border-right: 2px solid var(--blue600);
+        min-width: 30vw;
+        max-width: 30vw;
+    }
+
+    .search {
+        max-width: 100%;
+    }
+
+    .history__list_item {
+        width: 100%;
+    }
+
+    .history__appeal-card {
+        width: 100%;
+    }
+
+    .history__filters {
+        justify-content: space-between;
+    }
+
+    .history-filters__sort,
+    .history-filters__status,
+    .filter {
+        width: 100%;
+    }
 }
+
+/*740 для телефонов?*/

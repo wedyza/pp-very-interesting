@@ -1,15 +1,15 @@
 import './appealPage.css'
 import Header from './../header/Header'
 import { useParams } from 'react-router-dom'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import BackButton from '../backButton/BackButton'
 import { Link } from 'react-router-dom'
 import empty from './../../img/empty.jpg'
 import { YMaps, Map, Placemark } from 'react-yandex-maps'
+import API_KEY from '../../constants'
 
 function AppealPage () {
     const { appealId } = useParams();
-    console.log(appealId);
     const appeals = [
         {
             id: '0',
@@ -46,30 +46,30 @@ function AppealPage () {
         },
     ];
     const appeal = appeals.find((a) => a.id === appealId);
-    const [coords, setCoords] = useState([55.751574, 37.573856]);
+    const fetchCoordinates = async (address) => {
+        const geocodeUrl = `https://geocode-maps.yandex.ru/1.x/?apikey=${API_KEY}&geocode=${address}&format=json`;
+        try {
+            const response = await fetch(geocodeUrl);
+            const data = await response.json();
+            const geoObject =
+                data.response.GeoObjectCollection.featureMember[0]?.GeoObject;
 
-    useEffect(() => {
-        if (appeal?.adress) {
-            const fetchCoordinates = async () => {
-                const geocodeUrl = `https://geocode-maps.yandex.ru/1.x/?apikey=962fb11e-806c-46ab-abc2-19208bcfa8e6&geocode=${appeal.adress}&format=json`;
-                try {
-                    const response = await fetch(geocodeUrl);
-                    const data = await response.json();
-                    const geoObject =
-                        data.response.GeoObjectCollection.featureMember[0]?.GeoObject;
-
-                    if (geoObject) {
-                        const pos = geoObject.Point.pos.split(' ').map(Number);
-                        setCoords([pos[1], pos[0]]);
-                    }
-                } catch (error) {
-                    console.error('Ошибка при геокодировании адреса:', error);
-                }
-            };
-
-            fetchCoordinates();
+            if (geoObject) {
+                const pos = geoObject.Point.pos.split(' ').map(Number);
+                return [pos[1], pos[0]];
+            }
+        } catch (error) {
+            console.error('Ошибка при геокодировании адреса:', error);
         }
-    }, [appeal]);
+        return [55.751574, 37.573856];
+    };
+
+    const [coords, setCoords] = useState(null);
+
+    if (!coords && appeal?.adress) {
+        fetchCoordinates(appeal.adress).then((newCoords) => setCoords(newCoords));
+        return <div>Загрузка...</div>;
+    }
 
     return (
         <div className='App'>

@@ -52,7 +52,7 @@ function HistoryPage () {
                 </div>
                 <ul className="history__list">
                     {filteredAndSortedData.map((appeal, index) => (
-                        <li key={index}>
+                        <li key={index} className='history__list_item'>
                             <AppealCard appeal={appeal} />
                         </li>
                     ))}
