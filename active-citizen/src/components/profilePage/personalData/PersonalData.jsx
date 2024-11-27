@@ -56,7 +56,6 @@ function PersonalData() {
                         <img src={avatar} alt="" />
                     </div>
                 </div>
-                <div className="user-info">
                     <div className="user-info__item user-info__name">
                         <div className="user-info__item_header">
                             <span className="user-info__item_label">ФИО</span>
@@ -110,7 +109,6 @@ function PersonalData() {
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
     )

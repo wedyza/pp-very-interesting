@@ -2,6 +2,10 @@
     margin-top: 24px;
 }
 
+.profile-content__container {
+    width: 100%;
+}
+
 .logout-btn {
     margin-top: 150px;
     display: flex;
@@ -50,22 +54,22 @@
     position: relative;
 }
 
-.profile__nav__item_btns svg path {
+.profile__nav__item_icon path {
     stroke: var(--gray-text);
     transition: stroke .3s ease;
 }
 
-.profile__nav__item_btns:hover svg path,
-.profile__nav__item_active svg path {
+.profile__nav__item_btns:hover .profile__nav__item_icon path,
+.profile__nav__item_active .profile__nav__item_icon path {
     stroke: url(#paint0_linear_242_3755);
 }
 
-.profile__nav__exit svg path {
+.profile__nav__exit .profile__nav__item_icon path {
     fill: var(--gray-text);
     transition: fill .3s ease;
 }
 
-.profile__nav__exit:hover svg path {
+.profile__nav__exit:hover .profile__nav__item_icon path {
     fill: url(#paint0_linear_242_3755);
 }
 
@@ -104,4 +108,20 @@
 .profile__nav__exit::before {
     height: calc(100% - 8px);
     top: 8px;
+}
+
+.back-button__profile {
+    display: none;
+    margin-bottom: 0;
+}
+
+.profile__container_info {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile__arrow {
+    position: absolute;
+    right: 24px;
+    display: none;
 }

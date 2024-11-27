@@ -9,20 +9,24 @@
     justify-content: center;
     color: var(--blue950);
     font-weight: 600;
+    margin-left: -16px;
 }
 
 .image-upload__button_small {
     width: 146px;
-    margin-left: 16px;
+    margin-left: 0;
 }
 
 .image-uploader {
     display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
 }
 
 .uploaded-image__container {
     display: flex;
     gap: 16px;
+    flex-wrap: wrap;
 }
 
 .uploaded-image__preview {
