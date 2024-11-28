@@ -1,7 +1,7 @@
 .draft-card {
     width: 502px;
     height: 112px;
-    padding: 16px 32px 16px 32px;
+    padding: 16px 32px;
     gap: 0px;
     border-radius: 20px;
     border: 2px solid var(--light-blue);

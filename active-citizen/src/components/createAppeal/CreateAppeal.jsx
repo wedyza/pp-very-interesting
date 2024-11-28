@@ -75,7 +75,7 @@ function CreateAppeal () {
                                     </div>
                                 </div>
                             </div>
-                            <div className="appeal-form__input-container">
+                            <div className="appeal-form__input-container appeal-form__input-theme">
                                 <textarea type="text" className='appeal-form__input_theme appeal-form__input' placeholder='Введите тему обращения' />
                             </div>                            
                         </div>

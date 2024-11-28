@@ -51,8 +51,7 @@ function AppealPage () {
         try {
             const response = await fetch(geocodeUrl);
             const data = await response.json();
-            const geoObject =
-                data.response.GeoObjectCollection.featureMember[0]?.GeoObject;
+            const geoObject = data.response.GeoObjectCollection.featureMember[0]?.GeoObject;
 
             if (geoObject) {
                 const pos = geoObject.Point.pos.split(' ').map(Number);
@@ -61,14 +60,17 @@ function AppealPage () {
         } catch (error) {
             console.error('Ошибка при геокодировании адреса:', error);
         }
-        return [55.751574, 37.573856];
+        return null;
     };
 
     const [coords, setCoords] = useState(null);
 
     if (!coords && appeal?.adress) {
-        fetchCoordinates(appeal.adress).then((newCoords) => setCoords(newCoords));
-        return <div>Загрузка...</div>;
+        fetchCoordinates(appeal.adress).then((newCoords) => {
+            if (newCoords) {
+                setCoords(newCoords);
+            }
+        });
     }
 
     return (
@@ -125,16 +127,20 @@ function AppealPage () {
                         <div className="map appeal-info__address_value">
                             <div className="map-container">
                                 <YMaps>
-                                    <Map
-                                        state={{
-                                            center: coords,
-                                            zoom: 15,
-                                        }}
-                                        width="262px"
-                                        height="163px"
-                                    >
-                                        <Placemark geometry={coords} />
-                                    </Map>
+                                {coords ? (
+                                        <Map
+                                            state={{
+                                                center: coords,
+                                                zoom: 15,
+                                            }}
+                                            width="262px"
+                                            height="163px"
+                                        >
+                                            <Placemark geometry={coords} />
+                                        </Map>
+                                    ) : (
+                                        <p>Загрузка карты...</p>
+                                    )}
                                 </YMaps>
                             </div>
                             <div className="appeal-info__item_value appeal-address__value">

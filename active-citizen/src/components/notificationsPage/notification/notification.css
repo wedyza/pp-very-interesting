@@ -2,7 +2,9 @@
     border: 2px solid var(--blue);
     border-radius: 20px;
     padding: 0 24px;
-    display: flex;
+    display: grid;
+    grid-template-areas: "img title time";
+    grid-template-columns: auto 1fr auto;
     height: 71px;
     align-items: center;
 }
@@ -13,6 +15,7 @@
     font-weight: 400;
     line-height: 16px;
     color: var(--black-text);
+    grid-area: title;
 }
 
 #notification__text_accent {
@@ -29,4 +32,9 @@
     font-weight: 400;
     line-height: 14px;
     color: var(--gray-text);
+    grid-area: time;
+}
+
+.notification__img {
+    grid-area: img;
 }

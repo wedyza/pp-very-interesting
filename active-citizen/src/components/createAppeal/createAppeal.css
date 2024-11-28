@@ -6,6 +6,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 24px;
+    margin-top: 24px;
 }
 
 .appeal-form__title {
