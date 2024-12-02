@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'ticket_system.apps.TicketSystemConfig',
     'api.apps.ApiConfig',
-    'djoser'
+    'djoser',
+    'drf_yasg'
 ]
 
 MIDDLEWARE = [
