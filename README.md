@@ -31,6 +31,11 @@ source env/Scripts/activate
 pip install -r requirements.txt
 ```
 
+Перейти в папку проекта
+```
+cd active_citizen
+```
+
 Выполнить миграции:
 
 ```
