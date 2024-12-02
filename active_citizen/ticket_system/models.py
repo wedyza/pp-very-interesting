@@ -69,7 +69,11 @@ class Media(models.Model):
 
 
 class Ticket(BaseTicket):
-    # location = models.GeoIp... - пока что просто заглушка, потом интегрирую
+    address = models.CharField(
+        'Адрес проблемы',
+        null=True,
+        max_length=50
+    )
     time = models.DateTimeField(
         'Время проишествия',
         null=True

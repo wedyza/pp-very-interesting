@@ -67,7 +67,7 @@ class CustomAbstractUser(AbstractUser):
         max_length=12,
         unique=True
     )
-    rating = models.IntegerField('Рейтинг', default=0, validators=[
+    rating = models.FloatField('Рейтинг', default=0, validators=[
         MinValueValidator(0),
         MaxValueValidator(10)
     ])
