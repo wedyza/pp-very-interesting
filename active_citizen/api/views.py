@@ -4,7 +4,7 @@ from ticket_system.models import (
 )
 from django.contrib.auth import get_user_model
 from .serializers import (
-    UserSerializer, TicketSerializer,
+    CustomUserSerializer, TicketSerializer,
     CategorySerializer, NotificationSerializer,
     SubCategorySerializer, CommentSerializer
 )
@@ -12,9 +12,9 @@ from .serializers import (
 User = get_user_model()
 
 
-class UserViewSet(viewsets.ReadOnlyModelViewSet):
+class CustomUserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = CustomUserSerializer
 
 
 class CategoryViewSet(viewsets.ModelViewSet):

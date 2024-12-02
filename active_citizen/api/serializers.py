@@ -24,11 +24,11 @@ class TicketSerializer(serializers.ModelSerializer):
 
 
 class CustomUserSerializer(UserSerializer):
-    tickets = TicketSerializer(many=True, required=False)
+    # tickets = TicketSerializer(many=True, required=False)
 
     class Meta:
         model = get_user_model()
-        fields = ('phone_number', 'id', 'first_name', 'last_name', 'rating', 'avatar')
+        fields = ('phone_number', 'id', 'first_name', 'last_name', 'given_name', 'rating', 'avatar')
 
 
 class SubCategorySerializer(serializers.ModelSerializer):

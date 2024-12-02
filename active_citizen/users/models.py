@@ -55,6 +55,7 @@ class CustomAbstractUser(AbstractUser):
 
     first_name = models.CharField('Имя', max_length=40)
     last_name = models.CharField('Фамилия', max_length=40)
+    given_name = models.CharField('Отчество', max_length=40)
     avatar = models.ImageField()
     phone_regex = RegexValidator(
         regex=r'^\+7\d{10}$',

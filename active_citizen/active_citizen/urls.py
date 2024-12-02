@@ -22,13 +22,13 @@ from django.urls import path, include
 from rest_framework import routers
 from api.views import (
     CategoryViewSet, TicketViewSet, CommentViewSet,
-    UserViewSet, NotificationViewSet, SubCategoryViewSet
+    CustomUserViewSet, NotificationViewSet, SubCategoryViewSet
 )
 
 router = routers.DefaultRouter()
 
 router.register('categories', CategoryViewSet)
-router.register('users', UserViewSet)
+router.register('users', CustomUserViewSet)
 router.register('tickets', TicketViewSet)
 router.register('notifications', NotificationViewSet)
 router.register(
