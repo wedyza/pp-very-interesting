@@ -8,6 +8,8 @@ from .serializers import (
     CategorySerializer, NotificationSerializer,
     SubCategorySerializer, CommentSerializer
 )
+from rest_framework.response import Response
+from rest_framework.decorators import action
 
 User = get_user_model()
 
@@ -15,6 +17,12 @@ User = get_user_model()
 class CustomUserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
     serializer_class = CustomUserSerializer
+
+    @action(detail=False, url_path='me', methods=['GET'])
+    def active_user(self, request):
+        user = User.objects.filter(id=request.user.id).get()
+        serializer = self.serializer_class(user)
+        return Response(serializer.data)
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
