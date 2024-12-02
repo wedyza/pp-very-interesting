@@ -6,7 +6,7 @@ import BackButton from '../backButton/BackButton'
 import { Link } from 'react-router-dom'
 import empty from './../../img/empty.jpg'
 import { YMaps, Map, Placemark } from 'react-yandex-maps'
-import API_KEY from '../../constants'
+import {API_KEY} from '../../constants'
 
 function AppealPage () {
     const { appealId } = useParams();

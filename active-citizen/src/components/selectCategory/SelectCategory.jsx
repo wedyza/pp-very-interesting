@@ -1,22 +1,46 @@
-import './../selectCategory/selectCategory.css'
-import CategoryCardList from './categoryCardList/CategoryCardList'
+import './../selectCategory/selectCategory.css';
+import CategoryCardList from './categoryCardList/CategoryCardList';
 import Search from '../search/Search';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-function SelectCategory () {
-    const categoryContent = [
-        {id: 'community', title: 'Развитие социальной среды', subcategories: [{title: 'Плохая организация работы соц служб', desc: 'описание 1'}, {title: 'Сообщение  о плачевном состоянии общественных пространств', desc: 'описание 2'}], desc: 'Поддержка культурных и образовательных инициатив аааааааааа ааааааааааааа аааааааааааа ааааааааааааа ааааааааааа.'},
-        {id: 'ecology', title: 'Экологические проблемы', subcategories: [{title: 'aaa', desc: 'описание a'}, {title: 'bbb', desc: 'описание b'}], desc: 'ccc'},
-        {id: 'aa', title: 'Развитие социальной среды', subcategories: [{title: 'Плохая организация работы соц служб', desc: 'описание 1'}, {title: 'Сообщение  о плачевном состоянии общественных пространств', desc: 'описание 2'}], desc: 'Поддержка культурных и образовательных инициатив.'},
-        {id: 'bb', title: 'Экологические проблемы', subcategories: [{title: 'aaa', desc: 'описание a'}, {title: 'bbb', desc: 'описание b'}], desc: 'ccc'},
-        {id: 'cc', title: 'Развитие социальной среды', subcategories: [{title: 'Плохая организация работы соц служб', desc: 'описание 1'}, {title: 'Сообщение  о плачевном состоянии общественных пространств', desc: 'описание 2'}], desc: 'Поддержка культурных и образовательных инициатив.'},
-        {id: 'dd', title: 'Экологические проблемы', subcategories: [{title: 'aaa', desc: 'описание a'}, {title: 'bbb', desc: 'описание b'}], desc: 'ccc'},
-    ];
-    const categories = Object.values(categoryContent);
-    const [filteredCategories, setFilteredCategories] = useState(categories);
+function SelectCategory() {
+    const accessToken = localStorage.getItem('accessToken');
+    const [categories, setCategories] = useState([]);
+    const [filteredCategories, setFilteredCategories] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await fetch('http://127.0.0.1:8000/categories/', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.statusText}`);
+                }
+                const data = await response.json();
+                setCategories(data);
+                setFilteredCategories(data);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchCategories();
+    }, []);
+
     const handleSearchResults = (results) => {
         setFilteredCategories(results);
     };
+
+    if (loading) return <div>Loading categories...</div>;
+    if (error) return <div>Error: {error}</div>;
 
     return (
         <div className="select-category">
@@ -26,7 +50,7 @@ function SelectCategory () {
                         Создайте новое обращение!
                     </h1>
                     <span className="select-category_desc description-text">
-                        Начните создавать вашу заявку. 
+                        Начните создавать вашу заявку.
                         Выберите категорию для вашего обращения
                     </span>
                 </div>
@@ -38,7 +62,7 @@ function SelectCategory () {
             </div>
             <CategoryCardList categories={filteredCategories} />
         </div>
-    )
+    );
 }
 
 export default SelectCategory;

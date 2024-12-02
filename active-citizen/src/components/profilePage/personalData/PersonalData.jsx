@@ -1,13 +1,41 @@
+import { useState, useEffect } from 'react'
 import './personalData.css'
 import avatar from './../../../img/empty.jpg'
+import { API_URL } from '../../../constants'
 
 function PersonalData() {
-    const user = {
-        name: 'Юрьев Игорь Михайлович',
-        phoneNumber: '+7 955 5555555',
-        mail: 'example@mail.ru',
-        rating: 4.2,
-    };
+    const accessToken = localStorage.getItem('accessToken');
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            console.log(accessToken);
+            try {
+                const response = await fetch(`${API_URL}/users/me/`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.statusText}`);
+                }
+                const data = await response.json();
+                setUser(data);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUserData();
+    }, []);
+
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error}</div>;
 
     const roundedRating = Math.round(user.rating);
 
@@ -65,7 +93,7 @@ function PersonalData() {
                             </svg>
                         </button>
                     </div>
-                    <span className="user-info__item_value">{user.name}</span>
+                    <span className="user-info__item_value">{`${user.first_name} ${user.last_name} ${user.given_name || ''}` || 'Нет данных'}</span>
                 </div>
                 <div className="user-info__item user-info__phone">
                     <div className="user-info__item_header">
@@ -76,7 +104,7 @@ function PersonalData() {
                             </svg>
                         </button>
                     </div>
-                    <span className="user-info__item_value">{user.phoneNumber}</span>
+                    <span className="user-info__item_value">{user.phone_number}</span>
                 </div>
                 <div className="user-info__item user-info__mail">
                     <div className="user-info__item_header">

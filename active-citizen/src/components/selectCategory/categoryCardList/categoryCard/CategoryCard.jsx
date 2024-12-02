@@ -15,7 +15,7 @@ function CategoryCard ({category}) {
                         {category.title}
                     </h2>
                     <span className="category-card__disc">
-                        {category.desc}
+                        {category.description}
                     </span>
                 </div>
                 <SelectButton /> 

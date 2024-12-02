@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './addressPicker.css';
 import { YMaps, Map, Placemark } from 'react-yandex-maps';
-import API_KEY from '../../constants'
+import {API_KEY} from '../../constants'
 
 const AddressPicker = () => {
     const [coords, setCoords] = useState([55.751574, 37.573856]);

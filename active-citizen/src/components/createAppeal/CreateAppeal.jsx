@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import SelectList from '../selectList/SelectList';
 import ImageUploader from '../imageUploader/ImageUploader';
-import AddressPicker from '../addressPicker/AddressPicker ';
+import AddressPicker from '../addressPicker/AddressPicker';
 
 
 function CreateAppeal () {

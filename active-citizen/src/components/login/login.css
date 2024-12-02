@@ -13,7 +13,6 @@
 .login-form_container {
     background-color: var(--blue);
     border-radius: 50px;
-    height: 393px;
     max-width: 764px;
     width: 100%;
     padding: 32px 64px;
@@ -59,6 +58,13 @@
     flex-direction: column;
     margin-top: 16px;
     z-index: 1;
+    gap: 16px;
+}
+
+.login-form__container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 .login-form__label {
@@ -67,7 +73,7 @@
     color: var(--blue300);
 }
 
-.login-form__number {
+.login-form__input {
     background-color: var(--background);
     border-radius: 10px;
     height: 50px;
@@ -75,7 +81,7 @@
     margin-top: 8px;
 }
 
-.login-form__number::placeholder {
+.login-form__input::placeholder {
     color: #B0B0B0;
 }
 
@@ -84,7 +90,7 @@
     width: 100%;
     height: 50px;
     background-image: var(--gradient3);
-    margin-top: 32px;
+    margin-top: 16px;
     border-radius: 15px;
     color: var(--white-text);
 }
