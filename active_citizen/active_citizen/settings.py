@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'ticket_system.apps.TicketSystemConfig',
     'api.apps.ApiConfig',
+    'corsheaders',
     'djoser',
     'drf_yasg'
 ]
@@ -172,3 +173,9 @@ SWAGGER_SETTINGS = {
       }
    }
 }
+
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+]
+CORS_URLS_REGEX = r'^/.*$'
