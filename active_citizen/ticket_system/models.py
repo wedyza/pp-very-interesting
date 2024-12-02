@@ -7,11 +7,19 @@ User = get_user_model()
 class StatusCode(models.Model):
     title = models.CharField('Название', max_length=100)
 
+    class Meta:
+        verbose_name = 'Код статуса'
+        verbose_name_plural = 'Коды статусов'
+
 
 class Category(models.Model):
     title = models.CharField('Тип тикета', max_length=100)
     description = models.CharField('Описание', max_length=500)
     source = models.ImageField('Изображение')
+
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
 
 
 class SubCategory(models.Model):
@@ -22,6 +30,10 @@ class SubCategory(models.Model):
         Category,
         on_delete=models.CASCADE
     )
+
+    class Meta:
+        verbose_name = 'Подкатегория'
+        verbose_name_plural = 'Подкатегории'
 
 
 class BaseTicket(models.Model):
@@ -51,6 +63,10 @@ class BaseTicket(models.Model):
 class Media(models.Model):
     source = models.ImageField('Изображение')
 
+    class Meta:
+        verbose_name = 'Медиа'
+        verbose_name_plural = 'Медиа'
+
 
 class Ticket(BaseTicket):
     # location = models.GeoIp... - пока что просто заглушка, потом интегрирую
@@ -68,9 +84,17 @@ class Ticket(BaseTicket):
         null=True
     )
 
+    class Meta:
+        verbose_name = 'Тикет'
+        verbose_name_plural = 'Тикеты'
+
 
 class SupportTicket(BaseTicket):
     pass
+
+    class Meta:
+        verbose_name = 'Тикет поддержки'
+        verbose_name_plural = 'Тикеты поддержки'
 
 
 class Notification(models.Model):
@@ -86,6 +110,10 @@ class Notification(models.Model):
     )
     created_at = models.DateTimeField('Создано', auto_now_add=True)
 
+    class Meta:
+        verbose_name = 'Уведомление'
+        verbose_name_plural = 'Уведомления'
+
 
 class Comment(models.Model):
     body = models.TextField('Тело комментария')
@@ -97,3 +125,7 @@ class Comment(models.Model):
         User,
         on_delete=models.CASCADE
     )
+
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
