@@ -18,7 +18,7 @@ git branch backend
 Cоздать и активировать виртуальное окружение:
 
 ```
-python3 -m venv env
+py -m venv env
 ```
 
 ```
@@ -34,11 +34,11 @@ pip install -r requirements.txt
 Выполнить миграции:
 
 ```
-python3 manage.py migrate
+py manage.py migrate
 ```
 
 Запустить проект:
 
 ```
-python3 manage.py runserver
+py manage.py runserver
 ```
