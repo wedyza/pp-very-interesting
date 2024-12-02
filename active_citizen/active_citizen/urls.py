@@ -21,7 +21,8 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from api.views import (
-    CategoryViewSet, TicketViewSet, UserViewSet, NotificationViewSet
+    CategoryViewSet, TicketViewSet, CommentViewSet,
+    UserViewSet, NotificationViewSet, SubCategoryViewSet
 )
 
 router = routers.DefaultRouter()
@@ -30,6 +31,14 @@ router.register('categories', CategoryViewSet)
 router.register('users', UserViewSet)
 router.register('tickets', TicketViewSet)
 router.register('notifications', NotificationViewSet)
+router.register(
+    r'categories/(?P<category>\d+)/subcategories',
+    SubCategoryViewSet
+)
+router.register(
+    r'tickets/(?P<comment>\d+)/comments',
+    CommentViewSet
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

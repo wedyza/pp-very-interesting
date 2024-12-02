@@ -11,6 +11,17 @@ class StatusCode(models.Model):
 class Category(models.Model):
     title = models.CharField('Тип тикета', max_length=100)
     description = models.CharField('Описание', max_length=500)
+    source = models.ImageField('Изображение')
+
+
+class SubCategory(models.Model):
+    title = models.CharField('Тип тикета', max_length=100)
+    description = models.CharField('Описание', max_length=500)
+    source = models.ImageField('Изображение')
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.CASCADE
+    )
 
 
 class BaseTicket(models.Model):
@@ -74,3 +85,15 @@ class Notification(models.Model):
         on_delete=models.CASCADE
     )
     created_at = models.DateTimeField('Создано', auto_now_add=True)
+
+
+class Comment(models.Model):
+    body = models.TextField('Тело комментария')
+    ticket = models.ForeignKey(
+        Ticket,
+        on_delete=models.CASCADE
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )

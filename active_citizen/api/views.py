@@ -1,9 +1,12 @@
 from rest_framework import viewsets
-from ticket_system.models import Category, Notification, Ticket
+from ticket_system.models import (
+    Category, Notification, Ticket, SubCategory, Comment
+)
 from django.contrib.auth import get_user_model
 from .serializers import (
     UserSerializer, TicketSerializer,
-    CategorySerializer, NotificationSerializer
+    CategorySerializer, NotificationSerializer,
+    SubCategorySerializer, CommentSerializer
 )
 
 User = get_user_model()
@@ -27,3 +30,13 @@ class NotificationViewSet(viewsets.ModelViewSet):
 class TicketViewSet(viewsets.ModelViewSet):
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
+
+
+class SubCategoryViewSet(viewsets.ModelViewSet):
+    queryset = SubCategory.objects.all()
+    serializer_class = SubCategorySerializer
+
+
+class CommentViewSet(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
