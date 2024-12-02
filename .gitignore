@@ -6,3 +6,4 @@ media
 .venv
 active_citizen/static/
 requirements.txt
+env/
