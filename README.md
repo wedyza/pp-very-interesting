@@ -18,11 +18,11 @@ git branch backend
 Cоздать и активировать виртуальное окружение:
 
 ```
-python3 -m venv env
+py -m venv env
 ```
 
 ```
-source env/bin/activate
+source env/Scripts/activate
 ```
 
 Установить зависимости из файла requirements.txt:
@@ -31,14 +31,19 @@ source env/bin/activate
 pip install -r requirements.txt
 ```
 
+Перейти в папку проекта
+```
+cd active_citizen
+```
+
 Выполнить миграции:
 
 ```
-python3 manage.py migrate
+py manage.py migrate
 ```
 
 Запустить проект:
 
 ```
-python3 manage.py runserver
+py manage.py runserver
 ```
