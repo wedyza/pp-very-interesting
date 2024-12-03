@@ -24,6 +24,9 @@ class Category(models.Model):
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
 
+    def __str__(self):
+        return self.title
+
 
 class SubCategory(models.Model):
     title = models.CharField('Тип тикета', max_length=100)
@@ -37,6 +40,9 @@ class SubCategory(models.Model):
     class Meta:
         verbose_name = 'Подкатегория'
         verbose_name_plural = 'Подкатегории'
+
+    def __str__(self):
+        return self.title
 
 
 class BaseTicket(models.Model):
@@ -55,6 +61,11 @@ class BaseTicket(models.Model):
     )
     category = models.ForeignKey(
         Category,
+        on_delete=models.SET_NULL,
+        null=True
+    )
+    subcategory = models.ForeignKey(
+        SubCategory,
         on_delete=models.SET_NULL,
         null=True
     )

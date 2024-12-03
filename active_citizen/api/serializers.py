@@ -26,6 +26,9 @@ class TicketNotificationSerializer(serializers.ModelSerializer):
 
 
 class TicketSerializer(serializers.ModelSerializer):
+    category = serializers.StringRelatedField()
+    subcategory = serializers.StringRelatedField()
+
     class Meta:
         model = Ticket
         fields = '__all__'
