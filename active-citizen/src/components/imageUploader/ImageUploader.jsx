@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import './imageUploader.css';
+import React, { useState } from 'react'
+import './imageUploader.css'
 
 function ImageUploader() {
     const [images, setImages] = useState([]);

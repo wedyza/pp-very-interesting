@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from 'react'
 import './filter.css'
 
 function Filter ({defaultText, options, onSelect}) {

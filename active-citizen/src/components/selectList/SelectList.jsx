@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect } from 'react';
-import './selectList.css';
+import { useState, useRef, useEffect } from 'react'
+import './selectList.css'
 
 function SelectList({ options, value, onChange, placeholder }) {
     const [isOpen, setIsOpen] = useState(false);

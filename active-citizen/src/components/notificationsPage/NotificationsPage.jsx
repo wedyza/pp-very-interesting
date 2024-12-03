@@ -2,7 +2,7 @@ import Header from '../header/Header'
 import './notificationsPage.css'
 import BackButton from '../backButton/BackButton'
 import Notification from './notification/Notification'
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 
 function NotificationsPage () {
     const notifications = [{title: 'Кривая дорога', id: 0}, {title: 'Мусорка упала', id: 1}, {title: 'Настроение плохое', id: 2}];

@@ -1,7 +1,7 @@
-import './registration.css';
-import logo from '../../img/login-logo.svg';
-import { useState } from 'react';
-import { API_URL } from '../../constants';
+import './registration.css'
+import logo from '../../img/login-logo.svg'
+import { useState } from 'react'
+import { API_URL } from '../../constants'
 
 function Registration() {
     const [formData, setFormData] = useState({

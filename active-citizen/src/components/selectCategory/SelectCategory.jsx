@@ -1,7 +1,8 @@
-import './../selectCategory/selectCategory.css';
-import CategoryCardList from './categoryCardList/CategoryCardList';
-import Search from '../search/Search';
-import { useState, useEffect } from 'react';
+import './../selectCategory/selectCategory.css'
+import CategoryCardList from './categoryCardList/CategoryCardList'
+import Search from '../search/Search'
+import { useState, useEffect } from 'react'
+import { API_URL } from '../../constants'
 
 function SelectCategory() {
     const accessToken = localStorage.getItem('accessToken');
@@ -13,7 +14,7 @@ function SelectCategory() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await fetch('http://127.0.0.1:8000/categories/', {
+                const response = await fetch(`${API_URL}/categories/`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${accessToken}`,

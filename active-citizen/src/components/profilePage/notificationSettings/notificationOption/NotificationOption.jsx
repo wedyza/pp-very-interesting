@@ -1,4 +1,4 @@
-import './notificationOption.css';
+import './notificationOption.css'
 
 function NotificationOption({ notify, onToggle }) {
     return (

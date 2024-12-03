@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import './addressPicker.css';
-import { YMaps, Map, Placemark } from 'react-yandex-maps';
+import React, { useState } from 'react'
+import './addressPicker.css'
+import { YMaps, Map, Placemark } from 'react-yandex-maps'
 import {API_KEY} from '../../constants'
 
 const AddressPicker = () => {

@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import Header from './../header/Header';
-import './profilePage.css';
-import BackButton from '../backButton/BackButton';
-import { Link } from 'react-router-dom';
-import PersonalData from './personalData/PersonalData';
-import NotificationSettings from './notificationSettings/NotificationSettings';
+import { useState } from 'react'
+import Header from './../header/Header'
+import './profilePage.css'
+import BackButton from '../backButton/BackButton'
+import { Link } from 'react-router-dom'
+import PersonalData from './personalData/PersonalData'
+import NotificationSettings from './notificationSettings/NotificationSettings'
 import AboutProject from './aboutProject/AboutProject'
 
 function ProfilePage() {

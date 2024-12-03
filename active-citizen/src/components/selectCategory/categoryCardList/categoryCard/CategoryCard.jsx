@@ -1,6 +1,6 @@
 import './../categoryCard/categoryCard.css'
 import community from './../../../../img/community.svg'
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 import SelectButton from './../../../selectButton/SelectButton'
 
 function CategoryCard ({category}) {

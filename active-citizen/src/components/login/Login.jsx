@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import './login.css';
-import logo from '../../img/login-logo.svg';
-import { API_URL } from '../../constants';
+import React, { useState } from 'react'
+import './login.css'
+import logo from '../../img/login-logo.svg'
+import { API_URL } from '../../constants'
 
 function Login() {
     const [phone, setPhone] = useState('');

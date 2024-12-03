@@ -1,6 +1,6 @@
-import './notificationSettings.css';
-import NotificationOption from './notificationOption/NotificationOption';
-import { useState } from 'react';
+import './notificationSettings.css'
+import NotificationOption from './notificationOption/NotificationOption'
+import { useState } from 'react'
 
 function NotificationSettings() {
     const [notifyOptions, setNotifyOptions] = useState([
