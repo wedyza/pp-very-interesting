@@ -1,27 +1,52 @@
 from ticket_system.models import (
-    Ticket, Category, Notification, SubCategory, Comment, SupportTicket
+    Ticket, Category, Notification, SubCategory, Comment,
+    StatusCode
 )
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from djoser.serializers import UserSerializer
+from django.urls import reverse_lazy
 
 
-class NotificationSerializer(serializers.ModelSerializer):
+class StatusCodeTextSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Notification
-        fields = '__all__'
+        model = StatusCode
+        fields = ('title',)
 
 
-class CategorySerializer(serializers.ModelSerializer):
+class TicketNotificationSerializer(serializers.ModelSerializer):
+    # url = serializers.SerializerMethodField()
+
     class Meta:
-        model = Category
-        fields = ('id', 'title', 'description')
+        model = Ticket
+        fields = ('title', 'id')
+
+    # def get_url(self, obj):
+    #     return reverse_lazy('ticket-detail', kwargs={'pk': obj.pk})
 
 
 class TicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
         fields = '__all__'
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    ticket = TicketNotificationSerializer()
+    status_code_changed_on = serializers.StringRelatedField()
+
+    class Meta:
+        model = Notification
+        fields = ('ticket', 'is_read', 'user', 'created_at', 'status_code_changed_on')
+
+    def get_ticket_title(self, obj):
+        return obj.ticket.title
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ('id', 'title', 'description')
 
 
 class CustomUserSerializer(UserSerializer):

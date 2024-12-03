@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, mixins
 from ticket_system.models import (
     Category, Notification, Ticket, SubCategory, Comment
 )
@@ -30,7 +30,11 @@ class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
 
 
-class NotificationViewSet(viewsets.ModelViewSet):
+class NotificationViewSet(
+    viewsets.GenericViewSet,
+    mixins.ListModelMixin,
+    mixins.UpdateModelMixin
+):
     queryset = Notification.objects.all()
     serializer_class = NotificationSerializer
 

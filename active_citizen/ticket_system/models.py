@@ -11,6 +11,9 @@ class StatusCode(models.Model):
         verbose_name = 'Код статуса'
         verbose_name_plural = 'Коды статусов'
 
+    def __str__(self):
+        return self.title
+
 
 class Category(models.Model):
     title = models.CharField('Тип тикета', max_length=100)
@@ -72,7 +75,7 @@ class Ticket(BaseTicket):
     address = models.CharField(
         'Адрес проблемы',
         null=True,
-        max_length=50
+        max_length=100
     )
     time = models.DateTimeField(
         'Время проишествия',
@@ -102,7 +105,6 @@ class SupportTicket(BaseTicket):
 
 
 class Notification(models.Model):
-    text = models.CharField('Текст', max_length=128)
     is_read = models.BooleanField('Прочитано', default=False)
     user = models.ForeignKey(
         User,
@@ -113,6 +115,10 @@ class Notification(models.Model):
         on_delete=models.CASCADE
     )
     created_at = models.DateTimeField('Создано', auto_now_add=True)
+    status_code_changed_on = models.ForeignKey(
+        StatusCode,
+        on_delete=models.CASCADE
+    )
 
     class Meta:
         verbose_name = 'Уведомление'
