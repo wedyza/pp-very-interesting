@@ -37,4 +37,6 @@
 
 .notification__img {
     grid-area: img;
+    width: 35px;
+    height: 38px;
 }

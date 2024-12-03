@@ -45,7 +45,6 @@ function CategoryPage() {
     };
 
     if (error) return <div>{error}</div>;
-    if (!subcategories.length) return <div>Категории не найдены</div>;
 
     return (
         <div className='App'>
@@ -72,7 +71,7 @@ function CategoryPage() {
                 <ul className="subcategory-list cards-list">
                     {filteredSubcategories.map((subcategory, index) => (
                         <li key={index} className="subcategory-list__item">
-                            <SubcategoryCard subcategory={subcategory} categoryId={categoryId} />
+                            <SubcategoryCard subcategory={subcategory} categoryId={categoryId} categoryTitle={categoryTitle} />
                         </li>
                     ))}
                 </ul>

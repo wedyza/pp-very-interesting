@@ -36,7 +36,7 @@ function SelectList({ options, value, onChange, placeholder }) {
                 <ul className="custom-select__options filter__options-list">
                     {options.map((option, index) => (
                         <li
-                            key={index}
+                            key={index.id}
                             className={'custom-select__option filter__option'}
                             onClick={() => handleOptionClick(option)}
                         >

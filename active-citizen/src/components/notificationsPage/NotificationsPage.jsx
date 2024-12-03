@@ -3,9 +3,34 @@ import './notificationsPage.css'
 import BackButton from '../backButton/BackButton'
 import Notification from './notification/Notification'
 import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { API_URL } from '../../constants'
 
 function NotificationsPage () {
-    const notifications = [{title: 'Кривая дорога', id: 0}, {title: 'Мусорка упала', id: 1}, {title: 'Настроение плохое', id: 2}];
+    const accessToken = localStorage.getItem('accessToken');
+    const [notifications, setNotifications] = useState([]);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchNotifications = async () => {
+            try {
+                const response = await fetch(`${API_URL}/notifications/`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error(`${response.statusText}`);
+                }
+                const data = await response.json();
+                setNotifications(data);
+            } catch (err) {
+                setError(err.message);
+            }
+        };
+        fetchNotifications();
+    }, []);
 
     return (
         <div className='App'>

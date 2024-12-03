@@ -17,7 +17,7 @@ function Notification ({notification}) {
                 </svg>
             </div>
             <span className="notification__text">
-                Ваша заявка <Link id="notification__text_accent" to={`/appeal/${notification.id}`}>{notification.title}</Link> отклонена
+                Ваша заявка <Link id="notification__text_accent" to={`/appeal/${notification.ticket.id}`}>{notification.ticket.title}</Link> была {notification.status_code_changed_on.toLowerCase()}
             </span>
             <span className="notification__datetime">
                 10:15, 17.02.2024

@@ -1,51 +1,40 @@
 import './appealPage.css'
 import Header from './../header/Header'
 import { useParams } from 'react-router-dom'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BackButton from '../backButton/BackButton'
 import { Link } from 'react-router-dom'
 import empty from './../../img/empty.jpg'
 import { YMaps, Map, Placemark } from 'react-yandex-maps'
-import {API_KEY} from '../../constants'
+import {API_KEY, API_URL} from '../../constants'
 
 function AppealPage () {
     const { appealId } = useParams();
-    const appeals = [
-        {
-            id: '0',
-            title: 'Кривая дорога',
-            category: 'Развитие социальной среды',
-            subcategory: 'Плохая организация работы соц служб',
-            datetime: '10:15, 17.09.2024',
-            desc: 'Хотел бы выразить недовольство состоянием дорог в нашем районе. Они в ужасном состоянии: ямы, ухабы и кривизна — это не только неудобно, но и опасно. Машины постоянно повреждаются, а водителям приходится маневрировать, чтобы избежать аварий. Особенно это касается участков рядом с пешеходными переходами — тут нужно быть предельно осторожным. Кроме того, общественный транспорт страдает от этого: автобусы и маршрутки задерживаются, и людям приходится ждать дольше обычного. Прошу вас обратить внимание на эту проблему и сделать что-то с дорогами. Мы заслуживаем нормальных условий для передвижения!',
-            adress: 'Россия, Свердловская область, Екатеринбург, улица Мира, 32',
-            images: '',
-            comment: 'Недопустимые материалы',
-        },
-        {
-            id: '1',
-            title: 'Мусорка упала',
-            category: 'Развитие социальной среды',
-            subcategory: 'Плохая организация работы соц служб',
-            datetime: '11:15, 17.09.2024',
-            desc: 'Мусорка упала!',
-            adress: 'Россия, Свердловская область, Екатеринбург, Комсомольская улица, 70',
-            images: '',
-            comment: 'Недопустимые материалы',
-        },
-        {
-            id: '2',
-            title: 'Настроение плохое',
-            category: 'Развитие социальной среды',
-            subcategory: 'Плохая организация работы соц служб',
-            datetime: '11:15, 18.09.2024',
-            desc: 'Сегодня пасмурно, мне грустно! Исправьте!',
-            adress: 'Россия, Свердловская область, Екатеринбург, улица Фонвизина, 8',
-            images: '',
-            comment: 'Не исправим АХАХАХХА',
-        },
-    ];
-    const appeal = appeals.find((a) => a.id === appealId);
+    const accessToken = localStorage.getItem('accessToken');
+    const [appeal, setAppeal] = useState([]);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchNotifications = async () => {
+            try {
+                const response = await fetch(`${API_URL}/tickets/${appealId}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error(`${response.statusText}`);
+                }
+                const data = await response.json();
+                setAppeal(data);
+            } catch (err) {
+                setError(err.message);
+            }
+        };
+        fetchNotifications();
+    }, []);
+
     const fetchCoordinates = async (address) => {
         const geocodeUrl = `https://geocode-maps.yandex.ru/1.x/?apikey=${API_KEY}&geocode=${address}&format=json`;
         try {
@@ -111,7 +100,7 @@ function AppealPage () {
                             Дата и время заявки
                         </div>
                         <div className="appeal-info__item_value">
-                            {appeal.datetime}                            
+                            {appeal.time}                            
                         </div>
                     </div>
                     <div className="appeal-info__item appeal-info__desc">
@@ -119,7 +108,7 @@ function AppealPage () {
                             Описание
                         </div>
                         <div className="appeal-info__item_value appeal-desc__value">
-                            {appeal.desc}                            
+                            {appeal.body}                            
                         </div>
                     </div>
                     <div className="appeal-info__item appeal-info__address">
@@ -139,12 +128,12 @@ function AppealPage () {
                                             <Placemark geometry={coords} />
                                         </Map>
                                     ) : (
-                                        <p>Загрузка карты...</p>
+                                        <div>Загрузка карты...</div>
                                     )}
                                 </YMaps>
                             </div>
                             <div className="appeal-info__item_value appeal-address__value">
-                                {appeal.adress}
+                                {appeal.address}
                             </div>
                         </div>
                     </div>

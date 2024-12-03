@@ -8,7 +8,6 @@ function SelectCategory() {
     const accessToken = localStorage.getItem('accessToken');
     const [categories, setCategories] = useState([]);
     const [filteredCategories, setFilteredCategories] = useState([]);
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -28,8 +27,6 @@ function SelectCategory() {
                 setFilteredCategories(data);
             } catch (err) {
                 setError(err.message);
-            } finally {
-                setLoading(false);
             }
         };
 
@@ -40,8 +37,7 @@ function SelectCategory() {
         setFilteredCategories(results);
     };
 
-    if (loading) return <div>Loading categories...</div>;
-    if (error) return <div>Error: {error}</div>;
+    if (error) return <div>{error}</div>;
 
     return (
         <div className="select-category">

@@ -1,34 +1,89 @@
 import Header from './../header/Header'
 import './../createAppeal/createAppeal.css'
 import { useLocation } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import SelectList from '../selectList/SelectList'
 import ImageUploader from '../imageUploader/ImageUploader'
 import AddressPicker from '../addressPicker/AddressPicker'
+import { API_URL } from '../../constants'
 
-
-function CreateAppeal () {
+function CreateAppeal() {
+    const accessToken = localStorage.getItem('accessToken');
     const location = useLocation();
-    const { categoryId, subcategory } = location.state || {};
+    const { 
+        categoryId: initialCategoryId, 
+        categoryTitle: initialCategoryTitle,
+        subcategoryTitle: initialSubcategory 
+    } = location.state || {};
+    const [categories, setCategories] = useState([]);
+    const [subcategories, setSubcategories] = useState([]);
+    const [selectedCategoryId, setSelectedCategoryId] = useState(initialCategoryId || '');
+    const [selectedCategoryTitle, setSelectedCategoryTitle] = useState(initialCategoryTitle || '');
+    const [selectedSubcategory, setSelectedSubcategory] = useState(initialSubcategory || '');
+    const [loadingCategories, setLoadingCategories] = useState(false);
+    const [loadingSubcategories, setLoadingSubcategories] = useState(false);
+    const [error, setError] = useState(null);
 
-    const [selectedCategory, setSelectedCategory] = useState(categoryId || '');
-    const [selectedSubcategory, setSelectedSubcategory] = useState(subcategory?.title || '');
+    useEffect(() => {
+        const fetchCategories = async () => {
+            setLoadingCategories(true);
+            try {
+                const response = await fetch(`${API_URL}/categories/`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error(`Failed to load categories: ${response.statusText}`);
+                }
+                const data = await response.json();
+                setCategories(data);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoadingCategories(false);
+            }
+        };
+        fetchCategories();
+    }, []);
 
-    const categories = [
-        { id: 'community', title: 'Развитие социальной среды' },
-        { id: 'ecology', title: 'Экологические проблемы' },
-    ];
+    useEffect(() => {
+        if (!selectedCategoryId) return;
 
-    const subcategories = {
-        community: ['Плохая организация работы соц служб', 'Сообщение  о плачевном состоянии общественных пространств'],
-        ecology: ['aaa', 'bbb'],
+        const fetchSubcategories = async () => {
+            setLoadingSubcategories(true);
+            try {
+                const response = await fetch(`${API_URL}/categories/${selectedCategoryId}/subcategories/`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error(`Failed to load subcategories: ${response.statusText}`);
+                }
+                const data = await response.json();
+                setSubcategories(data);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoadingSubcategories(false);
+            }
+        };
+
+        fetchSubcategories();
+    }, [selectedCategoryId]);
+
+    const handleCategoryChange = (categoryTitle) => {
+        const category = categories.find((cat) => cat.title === categoryTitle);
+        setSelectedCategoryId(category?.id || '');
+        setSelectedCategoryTitle(categoryTitle);
+        setSelectedSubcategory('');
     };
 
-    
-    const getCategoryTitle = (id) => {
-        const category = categories.find((cat) => cat.id === id);
-        return category ? category.title : '';
-    };
+    if (loadingCategories) return <div>Loading categories...</div>;
+    if (error) return <div>Error: {error}</div>;
 
     return (
         <div className='App'>
@@ -42,22 +97,20 @@ function CreateAppeal () {
                     </div>
                     <div className="create-appeal__category">
                         <SelectList
-                            options={categories.map((c) => {return c.title})}
-                            value={getCategoryTitle(selectedCategory)}
+                            options={categories.map((cat) => cat.title)}
+                            value={selectedCategoryTitle}
                             onChange={(categoryTitle) => {
-                                const category = categories.find((c) => c.title === categoryTitle);
-                                setSelectedCategory(category?.id || '');
+                                const category = categories.find((cat) => cat.title === categoryTitle);
+                                setSelectedCategoryId(category?.id || '');
                                 setSelectedSubcategory('');
                             }}
-                            placeholder={'Выберите категорию'}
+                            placeholder="Выберите категорию"
                         />
                         <SelectList
-                            options={(subcategories[selectedCategory] || [])}
+                            options={subcategories.map((sub) => sub.title)}
                             value={selectedSubcategory}
-                            onChange={(category) => {
-                                setSelectedSubcategory(category);
-                            }}
-                            placeholder={'Выберите подкатегорию'}
+                            onChange={(subcategory) => setSelectedSubcategory(subcategory)}
+                            placeholder="Выберите подкатегорию"
                         />
                     </div>
                     <div className="appeal-form__title appeal-form__info">
