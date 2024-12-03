@@ -36,7 +36,7 @@ router.register(
     SubCategoryViewSet
 )
 router.register(
-    r'tickets/(?P<comment>\d+)/comments',
+    r'tickets/(?P<ticket>\d+)/comments',
     CommentViewSet
 )
 
