@@ -1,9 +1,10 @@
 from ticket_system.models import (
-    Ticket, Category, Notification, SubCategory, Comment
+    Ticket, Category, Notification, SubCategory, Comment, SupportTicket
 )
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from djoser.serializers import UserSerializer
+
 
 class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,7 +15,7 @@ class NotificationSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = '__all__'
+        fields = ('id', 'title', 'description')
 
 
 class TicketSerializer(serializers.ModelSerializer):
@@ -32,6 +33,8 @@ class CustomUserSerializer(UserSerializer):
 
 
 class SubCategorySerializer(serializers.ModelSerializer):
+    category = CategorySerializer()
+
     class Meta:
         model = SubCategory
         fields = '__all__'
@@ -41,3 +44,9 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = '__all__'
+
+
+# class SupportTicketSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = SupportTicket
+#         fields = '__all__'

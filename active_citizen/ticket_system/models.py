@@ -15,7 +15,7 @@ class StatusCode(models.Model):
 class Category(models.Model):
     title = models.CharField('Тип тикета', max_length=100)
     description = models.CharField('Описание', max_length=500)
-    source = models.ImageField('Изображение')
+    # source = models.ImageField('Изображение', null=True)
 
     class Meta:
         verbose_name = 'Категория'
