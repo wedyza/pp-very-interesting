@@ -1,13 +1,22 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import Header from './../header/Header'
 import './profilePage.css'
 import BackButton from '../backButton/BackButton'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import PersonalData from './personalData/PersonalData'
 import NotificationSettings from './notificationSettings/NotificationSettings'
 import AboutProject from './aboutProject/AboutProject'
+import {AuthContext} from '../../context/AuthContext'
 
 function ProfilePage() {
+    const { isAuthenticated, logout } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        navigate('/login');
+    };
+
     const [activeSection, setActiveSection] = useState(window.innerWidth <= 1060 ? null : 'personalData');
 
     const activeSectionName = {
@@ -117,7 +126,7 @@ function ProfilePage() {
                                     </linearGradient>
                                     </defs>
                                 </svg>
-                                <span>Выйти</span>
+                                <button onClick={handleLogout}>Выйти</button>
                             </div>
                         </nav>
                     </div>

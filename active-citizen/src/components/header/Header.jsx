@@ -2,8 +2,11 @@ import './../header/header.css'
 import logo from './../../img/logo.svg'
 import avatar from './../../img/empty.jpg'
 import { Link } from 'react-router-dom'
+import { AuthContext } from '../../context/AuthContext'
+import { useContext } from 'react'
 
 function Header () {
+    const { isAuthenticated } = useContext(AuthContext);
     return (
         <header className="header">
             <div className="header__overlay"></div>
@@ -13,7 +16,9 @@ function Header () {
                         <img src={logo} alt="Мой город" />
                     </div>
                 </Link>
-                <div className="header__btns">
+                {isAuthenticated ? 
+                (
+                    <div className="header__btns">
                     <Link to={'/history'}>
                         <div className="header__notifications header__btn">
                             <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -38,6 +43,16 @@ function Header () {
                         </div>
                     </Link>
                 </div>
+                ) : (
+                    <div className="header__btns">
+                        <Link to={'/login'}>
+                            <div className="header__login header__btn">
+                                Войти
+                            </div>
+                        </Link>
+                    </div>
+                )}
+                
             </div>
         </header>
     )

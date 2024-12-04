@@ -75,3 +75,13 @@
     line-height: 16px;
     color: var(--white-text);
 }
+
+.header__login {
+    border: none;
+    border-radius: 15px;
+    background-color: var(--blue400);
+    width: 112px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
