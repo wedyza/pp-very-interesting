@@ -22,6 +22,7 @@
     
     --light-gray: #CDCDCD;
     --page-width: 1291px;
+    --page-width-mod: 1552px;
     --side-padding: 36px;
 }
 
@@ -48,6 +49,10 @@ body {
     height: 100%;
     padding: 168px 0 30px 0;
     position: relative;
+}
+
+.moderator_page {
+    max-width: var(--page-width-mod);    
 }
 
 .page_content::after {

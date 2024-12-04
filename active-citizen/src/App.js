@@ -9,6 +9,7 @@ import AppealPage from './components/appealPage/AppealPage'
 import CreateAppeal from './components/createAppeal/CreateAppeal'
 import './styles/media.css'
 import Registration from './components/registration/Registration'
+import ModeratorIndex from './components/moderatorIndex/ModeratorIndex'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
          <Route path="/login" element={<Login />}/>
          <Route path="/registration" element={<Registration />}/>
          <Route path="/" element={<UserIndex />}/>
+         <Route path="/moderator" element={<ModeratorIndex />}/>
          <Route path="/notifications" element={<NotificationsPage />}/>
          <Route path="/history" element={<HistoryPage />}/>
          <Route path="/profile" element={<ProfilePage />}/>

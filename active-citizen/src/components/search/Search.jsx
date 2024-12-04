@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './search.css'
 
-function Search({ list, onResults }) {
+function Search({ list, onResults, placeholder }) {
     const [query, setQuery] = useState('');
 
     const handleInputChange = (e) => {
@@ -10,8 +10,9 @@ function Search({ list, onResults }) {
 
         const filtered = list.filter((item) => {
             const titleMatch = item.title?.toLowerCase().includes(searchQuery);
-            const descMatch = item.desc?.toLowerCase().includes(searchQuery);
-            return titleMatch || descMatch;
+            const descMatch = item.description?.toLowerCase().includes(searchQuery);
+            const themeMatch = item.theme?.toLowerCase().includes(searchQuery);
+            return titleMatch || descMatch || themeMatch;
         });
 
         onResults(filtered);
@@ -23,7 +24,7 @@ function Search({ list, onResults }) {
                 type="text"
                 value={query}
                 onChange={handleInputChange}
-                placeholder="Начните искать категорию"
+                placeholder={placeholder}
                 className="search__input"
             />
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

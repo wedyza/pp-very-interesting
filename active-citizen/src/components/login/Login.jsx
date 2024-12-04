@@ -64,7 +64,7 @@ function Login() {
                             <input
                                 className='login-form__password login-form__input'
                                 type="password"
-                                placeholder=''
+                                placeholder='Введите пароль'
                                 value={password}
                                 onChange={handlePasswordChange}
                             />
