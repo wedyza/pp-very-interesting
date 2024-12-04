@@ -1,6 +1,6 @@
 from ticket_system.models import (
     Ticket, Category, Notification, SubCategory, Comment,
-    StatusCode
+    StatusCode, TicketAudit
 )
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
@@ -23,6 +23,18 @@ class TicketNotificationSerializer(serializers.ModelSerializer):
 
     # def get_url(self, obj):
     #     return reverse_lazy('ticket-detail', kwargs={'pk': obj.pk})
+
+
+class TicketAuditSerializer(serializers.ModelSerializer):
+    ticket = serializers.PrimaryKeyRelatedField(read_only=True)
+
+    class Meta:
+        model = TicketAudit
+        fields = '__all__'
+
+    def create(self, validated_data):
+        print(validated_data)
+        return super().create(validated_data)
 
 
 class TicketSerializer(serializers.ModelSerializer):

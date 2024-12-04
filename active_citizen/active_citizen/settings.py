@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'api.apps.ApiConfig',
     'corsheaders',
     'djoser',
-    'drf_yasg'
+    'drf_yasg',
+    'django_filters'
 ]
 
 MIDDLEWARE = [

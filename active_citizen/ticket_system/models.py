@@ -82,7 +82,7 @@ class Media(models.Model):
         verbose_name_plural = 'Медиа'
 
 
-class Ticket(BaseTicket):
+class BaseMainTicket(BaseTicket):
     address = models.CharField(
         'Адрес проблемы',
         null=True,
@@ -101,10 +101,33 @@ class Ticket(BaseTicket):
         verbose_name='Медиа',
         null=True
     )
+    draft = models.BooleanField(
+        'Черновик',
+        default=False
+    )
+
+    class Meta:
+        abstract = True
+
+
+class Ticket(BaseMainTicket):
+    pass
 
     class Meta:
         verbose_name = 'Тикет'
         verbose_name_plural = 'Тикеты'
+
+
+class TicketAudit(BaseMainTicket):
+    ticket = models.ForeignKey(
+        Ticket,
+        on_delete=models.SET_NULL,
+        null=True
+    )
+
+    class Meta:
+        verbose_name = 'Изменения тикета'
+        verbose_name_plural = 'Изменения тикетов'
 
 
 class SupportTicket(BaseTicket):

@@ -22,7 +22,8 @@ from django.urls import path, include
 from rest_framework import routers
 from api.views import (
     CategoryViewSet, TicketViewSet, CommentViewSet,
-    CustomUserViewSet, NotificationViewSet, SubCategoryViewSet
+    CustomUserViewSet, NotificationViewSet, SubCategoryViewSet,
+    TicketAuditViewSet
 )
 
 router = routers.DefaultRouter()
@@ -38,6 +39,11 @@ router.register(
 router.register(
     r'tickets/(?P<ticket>\d+)/comments',
     CommentViewSet
+)
+router.register(
+    r'tickets/(?P<ticket>\d+)/audit',
+    TicketAuditViewSet,
+    basename='ticket-audit'
 )
 
 urlpatterns = [
