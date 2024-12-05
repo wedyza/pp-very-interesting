@@ -5,5 +5,4 @@ media
 .env
 .venv
 active_citizen/static/
-requirements.txt
 env/
