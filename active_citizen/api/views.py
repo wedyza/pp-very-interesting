@@ -1,7 +1,7 @@
 from rest_framework import viewsets, mixins, permissions
 from ticket_system.models import (
     Category, Notification, Ticket, SubCategory, Review,
-    TicketAudit
+    TicketAudit, StatusCode
 )
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
@@ -14,7 +14,7 @@ from .serializers import (
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from django_filters.rest_framework import DjangoFilterBackend
-from .permissions import AdminOrReadOnly
+from .permissions import AdminOrReadOnly, OwnerOrReadOnly
 
 User = get_user_model()
 
@@ -102,6 +102,17 @@ class ReviewViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         ticket = get_object_or_404(Ticket, pk=self.kwargs['ticket'])
         return Review.objects.filter(ticket__id=ticket.id)
+    
+    def perform_create(self, serializer):
+        ticket = get_object_or_404(Ticket, pk=self.kwargs['ticket'])
+        status_code = StatusCode.objects.filter(title=serializer.validated_data['status_code_changed_on']).first()
+        ticket.status_code = status_code
+        ticket.save()
+
+        notification = Notification.objects.create(status_code_changed_on=status_code, user=self.request.user, ticket=ticket)
+        notification.save()
+
+        serializer.save(user=self.request.user, ticket=ticket)
 
 
 class TicketAuditViewSet(viewsets.ReadOnlyModelViewSet):

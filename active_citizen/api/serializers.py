@@ -60,6 +60,9 @@ class NotificationSerializer(serializers.ModelSerializer):
         model = Notification
         fields = ('ticket', 'is_read', 'user', 'created_at', 'status_code_changed_on')
 
+    def create(self, validated_data):
+        return super().create(validated_data)
+
     def get_ticket_title(self, obj):
         return obj.ticket.title
 
@@ -90,6 +93,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = '__all__'
+        read_only_fields = ('user', 'ticket')
 
 
 # class SupportTicketSerializer(serializers.ModelSerializer):
