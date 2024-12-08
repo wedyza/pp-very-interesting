@@ -55,8 +55,10 @@ class TicketViewSet(viewsets.ModelViewSet):
         return Ticket.objects.filter(user__id=self. request.user.id)
     
     def perform_update(self, serializer):
-        print(serializer.instance.title)
-        print(serializer.validated_data)
+        if not serializer.instance.draft:
+            ticket_audit = TicketAuditSerializer(data=serializer.instance.__dict__)
+            if ticket_audit.is_valid():
+                ticket_audit.save(ticket=serializer.instance, user=self.request.user)
         return super().perform_update(serializer)
     
     def perform_create(self, serializer):

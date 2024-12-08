@@ -32,6 +32,7 @@ class TicketAuditSerializer(serializers.ModelSerializer):
     class Meta:
         model = TicketAudit
         fields = '__all__'
+        read_only_fields = ("user", )
 
     def create(self, validated_data):
         print(validated_data)
