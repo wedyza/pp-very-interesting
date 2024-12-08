@@ -5,7 +5,8 @@ from ticket_system.models import (
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from djoser.serializers import UserSerializer
-from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404
+
 
 
 class StatusCodeTextSerializer(serializers.ModelSerializer):
@@ -41,9 +42,20 @@ class TicketSerializer(serializers.ModelSerializer):
     category = serializers.StringRelatedField()
     subcategory = serializers.StringRelatedField()
 
+    def create(self, validated_data):
+        if 'category' in self.initial_data:
+            category = get_object_or_404(Category, pk=self.initial_data['category'])
+            validated_data['category'] = category
+        if 'subcategory' in self.initial_data:
+            subcategory = get_object_or_404(SubCategory, pk=self.initial_data['subcategory'])
+            validated_data['subcategory'] = subcategory
+        ticket = Ticket.objects.create(**validated_data)
+        return ticket
+
     class Meta:
         model = Ticket
         fields = '__all__'
+        read_only_fields = ("user", )
 
 
 class NotificationSerializer(serializers.ModelSerializer):
@@ -73,7 +85,7 @@ class CustomUserSerializer(UserSerializer):
 
 
 class SubCategorySerializer(serializers.ModelSerializer):
-    category = CategorySerializer()
+    category = CategorySerializer(read_only=True)
 
     class Meta:
         model = SubCategory

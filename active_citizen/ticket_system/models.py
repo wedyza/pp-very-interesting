@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 
 User = get_user_model()
 
@@ -31,7 +32,7 @@ class Category(models.Model):
 class SubCategory(models.Model):
     title = models.CharField('Тип тикета', max_length=100)
     description = models.CharField('Описание', max_length=500)
-    source = models.ImageField('Изображение')
+    source = models.ImageField('Изображение', null=True)
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE
@@ -48,12 +49,12 @@ class SubCategory(models.Model):
 class BaseTicket(models.Model):
     body = models.TextField('Тело')
     title = models.CharField('Заголовок', max_length=100)
-    created_at = models.DateTimeField('Создано', auto_now_add=True)
+    created_at = models.DateTimeField('Создано', default=timezone.now())
     status_code = models.ForeignKey(
         StatusCode,
         on_delete=models.SET_DEFAULT,
         verbose_name='Статус',
-        default=0
+        default=1
     )
     user = models.ForeignKey(
         User,
@@ -148,7 +149,7 @@ class Notification(models.Model):
         Ticket,
         on_delete=models.CASCADE
     )
-    created_at = models.DateTimeField('Создано', auto_now_add=True)
+    created_at = models.DateTimeField('Создано', default=timezone.now())
     status_code_changed_on = models.ForeignKey(
         StatusCode,
         on_delete=models.CASCADE
