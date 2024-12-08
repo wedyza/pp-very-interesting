@@ -181,3 +181,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
 ]
 CORS_URLS_REGEX = r'^/.*$'
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / '/media/'

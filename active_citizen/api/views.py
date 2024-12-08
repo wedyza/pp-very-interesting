@@ -1,6 +1,6 @@
 from rest_framework import viewsets, mixins, permissions
 from ticket_system.models import (
-    Category, Notification, Ticket, SubCategory, Comment,
+    Category, Notification, Ticket, SubCategory, Review,
     TicketAudit
 )
 from django.contrib.auth import get_user_model
@@ -8,7 +8,7 @@ from django.shortcuts import get_object_or_404
 from .serializers import (
     CustomUserSerializer, TicketSerializer,
     CategorySerializer, NotificationSerializer,
-    SubCategorySerializer, CommentSerializer,
+    SubCategorySerializer, ReviewSerializer,
     TicketAuditSerializer
 )
 from rest_framework.response import Response
@@ -95,13 +95,13 @@ class SubCategoryViewSet(viewsets.ModelViewSet):
         serializer.save(category=category)
 
 
-class CommentViewSet(viewsets.ModelViewSet):
-    queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
+class ReviewViewSet(viewsets.ModelViewSet):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
 
     def get_queryset(self):
         ticket = get_object_or_404(Ticket, pk=self.kwargs['ticket'])
-        return Comment.objects.filter(ticket__id=ticket.id)
+        return Review.objects.filter(ticket__id=ticket.id)
 
 
 class TicketAuditViewSet(viewsets.ReadOnlyModelViewSet):
@@ -110,3 +110,16 @@ class TicketAuditViewSet(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         ticket = get_object_or_404(Ticket, pk=self.kwargs['ticket'])
         return TicketAudit.objects.filter(ticket__id=ticket.id)
+
+
+class ModeratorReviewViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = ReviewSerializer
+
+    def get_queryset(self):
+        reviews = Review.objects.filter(user=self.request.user)
+        return Response(reviews)
+    
+    @action(detail=False, url_path='all', methods=['GET'])
+    def all(self, request):
+        reviews = Review.objects.all()
+        return Response(reviews)

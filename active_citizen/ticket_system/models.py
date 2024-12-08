@@ -19,7 +19,7 @@ class StatusCode(models.Model):
 class Category(models.Model):
     title = models.CharField('Тип тикета', max_length=100)
     description = models.CharField('Описание', max_length=500)
-    # source = models.ImageField('Изображение', null=True)
+    source = models.ImageField('Изображение', null=True)
 
     class Meta:
         verbose_name = 'Категория'
@@ -160,8 +160,8 @@ class Notification(models.Model):
         verbose_name_plural = 'Уведомления'
 
 
-class Comment(models.Model):
-    body = models.TextField('Тело комментария')
+class Review(models.Model):
+    comment = models.TextField('Тело комментария')
     ticket = models.ForeignKey(
         Ticket,
         on_delete=models.CASCADE
@@ -169,6 +169,11 @@ class Comment(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE
+    )
+    status_code_changed_on = models.ForeignKey(
+        StatusCode,
+        on_delete=models.SET_NULL,
+        null=True
     )
 
     class Meta:

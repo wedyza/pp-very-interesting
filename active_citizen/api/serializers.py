@@ -1,5 +1,5 @@
 from ticket_system.models import (
-    Ticket, Category, Notification, SubCategory, Comment,
+    Ticket, Category, Notification, SubCategory, Review,
     StatusCode, TicketAudit
 )
 from django.contrib.auth import get_user_model
@@ -22,9 +22,6 @@ class TicketNotificationSerializer(serializers.ModelSerializer):
         model = Ticket
         fields = ('title', 'id')
 
-    # def get_url(self, obj):
-    #     return reverse_lazy('ticket-detail', kwargs={'pk': obj.pk})
-
 
 class TicketAuditSerializer(serializers.ModelSerializer):
     ticket = serializers.PrimaryKeyRelatedField(read_only=True)
@@ -33,10 +30,6 @@ class TicketAuditSerializer(serializers.ModelSerializer):
         model = TicketAudit
         fields = '__all__'
         read_only_fields = ("user", )
-
-    def create(self, validated_data):
-        print(validated_data)
-        return super().create(validated_data)
 
 
 class TicketSerializer(serializers.ModelSerializer):
@@ -93,9 +86,9 @@ class SubCategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class CommentSerializer(serializers.ModelSerializer):
+class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Comment
+        model = Review
         fields = '__all__'
 
 

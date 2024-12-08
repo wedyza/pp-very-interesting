@@ -21,10 +21,12 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from api.views import (
-    CategoryViewSet, TicketViewSet, CommentViewSet,
+    CategoryViewSet, TicketViewSet, ReviewViewSet,
     CustomUserViewSet, NotificationViewSet, SubCategoryViewSet,
-    TicketAuditViewSet
+    TicketAuditViewSet, ModeratorReviewViewSet
 )
+from django.conf import settings
+from django.conf.urls.static import static
 
 router = routers.DefaultRouter()
 
@@ -37,13 +39,18 @@ router.register(
     SubCategoryViewSet
 )
 router.register(
-    r'tickets/(?P<ticket>\d+)/comments',
-    CommentViewSet
+    r'tickets/(?P<ticket>\d+)/reviews',
+    ReviewViewSet
 )
 router.register(
     r'tickets/(?P<ticket>\d+)/audit',
     TicketAuditViewSet,
     basename='ticket-audit'
+)
+router.register(
+    'reviews',
+    ModeratorReviewViewSet,
+    basename='moderator-reviews'
 )
 
 urlpatterns = [
@@ -74,3 +81,6 @@ urlpatterns += [
    url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0),
        name='schema-redoc'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
