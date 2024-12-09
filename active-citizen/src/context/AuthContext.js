@@ -4,12 +4,15 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const checkAuth = async () => {
+            setIsLoading(true);
             const token = localStorage.getItem('accessToken');
             if (!token) {
                 setIsAuthenticated(false);
+                setIsLoading(false);
                 return;
             }
             try {
@@ -30,6 +33,8 @@ export const AuthProvider = ({ children }) => {
             } catch (error) {
                 console.error('Ошибка проверки токена:', error);
                 setIsAuthenticated(false);
+            } finally {
+                setIsLoading(false);
             }
         };
 
@@ -42,7 +47,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, isLoading, setIsAuthenticated, logout }}>
             {children}
         </AuthContext.Provider>
     );
