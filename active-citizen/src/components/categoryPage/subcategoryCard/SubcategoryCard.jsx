@@ -5,6 +5,7 @@ import SelectButton from './../../selectButton/SelectButton'
 function SubcategoryCard({ subcategory, categoryId, categoryTitle }) {
     const navigate = useNavigate();
     const subcategoryTitle = subcategory.title;
+    const subcategoryId = subcategory.id;
 
     const handleSelect = () => {
         navigate('/create-appeal', {
@@ -12,6 +13,7 @@ function SubcategoryCard({ subcategory, categoryId, categoryTitle }) {
                 categoryId,
                 subcategoryTitle,
                 categoryTitle,
+                subcategoryId,
             },
         });
     };

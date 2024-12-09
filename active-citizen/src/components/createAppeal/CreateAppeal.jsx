@@ -1,7 +1,7 @@
 import Header from './../header/Header'
 import './../createAppeal/createAppeal.css'
 import { useLocation } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import SelectList from '../selectList/SelectList'
 import ImageUploader from '../imageUploader/ImageUploader'
 import AddressPicker from '../addressPicker/AddressPicker'
@@ -13,14 +13,20 @@ function CreateAppeal() {
     const { 
         categoryId: initialCategoryId, 
         categoryTitle: initialCategoryTitle,
-        subcategoryTitle: initialSubcategory 
+        subcategoryTitle: initialSubcategory,
+        subcategoryId: initialSubcategoryId
     } = location.state || {};
     const [categories, setCategories] = useState([]);
     const [subcategories, setSubcategories] = useState([]);
     const [selectedCategoryId, setSelectedCategoryId] = useState(initialCategoryId || '');
     const [selectedCategoryTitle, setSelectedCategoryTitle] = useState(initialCategoryTitle || '');
+    const [selectedSubcategoryId, setSelectedSubcategoryId] = useState(initialSubcategoryId || '');
     const [selectedSubcategory, setSelectedSubcategory] = useState(initialSubcategory || '');
     const [error, setError] = useState(null);
+    const [address, setAddress] = useState('');
+
+    const titleRef = useRef();
+    const bodyRef = useRef();
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -41,7 +47,7 @@ function CreateAppeal() {
             }
         };
         fetchCategories();
-    }, []);
+    }, [accessToken]);
 
     useEffect(() => {
         if (!selectedCategoryId) return;
@@ -65,16 +71,70 @@ function CreateAppeal() {
         };
 
         fetchSubcategories();
-    }, [selectedCategoryId]);
+    }, [selectedCategoryId, accessToken]);
 
-    if (error) return <div>Error: {error}</div>;
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError(null);
+    
+        const title = titleRef.current.value;
+        const body = bodyRef.current.value;
+    
+        if (!title) {
+            setError((x) => x+'title');
+            return;
+        } 
+        if (!body) {
+            setError('body');
+            return;
+        }
+        if (!address) {
+            setError('address');
+            return;
+        }
+        if (!selectedCategoryId) {
+            setError('selectedCategoryId');
+            return;
+        }
+        if (!selectedSubcategoryId) {
+            setError('selectedSubcategoryId');
+            return;
+        }
+    
+        try {
+            const response = await fetch(`${API_URL}/tickets/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify({
+                    title,
+                    body,
+                    address,
+                    category: selectedCategoryId,
+                    subcategory: selectedSubcategoryId,
+                }),
+            });
+    
+            if (!response.ok) {
+                const errorData = await response.json();
+                setError(errorData.detail || 'Ошибка при создании заявки.');
+                return;
+            }
+    
+            alert('Заявка успешно создана!');
+        } catch (err) {
+            setError('Ошибка при отправке данных на сервер.');
+        }
+    };
 
     return (
         <div className='App'>
             <Header />
             <section className='page_content'>
                 <h1 className='text-title'>Создание заявки</h1>
-                <form className='create-appeal__form'>
+                <form className='create-appeal__form' onSubmit={handleSubmit}>
                     <div className="appeal-form__title">
                         <h2 className='appeal-form__title_text'>Категории</h2>
                         <hr className='appeal-form__title_line' />
@@ -88,13 +148,18 @@ function CreateAppeal() {
                                 setSelectedCategoryId(category?.id || '');
                                 setSelectedCategoryTitle(categoryTitle);
                                 setSelectedSubcategory('');
+                                setSelectedSubcategoryId('');
                             }}
                             placeholder="Выберите категорию"
                         />
                         <SelectList
                             options={subcategories.map((sub) => sub.title)}
                             value={selectedSubcategory}
-                            onChange={(subcategory) => setSelectedSubcategory(subcategory)}
+                            onChange={(subcategoryTitle) => {
+                                const subcategory = subcategories.find((sub) => sub.title === subcategoryTitle);
+                                setSelectedSubcategoryId(subcategory?.id || '');
+                                setSelectedSubcategory(subcategoryTitle);
+                            }}
                             placeholder="Выберите подкатегорию"
                         />
                     </div>
@@ -114,7 +179,12 @@ function CreateAppeal() {
                                 </div>
                             </div>
                             <div className="appeal-form__input-container appeal-form__input-theme">
-                                <textarea type="text" className='appeal-form__input_theme appeal-form__input' placeholder='Введите тему обращения' />
+                                <textarea
+                                    ref={titleRef}
+                                    type="text"
+                                    className='appeal-form__input_theme appeal-form__input'
+                                    placeholder='Введите тему обращения'
+                                />
                             </div>                            
                         </div>
                         <div className="appeal-form__item appeal-form__item-text">
@@ -128,7 +198,12 @@ function CreateAppeal() {
                                 </div>                                
                             </div>
                             <div className="appeal-form__input-container">
-                                <textarea type="text" className='appeal-form__input_disc appeal-form__input' placeholder='Подробности...' />
+                                <textarea
+                                    ref={bodyRef}
+                                    type="text"
+                                    className='appeal-form__input_disc appeal-form__input'
+                                    placeholder='Подробности...'
+                                />
                             </div>                            
                         </div>
                         <div className="appeal-form__item">
@@ -141,7 +216,7 @@ function CreateAppeal() {
                                     </div>
                                 </div>                                
                             </div>
-                            <AddressPicker />
+                            <AddressPicker onAddressChange={setAddress} />;
                         </div>
                         <div className="appeal-form__item">
                             <div className="appeal-form__item_label">
@@ -158,11 +233,12 @@ function CreateAppeal() {
                             </div>
                         </div>
                     </div>
+                    {error && <div>{error}</div>}
                     <button type='submit' className='appeal-form_button'>Отправить на модерацию</button>
                 </form>
             </section>
         </div>
-    )
+    );
 }
 
 export default CreateAppeal;

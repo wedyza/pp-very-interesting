@@ -3,13 +3,17 @@ import './addressPicker.css'
 import { YMaps, Map, Placemark } from 'react-yandex-maps'
 import {API_KEY} from '../../constants'
 
-const AddressPicker = () => {
+const AddressPicker = ({ onAddressChange }) => {
     const [coords, setCoords] = useState([55.751574, 37.573856]);
     const [address, setAddress] = useState('');
     const [prevAddress, setPrevAddress] = useState('');
 
     const handleAddressChange = (e) => {
-        setAddress(e.target.value);
+        const newAddress = e.target.value;
+        setAddress(newAddress);
+        if (onAddressChange) {
+            onAddressChange(newAddress);
+        }
     };
 
     const handleAddressBlur = async () => {
@@ -46,7 +50,12 @@ const AddressPicker = () => {
             const data = await response.json();
             const result =
                 data.response.GeoObjectCollection.featureMember[0]?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text;
-            setAddress(result || 'Адрес не найден');
+
+            const newAddress = result || 'Адрес не найден';
+            setAddress(newAddress);
+            if (onAddressChange) {
+                onAddressChange(newAddress);
+            }
         } catch (error) {
             console.error('Ошибка при обратном геокодировании:', error);
             setAddress('Ошибка получения адреса');
@@ -74,7 +83,7 @@ const AddressPicker = () => {
                 className="address-input"
                 value={address}
                 onChange={handleAddressChange}
-                onBlur={handleAddressBlur} 
+                onBlur={handleAddressBlur}
                 placeholder="Введите адрес"
             />
         </div>
