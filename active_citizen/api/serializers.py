@@ -32,19 +32,16 @@ class TicketAuditSerializer(serializers.ModelSerializer):
         read_only_fields = ("user", )
 
 
+class TicketCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ticket
+        fields = '__all__'
+        read_only_fields = ("user", )
+
+
 class TicketSerializer(serializers.ModelSerializer):
     category = serializers.StringRelatedField()
     subcategory = serializers.StringRelatedField()
-
-    def create(self, validated_data):
-        if 'category' in self.initial_data:
-            category = get_object_or_404(Category, pk=self.initial_data['category'])
-            validated_data['category'] = category
-        if 'subcategory' in self.initial_data:
-            subcategory = get_object_or_404(SubCategory, pk=self.initial_data['subcategory'])
-            validated_data['subcategory'] = subcategory
-        ticket = Ticket.objects.create(**validated_data)
-        return ticket
 
     class Meta:
         model = Ticket

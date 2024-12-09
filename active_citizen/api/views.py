@@ -9,7 +9,7 @@ from .serializers import (
     CustomUserSerializer, TicketSerializer,
     CategorySerializer, NotificationSerializer,
     SubCategorySerializer, ReviewSerializer,
-    TicketAuditSerializer
+    TicketAuditSerializer, TicketCreateSerializer
 )
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -41,9 +41,10 @@ class NotificationViewSet(
     mixins.ListModelMixin,
     mixins.UpdateModelMixin
 ):
-    queryset = Notification.objects.all()
     serializer_class = NotificationSerializer
 
+    def get_queryset(self):
+        return Notification.objects.filter(user=self.request.user)
 
 class TicketViewSet(viewsets.ModelViewSet):
     queryset = Ticket.objects.all()
@@ -51,9 +52,14 @@ class TicketViewSet(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend, )
     filterset_fields = ('draft',)
 
+    def get_serializer(self, *args, **kwargs):
+        if self.action == 'create' or self.action == 'update' or self.action == 'partial_update':
+            return TicketCreateSerializer(*args, **kwargs)
+        return super().get_serializer(*args, **kwargs)
+
     def get_queryset(self):
         return Ticket.objects.filter(user__id=self. request.user.id)
-    
+
     def perform_update(self, serializer):
         if not serializer.instance.draft:
             ticket_audit = TicketAuditSerializer(data=serializer.instance.__dict__)
@@ -70,15 +76,6 @@ class TicketViewSet(viewsets.ModelViewSet):
         tickets = self.serializer_class(Ticket.objects.filter(draft=False), many=True)
         return Response(tickets.data)
 
-    # @action(detail=True, url_path='save', methods=['POST'])
-    # def save_audit(self, request):
-    #     ticket = Ticket.objects.filter(id=self.kwargs['ticket']).get()
-    #     serializer = TicketAuditSerializer(data=request.data, ticket=ticket)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data)
-    #     return Response(serializer.errors)
-
 
 class SubCategoryViewSet(viewsets.ModelViewSet):
     queryset = SubCategory.objects.all()
@@ -91,7 +88,6 @@ class SubCategoryViewSet(viewsets.ModelViewSet):
     
     def perform_create(self, serializer):
         category = get_object_or_404(Category, pk=self.kwargs['category'])
-        print(category)
         serializer.save(category=category)
 
 

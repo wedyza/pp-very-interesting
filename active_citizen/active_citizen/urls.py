@@ -33,7 +33,7 @@ router = routers.DefaultRouter()
 router.register('categories', CategoryViewSet)
 router.register('users', CustomUserViewSet)
 router.register('tickets', TicketViewSet)
-router.register('notifications', NotificationViewSet)
+router.register('notifications', NotificationViewSet, basename='notifications')
 router.register(
     r'categories/(?P<category>\d+)/subcategories',
     SubCategoryViewSet
