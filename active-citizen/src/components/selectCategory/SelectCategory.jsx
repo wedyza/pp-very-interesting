@@ -37,7 +37,6 @@ function SelectCategory() {
         setFilteredCategories(results);
     };
 
-    if (error) return <div>{error}</div>;
 
     return (
         <div className="select-category">
@@ -57,7 +56,12 @@ function SelectCategory() {
                     placeholder="Начните искать категорию"
                 />
             </div>
-            <CategoryCardList categories={filteredCategories} />
+            {error ? (
+                <div>Не удалось получить категории</div>
+            ) : (
+                <CategoryCardList categories={filteredCategories} />
+            )}
+            
         </div>
     );
 }

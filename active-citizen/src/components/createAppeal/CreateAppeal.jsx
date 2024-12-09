@@ -20,13 +20,10 @@ function CreateAppeal() {
     const [selectedCategoryId, setSelectedCategoryId] = useState(initialCategoryId || '');
     const [selectedCategoryTitle, setSelectedCategoryTitle] = useState(initialCategoryTitle || '');
     const [selectedSubcategory, setSelectedSubcategory] = useState(initialSubcategory || '');
-    const [loadingCategories, setLoadingCategories] = useState(false);
-    const [loadingSubcategories, setLoadingSubcategories] = useState(false);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchCategories = async () => {
-            setLoadingCategories(true);
             try {
                 const response = await fetch(`${API_URL}/categories/`, {
                     headers: {
@@ -41,8 +38,6 @@ function CreateAppeal() {
                 setCategories(data);
             } catch (err) {
                 setError(err.message);
-            } finally {
-                setLoadingCategories(false);
             }
         };
         fetchCategories();
@@ -52,7 +47,6 @@ function CreateAppeal() {
         if (!selectedCategoryId) return;
 
         const fetchSubcategories = async () => {
-            setLoadingSubcategories(true);
             try {
                 const response = await fetch(`${API_URL}/categories/${selectedCategoryId}/subcategories/`, {
                     headers: {
@@ -67,22 +61,12 @@ function CreateAppeal() {
                 setSubcategories(data);
             } catch (err) {
                 setError(err.message);
-            } finally {
-                setLoadingSubcategories(false);
             }
         };
 
         fetchSubcategories();
     }, [selectedCategoryId]);
 
-    const handleCategoryChange = (categoryTitle) => {
-        const category = categories.find((cat) => cat.title === categoryTitle);
-        setSelectedCategoryId(category?.id || '');
-        setSelectedCategoryTitle(categoryTitle);
-        setSelectedSubcategory('');
-    };
-
-    if (loadingCategories) return <div>Loading categories...</div>;
     if (error) return <div>Error: {error}</div>;
 
     return (
@@ -102,6 +86,7 @@ function CreateAppeal() {
                             onChange={(categoryTitle) => {
                                 const category = categories.find((cat) => cat.title === categoryTitle);
                                 setSelectedCategoryId(category?.id || '');
+                                setSelectedCategoryTitle(categoryTitle);
                                 setSelectedSubcategory('');
                             }}
                             placeholder="Выберите категорию"
