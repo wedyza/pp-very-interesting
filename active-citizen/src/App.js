@@ -10,21 +10,58 @@ import CreateAppeal from './components/createAppeal/CreateAppeal'
 import './styles/media.css'
 import Registration from './components/registration/Registration'
 import ModeratorIndex from './components/moderatorIndex/ModeratorIndex'
+import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
   return (
     <Routes>
-         <Route path="/login" element={<Login />}/>
-         <Route path="/registration" element={<Registration />}/>
-         <Route path="/" element={<UserIndex />}/>
-         <Route path="/moderator" element={<ModeratorIndex />}/>
-         <Route path="/notifications" element={<NotificationsPage />}/>
-         <Route path="/history" element={<HistoryPage />}/>
-         <Route path="/profile" element={<ProfilePage />}/>
-         <Route path="/category/:categoryId" element={<CategoryPage />} />
-         <Route path="/appeal/:appealId" element={<AppealPage />} />
-         <Route path="/create-appeal" element={<CreateAppeal />} />
-     </Routes>
+      <Route path="/login" element={<Login />}/>
+      <Route path="/registration" element={<Registration />}/>
+      <Route path="/" element={<UserIndex />}/>
+      <Route path="/moderator" element={<ModeratorIndex />}/>
+      <Route 
+        path="/notifications" 
+        element={
+          <ProtectedRoute>
+            <NotificationsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route 
+        path="/history" 
+        element={
+          <ProtectedRoute>
+            <HistoryPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route 
+        path="/profile" 
+        element={
+          <ProtectedRoute>
+            <ProfilePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route path="/category/:categoryId" element={<CategoryPage />}
+      />
+      <Route 
+        path="/appeal/:appealId" 
+        element={
+          <ProtectedRoute>
+            <AppealPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route 
+        path="/create-appeal" 
+        element={
+          <ProtectedRoute>
+            <CreateAppeal />
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
   );
 }
 

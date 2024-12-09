@@ -2,6 +2,7 @@ import './registration.css'
 import logo from '../../img/login-logo.svg'
 import { useState } from 'react'
 import { API_URL } from '../../constants'
+import { useNavigate } from 'react-router-dom'
 
 function Registration() {
     const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ function Registration() {
 
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -37,7 +39,7 @@ function Registration() {
             if (response.ok) {
                 const data = await response.json();
                 setSuccessMessage('Аккаунт успешно создан!');
-                console.log('Response:', data);
+                navigate('/login');
             } else {
                 const errorData = await response.json();
                 setErrorMessage(errorData.detail || 'Ошибка при создании аккаунта');

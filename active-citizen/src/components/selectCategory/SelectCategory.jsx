@@ -16,7 +16,6 @@ function SelectCategory() {
                 const response = await fetch(`${API_URL}/categories/`, {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${accessToken}`,
                     },
                 });
                 if (!response.ok) {

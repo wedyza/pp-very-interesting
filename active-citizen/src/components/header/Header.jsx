@@ -52,7 +52,6 @@ function Header () {
                         </Link>
                     </div>
                 )}
-                
             </div>
         </header>
     )

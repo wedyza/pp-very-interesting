@@ -1,12 +1,16 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import './login.css'
 import logo from '../../img/login-logo.svg'
 import { API_URL } from '../../constants'
+import { useNavigate } from 'react-router-dom'
+import { AuthContext } from '../../context/AuthContext'
 
 function Login() {
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
+    const { setIsAuthenticated } = useContext(AuthContext);
 
     const handlePhoneChange = (e) => setPhone(e.target.value);
     const handlePasswordChange = (e) => setPassword(e.target.value);
@@ -29,10 +33,10 @@ function Login() {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log('Access Token:', data.access);
-                console.log('Refresh Token:', data.refresh);
                 localStorage.setItem('accessToken', data.access);
                 localStorage.setItem('refreshToken', data.refresh);
+                setIsAuthenticated(true);
+                navigate('/');
             } else {
                 const errorData = await response.json();
                 setError(errorData.detail || 'Не удалось войти');

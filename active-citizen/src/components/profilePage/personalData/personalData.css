@@ -9,7 +9,6 @@
     grid-template-areas: 
         "avatar name"
         "avatar number"
-        ". email"
         ". rating";
     width: 100%;
     justify-content: space-between;
@@ -47,10 +46,6 @@
 
 .user-info__phone {
     grid-area: number;
-}
-
-.user-info__mail {
-    grid-area: email;
 }
 
 .user-info-rating {

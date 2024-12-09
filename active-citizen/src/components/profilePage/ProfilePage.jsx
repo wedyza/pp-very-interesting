@@ -14,7 +14,7 @@ function ProfilePage() {
 
     const handleLogout = () => {
         logout();
-        navigate('/login');
+        navigate('/');
     };
 
     const [activeSection, setActiveSection] = useState(window.innerWidth <= 1060 ? null : 'personalData');
@@ -126,7 +126,7 @@ function ProfilePage() {
                                     </linearGradient>
                                     </defs>
                                 </svg>
-                                <button onClick={handleLogout}>Выйти</button>
+                                <button onClick={handleLogout}><span>Выйти</span></button>
                             </div>
                         </nav>
                     </div>
@@ -137,7 +137,6 @@ function ProfilePage() {
                             {activeSection === 'aboutProject' && <AboutProject />}
                         </div>
                     )}
-                        
                 </div>
             </section>
         </div>

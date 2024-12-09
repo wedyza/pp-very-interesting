@@ -195,7 +195,6 @@
         grid-template-areas: 
             "avatar name"
             "number number"
-            "email email"
             "rating rating";
         gap: 16px;
     }
@@ -347,7 +346,6 @@
             "avatar"
             "name"
             "number"
-            "email"
             "rating";
         gap: 12px;
     }

@@ -65,6 +65,7 @@
 }
 
 .profile__nav__exit .profile__nav__item_icon path {
+    stroke: none;
     fill: var(--gray-text);
     transition: fill .3s ease;
 }

@@ -22,7 +22,6 @@ function CategoryPage() {
                 const response = await fetch(`${API_URL}/categories/${categoryId}/subcategories/`, {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${accessToken}`,
                     },
                 });
                 if (!response.ok) {
