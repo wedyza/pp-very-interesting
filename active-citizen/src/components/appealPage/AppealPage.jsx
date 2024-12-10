@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 import empty from './../../img/empty.jpg'
 import { YMaps, Map, Placemark } from 'react-yandex-maps'
 import {API_KEY, API_URL} from '../../constants'
+import useCoordinates from '../../hooks/useCoordinates'
 
 function AppealPage () {
     const { appealId } = useParams();
@@ -35,32 +36,7 @@ function AppealPage () {
         fetchNotifications();
     }, []);
 
-    const fetchCoordinates = async (address) => {
-        const geocodeUrl = `https://geocode-maps.yandex.ru/1.x/?apikey=${API_KEY}&geocode=${address}&format=json`;
-        try {
-            const response = await fetch(geocodeUrl);
-            const data = await response.json();
-            const geoObject = data.response.GeoObjectCollection.featureMember[0]?.GeoObject;
-
-            if (geoObject) {
-                const pos = geoObject.Point.pos.split(' ').map(Number);
-                return [pos[1], pos[0]];
-            }
-        } catch (error) {
-            console.error('Ошибка при геокодировании адреса:', error);
-        }
-        return null;
-    };
-
-    const [coords, setCoords] = useState(null);
-
-    if (!coords && appeal?.adress) {
-        fetchCoordinates(appeal.adress).then((newCoords) => {
-            if (newCoords) {
-                setCoords(newCoords);
-            }
-        });
-    }
+    const coords = useCoordinates(appeal.address);
 
     return (
         <div className='App'>

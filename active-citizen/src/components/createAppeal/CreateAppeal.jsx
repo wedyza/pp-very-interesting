@@ -216,7 +216,7 @@ function CreateAppeal() {
                                     </div>
                                 </div>                                
                             </div>
-                            <AddressPicker onAddressChange={setAddress} />;
+                            <AddressPicker onAddressChange={setAddress} />
                         </div>
                         <div className="appeal-form__item">
                             <div className="appeal-form__item_label">
