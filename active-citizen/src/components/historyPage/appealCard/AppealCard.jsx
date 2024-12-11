@@ -35,6 +35,9 @@ function AppealCard ({appeal}) {
             </div>
             {appeal.status == 'Принято' ?
                 <AppealOptions showHistory />
+            : 
+            appeal.status == 'Отклонено' ?
+                <AppealOptions showDelete showHistory />
             :
                 <AppealOptions showDelete showEdit showHistory />
             }

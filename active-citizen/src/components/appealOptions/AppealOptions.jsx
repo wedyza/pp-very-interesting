@@ -5,15 +5,15 @@ function AppealOptions ({ showDelete = false, showEdit = false, showHistory = fa
         <div className="appeal-options">
             {showDelete &&
                 <button className='appeal-options__delete'>
-                    <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M13 13.5L7.00002 7.50002M7.00002 7.50002L1 1.5M7.00002 7.50002L13 1.5M7.00002 7.50002L1 13.5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12.5 12.5L7.00002 7.00002M7.00002 7.00002L1.5 1.5M7.00002 7.00002L12.5 1.5M7.00002 7.00002L1.5 12.5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                 </button>
             }
             {showEdit &&
                 <a href='#' className='appeal-options__edit'>
-                    <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12.3632 3.15156L13.8431 1.67157C14.6242 0.890524 15.8905 0.890524 16.6716 1.67157L18.0858 3.08579C18.8668 3.86683 18.8668 5.13316 18.0858 5.91421L16.6058 7.3942M12.3632 3.15156L2.74749 12.7672C2.41542 13.0993 2.21079 13.5376 2.16947 14.0054L1.92738 16.7459C1.87261 17.3659 2.39148 17.8848 3.0115 17.83L5.75191 17.5879C6.21972 17.5466 6.65806 17.3419 6.99013 17.0099L16.6058 7.3942M12.3632 3.15156L16.6058 7.3942" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M13.1659 5.18093L14.4047 3.94212C15.1858 3.16107 16.4521 3.16107 17.2331 3.94212L18.2938 5.00278C19.0748 5.78383 19.0748 7.05016 18.2938 7.83121L17.055 9.07001M13.1659 5.18093L4.39438 13.9524C4.06231 14.2845 3.85768 14.7229 3.81635 15.1907L3.60853 17.5433C3.55376 18.1633 4.07263 18.6822 4.69264 18.6274L7.04525 18.4196C7.51305 18.3782 7.95139 18.1736 8.28347 17.8415L17.055 9.07001M13.1659 5.18093L17.055 9.07001" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                 </a>
             }
