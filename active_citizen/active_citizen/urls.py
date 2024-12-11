@@ -36,11 +36,13 @@ router.register('tickets', TicketViewSet)
 router.register('notifications', NotificationViewSet, basename='notifications')
 router.register(
     r'categories/(?P<category>\d+)/subcategories',
-    SubCategoryViewSet
+    SubCategoryViewSet,
+    basename='subcategories'
 )
 router.register(
     r'tickets/(?P<ticket>\d+)/reviews',
-    ReviewViewSet
+    ReviewViewSet,
+    basename='reviews'
 )
 router.register(
     r'tickets/(?P<ticket>\d+)/audit',

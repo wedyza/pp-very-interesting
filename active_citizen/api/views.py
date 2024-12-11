@@ -78,7 +78,6 @@ class TicketViewSet(viewsets.ModelViewSet):
 
 
 class SubCategoryViewSet(viewsets.ModelViewSet):
-    queryset = SubCategory.objects.all()
     serializer_class = SubCategorySerializer
     permission_classes = (AdminOrReadOnly,)
 
@@ -92,7 +91,6 @@ class SubCategoryViewSet(viewsets.ModelViewSet):
 
 
 class ReviewViewSet(viewsets.ModelViewSet):
-    queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
     def get_queryset(self):

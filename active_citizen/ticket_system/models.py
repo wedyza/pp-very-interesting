@@ -87,10 +87,17 @@ class Media(models.Model):
 
 
 class BaseMainTicket(BaseTicket):
-    address = models.CharField(
-        'Адрес проблемы',
-        null=True,
-        max_length=100
+    longtitude = models.DecimalField(
+        'Долгота',
+        max_digits=9,
+        decimal_places=6,
+        null=True
+    )
+    latitude = models.DecimalField(
+        'Широта',
+        max_digits=9,
+        decimal_places=6,
+        null=True
     )
     time = models.DateTimeField(
         'Время проишествия',
