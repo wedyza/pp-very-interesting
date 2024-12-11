@@ -7,13 +7,14 @@ import { Link } from 'react-router-dom'
 import empty from './../../img/empty.jpg'
 import { YMaps, Map, Placemark } from 'react-yandex-maps'
 import {API_KEY, API_URL} from '../../constants'
-import useCoordinates from '../../hooks/useCoordinates'
 
 function AppealPage () {
     const { appealId } = useParams();
     const accessToken = localStorage.getItem('accessToken');
     const [appeal, setAppeal] = useState([]);
     const [error, setError] = useState(null);
+    const [address, setAddress] = useState('');
+    const [isFetching, setIsFetching] = useState(false);
 
     useEffect(() => {
         const fetchNotifications = async () => {
@@ -36,7 +37,34 @@ function AppealPage () {
         fetchNotifications();
     }, []);
 
-    const coords = useCoordinates(appeal.address);
+
+    useEffect(() => {
+        const fetchAddress = async () => {
+            if (!appeal || isFetching || !appeal.latitude || !appeal.longtitude) return;
+
+            setIsFetching(true);
+
+            const geocodeUrl = `https://geocode-maps.yandex.ru/1.x/?apikey=${API_KEY}&geocode=${appeal.longtitude},${appeal.latitude}&format=json`;
+            try {
+                const response = await fetch(geocodeUrl);
+                const data = await response.json();
+                const geoObject = data.response.GeoObjectCollection.featureMember[0]?.GeoObject;
+
+                if (geoObject) {
+                    const fetchedAddress = geoObject.metaDataProperty.GeocoderMetaData.text;
+                    setAddress(fetchedAddress);
+                }
+            } catch (err) {
+                console.error('Ошибка при обратном геокодировании координат:', err);
+            } finally {
+                setIsFetching(false);
+            }
+        };
+
+        fetchAddress();
+    }, [appeal]);
+    
+    const coords = [appeal.latitude, appeal.longtitude];
 
     return (
         <div className='App'>
@@ -92,7 +120,7 @@ function AppealPage () {
                         <div className="map appeal-info__address_value">
                             <div className="map-container">
                                 <YMaps>
-                                {coords ? (
+                                    {coords ? (
                                         <Map
                                             state={{
                                                 center: coords,
@@ -109,7 +137,7 @@ function AppealPage () {
                                 </YMaps>
                             </div>
                             <div className="appeal-info__item_value appeal-address__value">
-                                {appeal.address}
+                                {address}
                             </div>
                         </div>
                     </div>

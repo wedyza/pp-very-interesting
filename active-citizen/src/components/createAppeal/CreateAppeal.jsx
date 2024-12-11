@@ -24,6 +24,9 @@ function CreateAppeal() {
     const [selectedSubcategory, setSelectedSubcategory] = useState(initialSubcategory || '');
     const [error, setError] = useState(null);
     const [address, setAddress] = useState('');
+    const [latitude, setLatitude] = useState(null);
+    const [longtitude, setlongtitude] = useState(null);
+
 
     const titleRef = useRef();
     const bodyRef = useRef();
@@ -81,25 +84,28 @@ function CreateAppeal() {
         const body = bodyRef.current.value;
     
         if (!title) {
-            setError((x) => x+'title');
-            return;
-        } 
-        if (!body) {
-            setError('body');
+            setError('Укажите тему обращения.');
             return;
         }
-        if (!address) {
-            setError('address');
+        if (!body) {
+            setError('Укажите описание проблемы.');
+            return;
+        }
+        if (!latitude || !longtitude) {
+            setError('Выберите местоположение.');
             return;
         }
         if (!selectedCategoryId) {
-            setError('selectedCategoryId');
+            setError('Выберите категорию.');
             return;
         }
         if (!selectedSubcategoryId) {
-            setError('selectedSubcategoryId');
+            setError('Выберите подкатегорию.');
             return;
         }
+
+        const roundedLatitude = parseFloat(latitude.toFixed(6));
+        const roundedlongtitude = parseFloat(longtitude.toFixed(6));
     
         try {
             const response = await fetch(`${API_URL}/tickets/`, {
@@ -111,7 +117,8 @@ function CreateAppeal() {
                 body: JSON.stringify({
                     title,
                     body,
-                    address,
+                    latitude: roundedLatitude,
+                    longtitude: roundedlongtitude,
                     category: selectedCategoryId,
                     subcategory: selectedSubcategoryId,
                 }),
@@ -128,6 +135,12 @@ function CreateAppeal() {
             setError('Ошибка при отправке данных на сервер.');
         }
     };
+
+    const handleAddressChange = (newAddress) => {
+        setLatitude(newAddress.latitude);
+        setlongtitude(newAddress.longtitude);
+    };
+    
 
     return (
         <div className='App'>
@@ -216,7 +229,7 @@ function CreateAppeal() {
                                     </div>
                                 </div>                                
                             </div>
-                            <AddressPicker onAddressChange={setAddress} />
+                            <AddressPicker onAddressChange={handleAddressChange} />
                         </div>
                         <div className="appeal-form__item">
                             <div className="appeal-form__item_label">

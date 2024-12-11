@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import './addressPicker.css'
-import { YMaps, Map, Placemark } from 'react-yandex-maps'
-import {API_KEY} from '../../constants'
+import React, { useState } from 'react';
+import './addressPicker.css';
+import { YMaps, Map, Placemark } from 'react-yandex-maps';
+import { API_KEY } from '../../constants';
 
 const AddressPicker = ({ onAddressChange }) => {
     const [coords, setCoords] = useState([55.751574, 37.573856]);
@@ -11,9 +11,6 @@ const AddressPicker = ({ onAddressChange }) => {
     const handleAddressChange = (e) => {
         const newAddress = e.target.value;
         setAddress(newAddress);
-        if (onAddressChange) {
-            onAddressChange(newAddress);
-        }
     };
 
     const handleAddressBlur = async () => {
@@ -32,6 +29,10 @@ const AddressPicker = ({ onAddressChange }) => {
                 const pos = geoObject.Point.pos.split(' ').map(Number);
                 const newCoords = [pos[1], pos[0]];
                 setCoords(newCoords);
+
+                if (onAddressChange) {
+                    onAddressChange({ latitude: newCoords[0], longtitude: newCoords[1] });
+                }
             } else {
                 console.warn('Адрес не найден');
             }
@@ -53,8 +54,9 @@ const AddressPicker = ({ onAddressChange }) => {
 
             const newAddress = result || 'Адрес не найден';
             setAddress(newAddress);
+
             if (onAddressChange) {
-                onAddressChange(newAddress);
+                onAddressChange({ latitude: newCoords[0], longtitude: newCoords[1] });
             }
         } catch (error) {
             console.error('Ошибка при обратном геокодировании:', error);

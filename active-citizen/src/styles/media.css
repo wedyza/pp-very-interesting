@@ -97,7 +97,11 @@
     }
 
     .map {
-        max-width: 400px;
+        width: 100%;
+    }
+    
+    .appeal-address__value {
+        max-width: 100%;
     }
 
     .search {
