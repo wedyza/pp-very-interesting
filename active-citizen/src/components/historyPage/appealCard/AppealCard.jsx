@@ -32,8 +32,13 @@ function AppealCard ({appeal}) {
                     <span className='appeal-card__comm_label appeal-card__label'>Комментарий:</span>
                     <span className='appeal-card__comm_value'>{appeal.comment}</span>
                 </div>
-            </div>     
-            <AppealOptions />
+            </div>
+            {appeal.status == 'Принято' ?
+                <AppealOptions showHistory />
+            :
+                <AppealOptions showDelete showEdit showHistory />
+            }
+            
         </div>
     )
 }

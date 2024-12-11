@@ -29,7 +29,7 @@ function DraftCard ({draft}) {
                     </span>
                 </div>
             </div>
-            <AppealOptions />
+            <AppealOptions showDelete showEdit />
         </div>
     )
 }

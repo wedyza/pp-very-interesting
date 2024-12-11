@@ -1,18 +1,31 @@
 import './../appealOptions/appealOptions.css'
 
-function AppealOptions () {
+function AppealOptions ({ showDelete = false, showEdit = false, showHistory = false }) {
     return (
         <div className="appeal-options">
-            <button className='appeal-options__delete'>
-                <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M13 13.5L7.00002 7.50002M7.00002 7.50002L1 1.5M7.00002 7.50002L13 1.5M7.00002 7.50002L1 13.5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-            </button>
-            <a href='#' className='appeal-options__edit'>
-                <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12.3632 3.15156L13.8431 1.67157C14.6242 0.890524 15.8905 0.890524 16.6716 1.67157L18.0858 3.08579C18.8668 3.86683 18.8668 5.13316 18.0858 5.91421L16.6058 7.3942M12.3632 3.15156L2.74749 12.7672C2.41542 13.0993 2.21079 13.5376 2.16947 14.0054L1.92738 16.7459C1.87261 17.3659 2.39148 17.8848 3.0115 17.83L5.75191 17.5879C6.21972 17.5466 6.65806 17.3419 6.99013 17.0099L16.6058 7.3942M12.3632 3.15156L16.6058 7.3942" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-            </a>
+            {showDelete &&
+                <button className='appeal-options__delete'>
+                    <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M13 13.5L7.00002 7.50002M7.00002 7.50002L1 1.5M7.00002 7.50002L13 1.5M7.00002 7.50002L1 13.5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                </button>
+            }
+            {showEdit &&
+                <a href='#' className='appeal-options__edit'>
+                    <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12.3632 3.15156L13.8431 1.67157C14.6242 0.890524 15.8905 0.890524 16.6716 1.67157L18.0858 3.08579C18.8668 3.86683 18.8668 5.13316 18.0858 5.91421L16.6058 7.3942M12.3632 3.15156L2.74749 12.7672C2.41542 13.0993 2.21079 13.5376 2.16947 14.0054L1.92738 16.7459C1.87261 17.3659 2.39148 17.8848 3.0115 17.83L5.75191 17.5879C6.21972 17.5466 6.65806 17.3419 6.99013 17.0099L16.6058 7.3942M12.3632 3.15156L16.6058 7.3942" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                </a>
+            }
+            {showHistory &&
+                <a href='#' className='appeal-options__history'>
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fillRule="evenodd" clipRule="evenodd" d="M10.6862 6.28613C11.0333 6.28613 11.3148 6.56755 11.3148 6.9147L11.3148 11.3147L15.7148 11.3147C16.0619 11.3147 16.3433 11.5961 16.3433 11.9433C16.3433 12.2904 16.0619 12.5718 15.7148 12.5718L10.6862 12.5718C10.339 12.5718 10.0576 12.2904 10.0576 11.9433L10.0576 6.9147C10.0576 6.56755 10.339 6.28613 10.6862 6.28613Z" fill="#EBE7FF"/>
+                        <path fillRule="evenodd" clipRule="evenodd" d="M11.0003 2.52051C15.6832 2.52051 19.4795 6.31676 19.4795 10.9997C19.4795 15.6826 15.6832 19.4788 11.0003 19.4788C6.75031 19.4788 3.22951 16.3513 2.61595 12.2724C2.55947 11.8969 2.2093 11.6383 1.83383 11.6948C1.45836 11.7513 1.19976 12.1015 1.25624 12.4769C1.96951 17.2187 6.05977 20.8538 11.0003 20.8538C16.4426 20.8538 20.8545 16.442 20.8545 10.9997C20.8545 5.55737 16.4426 1.14551 11.0003 1.14551C6.95842 1.14551 3.48639 3.57889 1.96641 7.05775C1.81439 7.40569 1.97322 7.81098 2.32115 7.963C2.66908 8.11502 3.07438 7.9562 3.2264 7.60826C4.53546 4.61215 7.52439 2.52051 11.0003 2.52051Z" fill="#EBE7FF"/>
+                        <path fillRule="evenodd" clipRule="evenodd" d="M1.83366 2.0625C1.45396 2.0625 1.14616 2.3703 1.14616 2.75V6.78333C1.14616 7.46679 1.70021 8.02083 2.38366 8.02083H6.41699C6.79669 8.02083 7.10449 7.71303 7.10449 7.33333C7.10449 6.95364 6.79669 6.64583 6.41699 6.64583H2.52116V2.75C2.52116 2.3703 2.21335 2.0625 1.83366 2.0625Z" fill="#EBE7FF"/>
+                    </svg>
+                </a>
+            }
         </div>
     )
 }
