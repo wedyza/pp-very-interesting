@@ -39,6 +39,10 @@ export const AuthProvider = ({ children }) => {
         };
 
         checkAuth();
+
+        const interval = setInterval(checkAuth, 15 * 60 * 1000);
+
+        return () => clearInterval(interval);
     }, []);
 
     const logout = () => {
