@@ -41,6 +41,7 @@ body {
     display: flex;
     justify-content: center;
     overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 .page_content {
@@ -57,17 +58,17 @@ body {
 
 .page_content::after {
     content: '';
-    width: 429px;
+    width: 1500px;
     height: 105px;
     position: absolute;
     right: calc(100% + 2px);
-    top: 50px;
-    left: -200px;
+    top: 90px;
+    left: -950px;
     background-image: url('../img/line.svg');
     background-size: cover;
     background-position: center;
     transform: scale(-1, 1);
-    transform: skew(10deg, -10deg);
+    transform: skew(8deg, -8deg);
     z-index: -1;
 }
 

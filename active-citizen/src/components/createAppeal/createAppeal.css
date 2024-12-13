@@ -114,6 +114,23 @@
     border-radius: 15px;
     font-weight: 600;
     margin-top: 48px;
+    position: relative;
+}
+
+.appeal-form_button::before {
+    content: '';
+    width: 1500px;
+    height: 105px;
+    position: absolute;
+    right: calc(100% + 2px);
+    top: -40px;
+    left: -850px;
+    background-image: url('../../img/line.svg');
+    background-size: cover;
+    background-position: center;
+    transform: scale(-1, 1);
+    transform: skew(-4deg, 4deg);
+    z-index: -1;
 }
 
 .appeal-form__images {

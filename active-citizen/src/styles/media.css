@@ -82,8 +82,8 @@
     }
 
     .page_content::after {
-        top: 60px;
-        left: -150px;       
+        top: 89px;
+        left: -1050px;
     }
     
     .appeal-form__item_label {
@@ -97,11 +97,15 @@
     }
 
     .map {
-        width: 100%;
+        width: 450px;
     }
     
     .appeal-address__value {
         max-width: 100%;
+    }
+
+    .appeal-form_button::before {
+        display: none;
     }
 
     .search {
@@ -245,7 +249,7 @@
     }
 
     .page_content::after {
-        top: 0;
+        top: 40px;
     }
 
     .text-title {
@@ -545,6 +549,10 @@
 
     .appeal-form__input {
         height: calc(100% - 40px);
+    }
+
+    .map {
+        width: 100%;
     }
 
     .map,
