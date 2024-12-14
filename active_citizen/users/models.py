@@ -55,8 +55,8 @@ class CustomAbstractUser(AbstractUser):
 
     first_name = models.CharField('Имя', max_length=40)
     last_name = models.CharField('Фамилия', max_length=40)
-    given_name = models.CharField('Отчество', max_length=40)
-    avatar = models.ImageField()
+    given_name = models.CharField('Отчество', max_length=40, null=True)
+    avatar = models.ImageField(null=True)
     phone_regex = RegexValidator(
         regex=r'^\+7\d{10}$',
         message='Номер телефона должен быть введен в формате +7XXXXXXXXXX.'
