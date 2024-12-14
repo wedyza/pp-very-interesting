@@ -1,0 +1,33 @@
+.admin_change-page__header {
+    display: flex;
+    width: 100%;
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.admin_change-page__header .search {
+    max-width: 100%;
+}
+
+.admin_change-page__add {
+    background-color: var(--blue400);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 239px;
+    width: 100%;
+    border-radius: 15px;
+    font-weight: 600;
+    color: var(--white-text);
+}
+
+.admin-change_list {
+    margin-top: 24px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.admin-change_item {
+    width: calc(50% - 12px);
+}

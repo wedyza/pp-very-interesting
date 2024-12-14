@@ -13,6 +13,10 @@ import ModeratorIndex from './pages/moderatorIndex/ModeratorIndex'
 import ProtectedRoute from './components/ProtectedRoute'
 import ModeratorAppeal from './components/moderatorAppeal/ModeratorAppeal'
 import ModeratorAppealPage from './pages/moderatorAppealPage/ModeratorAppealPage'
+import AdminIndex from './pages/adminIndex/AdminIndex'
+import AdminCategories from './pages/adminCategories/AdminCategories'
+import AdminSubcategories from './pages/adminSubcategories/AdminSubcategories'
+import AdminModerators from './pages/adminModerators/AdminModerators'
 
 function App() {
   return (
@@ -21,6 +25,10 @@ function App() {
       <Route path="/registration" element={<Registration />}/>
       <Route path="/" element={<UserIndex />}/>
       <Route path="/moderator" element={<ModeratorIndex />}/>
+      <Route path="/admin" element={<AdminIndex />}/>
+      <Route path="/admin-categories" element={<AdminCategories />}/>
+      <Route path="/admin-subcategories" element={<AdminSubcategories />}/>
+      <Route path="/admin-moderators" element={<AdminModerators />}/>
       <Route 
         path="/notifications" 
         element={
@@ -45,8 +53,7 @@ function App() {
           </ProtectedRoute>
         }
       />
-      <Route path="/category/:categoryId" element={<CategoryPage />}
-      />
+      <Route path="/category/:categoryId" element={<CategoryPage />}/>
       <Route 
         path="/moderator-appeal/:appealId" 
         element={
