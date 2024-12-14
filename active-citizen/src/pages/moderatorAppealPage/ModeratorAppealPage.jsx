@@ -1,16 +1,14 @@
-import './appealPage.css'
+import './moderatorAppealPage.css'
 import Header from '../../components/header/Header'
 import { useParams } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
-import BackButton from '../../components/backButton/BackButton'
-import { Link } from 'react-router-dom'
 import empty from './../../img/empty.jpg'
 import { YMaps, Map, Placemark } from 'react-yandex-maps'
 import {API_KEY, API_URL} from '../../constants'
 import DateDisplay from '../../components/dateDisplay/DateDisplay'
 import AppealInfo from '../../components/appealInfo/AppealInfo'
 
-function AppealPage () {
+function ModeratorAppealPage () {
     const { appealId } = useParams();
     const accessToken = localStorage.getItem('accessToken');
     const [appeal, setAppeal] = useState([]);
@@ -69,17 +67,30 @@ function AppealPage () {
     const coords = [appeal.latitude, appeal.longtitude];
 
     return (
-        <div className='App'>
+        <div className='App app_moderator'>
             <Header />
-            <section className='page_content'>
-                <Link to={'/notifications'}>
-                    <BackButton />
-                </Link>
-                <h1 className='notifications__title text-title'>Ваше обращение</h1>
-                <AppealInfo appeal={appeal} coords={coords} address={address} />
+            <section className='page_content moderator_page verify-appeal_page'>
+                <div className="verify-appeal">
+                    <h1 className='verify-appeal__title'>Проверка заявки № {appeal.id}</h1>
+                    <AppealInfo appeal={appeal} coords={coords} address={address} />
+                    <div className="verify-appeal_comment">
+                        <span className='verify-appeal_comment__label'>
+                            Комментарий модератора:
+                        </span>
+                        <span className='verify-appeal_comment__disc'>
+                            Оставьте ваш комментарий
+                        </span>
+                        <input className='verify-appeal_comment__input' type="text" placeholder='Комментарий' />
+                        <div className='verify-appeal_comment__btns'>
+                            <button className='verify-appeal_btns__fix verify-appeal_comment__btn'>Отправить на доработку</button>
+                            <button className='verify-appeal_btns__approve verify-appeal_comment__btn'>Одобрить заявку</button>
+                            <button className='verify-appeal_btns__reject verify-appeal_comment__btn'>Отклонить заявку</button>
+                        </div>
+                    </div>
+                </div>
             </section>
         </div>
     )
 }
 
-export default AppealPage
+export default ModeratorAppealPage

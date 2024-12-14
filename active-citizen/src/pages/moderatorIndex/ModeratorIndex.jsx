@@ -135,7 +135,7 @@ function ModeratorIndex() {
     return (
         <div className="App app_moderator">
             <Header />
-            <section className="page_content moderator_page">
+            <section className="page_content moderator_page moderator_index">
                 <ul className="moderator_appeal-list">
                     {processedData.map((appeal) => (
                         <li key={appeal.id} className="moderator_appeal-list__item">

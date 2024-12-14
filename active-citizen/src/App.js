@@ -11,6 +11,8 @@ import './styles/media.css'
 import Registration from './pages/registration/Registration'
 import ModeratorIndex from './pages/moderatorIndex/ModeratorIndex'
 import ProtectedRoute from './components/ProtectedRoute'
+import ModeratorAppeal from './components/moderatorAppeal/ModeratorAppeal'
+import ModeratorAppealPage from './pages/moderatorAppealPage/ModeratorAppealPage'
 
 function App() {
   return (
@@ -44,6 +46,14 @@ function App() {
         }
       />
       <Route path="/category/:categoryId" element={<CategoryPage />}
+      />
+      <Route 
+        path="/moderator-appeal/:appealId" 
+        element={
+          <ProtectedRoute>
+            <ModeratorAppealPage />
+          </ProtectedRoute>
+        }
       />
       <Route 
         path="/appeal/:appealId" 
