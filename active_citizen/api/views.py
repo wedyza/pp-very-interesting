@@ -40,10 +40,9 @@ class CustomUserViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
     
 
-class CategoryViewSet(viewsets.ModelViewSet):
+class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    permission_classes = (AdminOrReadOnly,)
 
 
 class NotificationViewSet(
