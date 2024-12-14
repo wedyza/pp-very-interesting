@@ -1,6 +1,6 @@
 import './appealCard.css'
-import AppealOptions from '../../appealOptions/AppealOptions'
-import icon from '../../../img/community.svg'
+import AppealOptions from '../appealOptions/AppealOptions'
+import icon from '../../img/community.svg'
 
 function AppealCard ({appeal}) {
     const statusConfig = {
@@ -33,10 +33,10 @@ function AppealCard ({appeal}) {
                     <span className='appeal-card__comm_value'>{appeal.comment}</span>
                 </div>
             </div>
-            {appeal.status == 'Принято' ?
+            {appeal.status === 'Принято' ?
                 <AppealOptions showHistory />
             : 
-            appeal.status == 'Отклонено' ?
+            appeal.status === 'Отклонено' ?
                 <AppealOptions showDelete showHistory />
             :
                 <AppealOptions showDelete showEdit showHistory />

@@ -1,11 +1,11 @@
 import { useContext, useState } from 'react'
-import Header from './../header/Header'
+import Header from '../../components/header/Header'
 import './profilePage.css'
-import BackButton from '../backButton/BackButton'
+import BackButton from '../../components/backButton/BackButton'
 import { Link, useNavigate } from 'react-router-dom'
-import PersonalData from './personalData/PersonalData'
-import NotificationSettings from './notificationSettings/NotificationSettings'
-import AboutProject from './aboutProject/AboutProject'
+import PersonalData from '../../components/personalData/PersonalData'
+import NotificationSettings from '../../components/notificationSettings/NotificationSettings'
+import AboutProject from '../../components/aboutProject/AboutProject'
 import {AuthContext} from '../../context/AuthContext'
 
 function ProfilePage() {

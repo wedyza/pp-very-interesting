@@ -1,7 +1,7 @@
 import './historyPage.css'
-import Header from './../header/Header'
-import Filter from './../filter/Filter'
-import AppealCard from './appealCard/AppealCard'
+import Header from '../../components/header/Header'
+import Filter from '../../components/filter/Filter'
+import AppealCard from '../../components/appealCard/AppealCard'
 import { useState } from 'react'
 
 function HistoryPage () {

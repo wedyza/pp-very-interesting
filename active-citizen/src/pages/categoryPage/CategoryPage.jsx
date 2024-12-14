@@ -1,15 +1,15 @@
-import Header from './../header/Header'
-import BackButton from './../backButton/BackButton'
-import SubcategoryCard from './subcategoryCard/SubcategoryCard'
-import './../categoryPage/categoryPage.css'
+import Header from '../../components/header/Header'
+import BackButton from '../../components/backButton/BackButton'
+import './categoryPage.css'
 import { useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import Search from '../search/Search'
+import Search from '../../components/search/Search'
 import { API_URL } from '../../constants'
+import SubcategoryCard from '../../components/subcategoryCard/SubcategoryCard'
 
 function CategoryPage() {
-    const accessToken = localStorage.getItem('accessToken');
+    //const accessToken = localStorage.getItem('accessToken');
     const { categoryId } = useParams();
     const [subcategories, setSubcategories] = useState([]);
     const [filteredSubcategories, setFilteredSubcategories] = useState([]);

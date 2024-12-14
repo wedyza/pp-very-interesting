@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import './personalData.css'
-import avatar from './../../../img/empty.jpg'
-import { API_URL } from '../../../constants'
+import avatar from '../../img/empty.jpg'
+import { API_URL } from '../../constants'
 
 function PersonalData() {
     const accessToken = localStorage.getItem('accessToken');

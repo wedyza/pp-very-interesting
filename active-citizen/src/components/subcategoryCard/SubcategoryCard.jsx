@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
-import './../subcategoryCard/subcategoryCard.css'
-import SelectButton from './../../selectButton/SelectButton'
+import './subcategoryCard.css'
+import SelectButton from '../selectButton/SelectButton';
 
 function SubcategoryCard({ subcategory, categoryId, categoryTitle }) {
     const navigate = useNavigate();

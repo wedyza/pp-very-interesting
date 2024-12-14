@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
-import Search from '../search/Search'
-import Header from './../header/Header'
-import ModeratorAppeal from './moderatorAppeal/ModeratorAppeal'
+import Search from '../../components/search/Search'
+import Header from '../../components/header/Header'
+import ModeratorAppeal from '../../components/moderatorAppeal/ModeratorAppeal'
 import './moderatorIndex.css'
-import Filter from '../filter/Filter'
+import Filter from '../../components/filter/Filter'
 import { API_URL } from '../../constants'
-import CustomCheckbox from '../customCheckbox/CustomCheckbox'
+import CustomCheckbox from '../../components/customCheckbox/CustomCheckbox'
 
 function ModeratorIndex() {
     const accessToken = localStorage.getItem('accessToken');
