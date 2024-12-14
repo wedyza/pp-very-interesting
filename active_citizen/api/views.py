@@ -9,7 +9,9 @@ from .serializers import (
     CustomUserSerializer, TicketSerializer,
     CategorySerializer, NotificationSerializer,
     SubCategorySerializer, ReviewSerializer,
-    TicketAuditSerializer, TicketCreateSerializer
+    TicketAuditSerializer, TicketCreateSerializer,
+    TicketWithLastCommentSerializer,
+    CategoryAdminSerializer, SubcategoryAdminSerializer
 )
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -19,16 +21,24 @@ from .permissions import AdminOrReadOnly, OwnerOrReadOnly
 User = get_user_model()
 
 
-class CustomUserViewSet(viewsets.ReadOnlyModelViewSet):
+class CustomUserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = CustomUserSerializer
+    permission_classes = (OwnerOrReadOnly,)
 
     @action(detail=False, url_path='me', methods=['GET'])
     def active_user(self, request):
         user = User.objects.filter(id=request.user.id).get()
         serializer = self.serializer_class(user)
         return Response(serializer.data)
-
+    
+    @action(detail=True, url_path='tickets', methods=['GET'])
+    def tickets(self, request, pk):
+        user = User.objects.filter(id=pk).get()
+        tickets = Ticket.objects.filter(user=user)
+        serializer = TicketSerializer(tickets, many=True)
+        return Response(serializer.data)
+    
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
@@ -73,21 +83,22 @@ class TicketViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, url_path='all', methods=['GET'])
     def all(self, request):
-        tickets = self.serializer_class(Ticket.objects.filter(draft=False), many=True)
+        tickets = TicketWithLastCommentSerializer(Ticket.objects.filter(draft=False), many=True)
         return Response(tickets.data)
+    
+    # @action(detail=True, url_path='last_review', methods=['GET'])
+    # def last_review(self, request, pk):
+    #     reviews = Review.objects.filter(ticket_id=pk).last()
+    #     serializer = ReviewSerializer(reviews)
+    #     return Response(serializer.data)
 
 
-class SubCategoryViewSet(viewsets.ModelViewSet):
+class SubCategoryViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = SubCategorySerializer
-    permission_classes = (AdminOrReadOnly,)
 
     def get_queryset(self):
         category = get_object_or_404(Category, pk=self.kwargs['category'])
         return SubCategory.objects.filter(category__id=category.id)
-    
-    def perform_create(self, serializer):
-        category = get_object_or_404(Category, pk=self.kwargs['category'])
-        serializer.save(category=category)
 
 
 class ReviewViewSet(viewsets.ModelViewSet):
@@ -110,7 +121,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
 
 
 class TicketAuditViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = TicketAuditSerializer
+    serializer_class = TicketWithLastCommentSerializer
 
     def get_queryset(self):
         ticket = get_object_or_404(Ticket, pk=self.kwargs['ticket'])
@@ -123,8 +134,19 @@ class ModeratorReviewViewSet(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         reviews = Review.objects.filter(user=self.request.user)
         return Response(reviews)
-    
+
     @action(detail=False, url_path='all', methods=['GET'])
     def all(self, request):
         reviews = Review.objects.all()
         return Response(reviews)
+    
+
+class ModeratorCategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategoryAdminSerializer
+    permission_classes = (permissions.IsAdminUser,)
+
+class ModeratorSubcategoryViewSet(viewsets.ModelViewSet):
+    queryset = SubCategory.objects.all()
+    serializer_class = SubcategoryAdminSerializer
+    permission_classes = (permissions.IsAdminUser,)

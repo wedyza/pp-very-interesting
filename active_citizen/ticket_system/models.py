@@ -23,6 +23,12 @@ class Category(models.Model):
     title = models.CharField('Тип тикета', max_length=100)
     description = models.CharField('Описание', max_length=500)
     source = models.ImageField('Изображение', null=True)
+    created_by = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+    created_at = models.DateTimeField('Создано', default=timezone.now())
+
 
     class Meta:
         verbose_name = 'Категория'
@@ -40,6 +46,11 @@ class SubCategory(models.Model):
         Category,
         on_delete=models.CASCADE
     )
+    created_by = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+    created_at = models.DateTimeField('Создано', default=timezone.now())
 
     class Meta:
         verbose_name = 'Подкатегория'
@@ -103,10 +114,10 @@ class BaseMainTicket(BaseTicket):
         'Время проишествия',
         null=True
     )
-    edited = models.BooleanField(
-        'Редактировано',
-        default=False
-    )
+    # edited = models.BooleanField(
+    #     'Редактировано',
+    #     default=False
+    # )
     media = models.ManyToManyField(
         Media,
         verbose_name='Медиа',
@@ -189,7 +200,9 @@ class Review(models.Model):
         MinValueValidator(0),
         MaxValueValidator(10)
     ])
+    created_at = models.DateTimeField('Создано', default=timezone.now())
 
     class Meta:
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
+        ordering = ('-created_at',)

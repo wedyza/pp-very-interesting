@@ -1,6 +1,6 @@
 from ticket_system.models import (
     Ticket, Category, Notification, SubCategory, Review,
-    StatusCode, TicketAudit
+    StatusCode, TicketAudit, Media
 )
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
@@ -25,11 +25,47 @@ class TicketNotificationSerializer(serializers.ModelSerializer):
 
 class TicketAuditSerializer(serializers.ModelSerializer):
     ticket = serializers.PrimaryKeyRelatedField(read_only=True)
+    latest_review = serializers.SerializerMethodField()
+    reviews_count = serializers.SerializerMethodField()
 
     class Meta:
         model = TicketAudit
-        fields = '__all__'
+        fields = ('title', 'body', 'longtitude', 'latitude', 'time', 'draft', 'last_review', 'reviews_count', 'user')
         read_only_fields = ("user", )
+
+    def get_latest_review(self, obj):
+        review = Review.objects.filter(ticket_id=obj.id).last()
+        serializer = ReviewSerializer(review)
+        return serializer.data
+    
+    def get_reviews_count(self, obj):
+        reviews = Review.objects.filter(ticket_id=obj.id).count()
+        return reviews
+    
+
+class MediaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Media
+        fields = ('source',)
+
+
+class TicketWithLastCommentSerializer(serializers.ModelSerializer):
+    media = MediaSerializer(many=True)
+    latest_review = serializers.SerializerMethodField()
+    reviews_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Ticket
+        fields = ('title', 'body', 'longtitude', 'latitude', 'time', 'draft', 'latest_review', 'reviews_count', 'user', 'media')
+
+    def get_latest_review(self, obj):
+        review = Review.objects.filter(ticket_id=obj.id).last()
+        serializer = ReviewSerializer(review)
+        return serializer.data
+    
+    def get_reviews_count(self, obj):
+        reviews = Review.objects.filter(ticket_id=obj.id).count()
+        return reviews
 
 
 class TicketCreateSerializer(serializers.ModelSerializer):
@@ -97,3 +133,21 @@ class ReviewSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = SupportTicket
 #         fields = '__all__'
+
+class SubcategoryAdminSerializer(serializers.ModelSerializer):
+    created_by = CustomUserSerializer()
+    category = CategorySerializer()
+
+    class Meta:
+        model = SubCategory
+        fields = '__all__'
+        read_only_fields = ('created_by',)
+
+
+class CategoryAdminSerializer(serializers.ModelSerializer):
+    created_by = CustomUserSerializer()
+
+    class Meta:
+        model = Category
+        fields = '__all__'
+        read_only_fields = ('created_by',)

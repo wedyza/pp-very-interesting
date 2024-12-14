@@ -23,7 +23,8 @@ from rest_framework import routers
 from api.views import (
     CategoryViewSet, TicketViewSet, ReviewViewSet,
     CustomUserViewSet, NotificationViewSet, SubCategoryViewSet,
-    TicketAuditViewSet, ModeratorReviewViewSet
+    TicketAuditViewSet, ModeratorReviewViewSet,
+    ModeratorCategoryViewSet, ModeratorSubcategoryViewSet
 )
 from django.conf import settings
 from django.conf.urls.static import static
@@ -54,11 +55,20 @@ router.register(
     ModeratorReviewViewSet,
     basename='moderator-reviews'
 )
+router.register(
+    'admin_section/categories',
+    ModeratorCategoryViewSet
+)
+router.register(
+    'admin_section/subcategories',
+    ModeratorSubcategoryViewSet
+)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
-    path('auth/', include('djoser.urls')),
+    # path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
 ]
 
