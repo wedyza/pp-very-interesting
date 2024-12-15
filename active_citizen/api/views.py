@@ -11,7 +11,8 @@ from .serializers import (
     SubCategorySerializer, ReviewSerializer,
     TicketAuditSerializer, TicketCreateSerializer,
     TicketWithLastCommentSerializer,
-    CategoryAdminSerializer, SubcategoryAdminSerializer
+    CategoryAdminSerializer, SubcategoryAdminSerializer,
+    StatusCodeTextSerializer
 )
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -157,3 +158,8 @@ class ModeratorSubcategoryViewSet(viewsets.ModelViewSet):
     queryset = SubCategory.objects.all()
     serializer_class = SubcategoryAdminSerializer
     permission_classes = (permissions.IsAdminUser,)
+
+
+class StatusCodeViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
+    queryset = StatusCode.objects.all()
+    serializer_class = StatusCodeTextSerializer

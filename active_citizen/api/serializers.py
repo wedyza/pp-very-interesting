@@ -149,7 +149,7 @@ class CustomUserSerializer(UserSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ('phone_number', 'id', 'first_name', 'last_name', 'given_name', 'rating', 'avatar')
+        fields = ('phone_number', 'id', 'first_name', 'last_name', 'given_name', 'rating', 'avatar', 'avatar_url')
 
     def get_avatar_url(self, obj):
         if obj.avatar:
