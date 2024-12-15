@@ -9,6 +9,9 @@ from django.shortcuts import get_object_or_404
 from django.core.files.base import ContentFile
 import base64
 
+class ModeratorBoolSerializer(serializers.Serializer):
+    moderator = serializers.BooleanField()
+
 
 class Base64ImageField(serializers.ImageField):
     def to_internal_value(self, data):
@@ -146,15 +149,26 @@ class CustomUserSerializer(UserSerializer):
         'get_avatar_url',
         read_only=True
     )
+    user_group = serializers.SerializerMethodField(
+        'get_user_group',
+        read_only=True
+    )
 
     class Meta:
         model = get_user_model()
-        fields = ('phone_number', 'id', 'first_name', 'last_name', 'given_name', 'rating', 'avatar', 'avatar_url')
+        fields = ('phone_number', 'id', 'first_name', 'last_name', 'given_name', 'rating', 'avatar', 'avatar_url', 'user_group')
 
     def get_avatar_url(self, obj):
         if obj.avatar:
             return obj.avatar.url
         return None
+
+    def get_user_group(self, obj):
+        if obj.is_superuser:
+            return 2
+        elif obj.is_staff:
+            return 1
+        return 0
 
 
 class SubCategorySerializer(serializers.ModelSerializer):

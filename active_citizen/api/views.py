@@ -12,13 +12,14 @@ from .serializers import (
     TicketAuditSerializer, TicketCreateSerializer,
     TicketWithLastCommentSerializer,
     CategoryAdminSerializer, SubcategoryAdminSerializer,
-    StatusCodeTextSerializer
+    StatusCodeTextSerializer, ModeratorBoolSerializer
 )
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from django_filters.rest_framework import DjangoFilterBackend
 from .permissions import AdminOrReadOnly, OwnerOrReadOnly, PostOrOwnerOrReadOnly
 from users.models import UserManager
+from django.core.exceptions import ValidationError
 
 User = get_user_model()
 
@@ -29,21 +30,40 @@ class CustomUserViewSet(
     mixins.UpdateModelMixin
 ):
     queryset = User.objects.all()
-    serializer_class = CustomUserSerializer
     permission_classes = (OwnerOrReadOnly,)
+    serializer_class = CustomUserSerializer
 
-    @action(detail=False, url_path='me', methods=['GET'])
-    def active_user(self, request):
-        user = User.objects.filter(id=request.user.id).get()
-        serializer = self.serializer_class(user)
-        return Response(serializer.data)
-    
+    def get_serializer_class(self):
+        if self.action == 'moderator_manage':
+            return ModeratorBoolSerializer
+        return super().get_serializer_class()
+
+    @action(detail=False, url_path='me', methods=['GET'], permission_classes=(permissions.IsAuthenticated,))
+    def active_user(self, request, *args, **kwargs):
+        if self.action == 'GET':
+            serializer = self.serializer_class(request.user)
+            return Response(serializer.data)
+
+
+
     @action(detail=True, url_path='tickets', methods=['GET'])
     def tickets(self, request, pk):
         user = User.objects.filter(id=pk).get()
         tickets = Ticket.objects.filter(user=user)
         serializer = TicketSerializer(tickets, many=True)
         return Response(serializer.data)
+    
+
+    @action(detail=True, url_path='moderator_manage', methods=['POST'], permission_classes=(permissions.IsAdminUser ,))
+    def moderator_manage(self, request, pk):
+        if not 'moderator' in request.data or request.data['moderator'] != 0 and request.data['moderator']:
+            raise ValidationError("Поле moderator предоставлено не в формате True/False!")
+        user = User.objects.filter(id=pk).get()
+        user.is_staff = request.data['moderator']
+        user.save()
+        user_serializer = CustomUserSerializer(user)
+        return Response(user_serializer.data)
+
     
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
