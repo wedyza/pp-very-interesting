@@ -6,7 +6,19 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from djoser.serializers import UserSerializer
 from django.shortcuts import get_object_or_404
+from django.core.files.base import ContentFile
+import base64
 
+
+class Base64ImageField(serializers.ImageField):
+    def to_internal_value(self, data):
+        if isinstance(data, str) and data.startswith('data:image'):
+            format, imgstr = data.split(';base64,')
+            ext = format.split('/')[-1]
+
+            data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
+
+        return super().to_internal_value(data)
 
 
 class StatusCodeTextSerializer(serializers.ModelSerializer):
@@ -44,9 +56,20 @@ class TicketAuditSerializer(serializers.ModelSerializer):
     
 
 class MediaSerializer(serializers.ModelSerializer):
+    source = Base64ImageField(required=False, allow_null=True)
+    source_url = serializers.SerializerMethodField(
+        'get_source_url',
+        read_only=True
+    )
+
     class Meta:
         model = Media
-        fields = ('source',)
+        fields = ('source', 'source_url')
+
+    def get_source_url(self, obj):
+        if obj.source:
+            return obj.image.url
+        return None
 
 
 class TicketWithLastCommentSerializer(serializers.ModelSerializer):
@@ -101,25 +124,55 @@ class NotificationSerializer(serializers.ModelSerializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
+    source = Base64ImageField(required=False, allow_null=True)
+    source_url = serializers.SerializerMethodField(
+        'get_source_url',
+        read_only=True
+    )
+
     class Meta:
         model = Category
-        fields = ('id', 'title', 'description')
+        fields = ('id', 'title', 'description', 'source', 'source_url')
 
+    def get_source_url(self, obj):
+        if obj.source:
+            return obj.source.url
+        return None
+    
 
 class CustomUserSerializer(UserSerializer):
-    # tickets = TicketSerializer(many=True, required=False)
+    avatar = Base64ImageField(required=False, allow_null=True)
+    avatar_url = serializers.SerializerMethodField(
+        'get_avatar_url',
+        read_only=True
+    )
 
     class Meta:
         model = get_user_model()
         fields = ('phone_number', 'id', 'first_name', 'last_name', 'given_name', 'rating', 'avatar')
 
+    def get_avatar_url(self, obj):
+        if obj.avatar:
+            return obj.avatar.url
+        return None
+
 
 class SubCategorySerializer(serializers.ModelSerializer):
     category = CategorySerializer(read_only=True)
+    source = Base64ImageField(required=False, allow_null=True)
+    source_url = serializers.SerializerMethodField(
+        'get_source_url',
+        read_only=True
+    )
 
     class Meta:
         model = SubCategory
         fields = '__all__'
+
+    def get_source_url(self, obj):
+        if obj.source:
+            return obj.source.url
+        return None
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -137,17 +190,37 @@ class ReviewSerializer(serializers.ModelSerializer):
 class SubcategoryAdminSerializer(serializers.ModelSerializer):
     created_by = CustomUserSerializer()
     category = CategorySerializer()
+    source = Base64ImageField(required=False, allow_null=True)
+    source_url = serializers.SerializerMethodField(
+        'get_source_url',
+        read_only=True
+    )
 
     class Meta:
         model = SubCategory
         fields = '__all__'
         read_only_fields = ('created_by',)
 
+    def get_source_url(self, obj):
+        if obj.source:
+            return obj.source.url
+        return None
+
 
 class CategoryAdminSerializer(serializers.ModelSerializer):
     created_by = CustomUserSerializer()
+    source = Base64ImageField(required=False, allow_null=True)
+    source_url = serializers.SerializerMethodField(
+        'get_source_url',
+        read_only=True
+    )
 
     class Meta:
         model = Category
         fields = '__all__'
         read_only_fields = ('created_by',)
+
+    def get_source_url(self, obj):
+        if obj.source:
+            return obj.source.url
+        return None

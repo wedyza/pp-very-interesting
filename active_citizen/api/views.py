@@ -16,12 +16,17 @@ from .serializers import (
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from django_filters.rest_framework import DjangoFilterBackend
-from .permissions import AdminOrReadOnly, OwnerOrReadOnly
+from .permissions import AdminOrReadOnly, OwnerOrReadOnly, PostOrOwnerOrReadOnly
+from users.models import UserManager
 
 User = get_user_model()
 
 
-class CustomUserViewSet(viewsets.ModelViewSet):
+class CustomUserViewSet(
+    viewsets.GenericViewSet,
+    mixins.ListModelMixin,
+    mixins.UpdateModelMixin
+):
     queryset = User.objects.all()
     serializer_class = CustomUserSerializer
     permission_classes = (OwnerOrReadOnly,)
@@ -43,6 +48,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    permission_classes = (AdminOrReadOnly,)
 
 
 class NotificationViewSet(
@@ -64,6 +70,8 @@ class TicketViewSet(viewsets.ModelViewSet):
     def get_serializer(self, *args, **kwargs):
         if self.action == 'create' or self.action == 'update' or self.action == 'partial_update':
             return TicketCreateSerializer(*args, **kwargs)
+        elif self.action == 'all':
+            return TicketWithLastCommentSerializer(*args, **kwargs)
         return super().get_serializer(*args, **kwargs)
 
     def get_queryset(self):
@@ -77,12 +85,11 @@ class TicketViewSet(viewsets.ModelViewSet):
         return super().perform_update(serializer)
     
     def perform_create(self, serializer):
-        # print(serializer.data)
         serializer.save(user=self.request.user)
 
     @action(detail=False, url_path='all', methods=['GET'])
     def all(self, request):
-        tickets = TicketWithLastCommentSerializer(Ticket.objects.filter(draft=False), many=True)
+        tickets = self.serializer_class(Ticket.objects.filter(draft=False), many=True)
         return Response(tickets.data)
     
     # @action(detail=True, url_path='last_review', methods=['GET'])
@@ -94,6 +101,7 @@ class TicketViewSet(viewsets.ModelViewSet):
 
 class SubCategoryViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = SubCategorySerializer
+    permission_classes = (AdminOrReadOnly,)
 
     def get_queryset(self):
         category = get_object_or_404(Category, pk=self.kwargs['category'])

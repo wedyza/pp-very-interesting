@@ -19,3 +19,13 @@ class AdminOrReadOnly(permissions.BasePermission):
             request.method in permissions.SAFE_METHODS
             or request.user.is_staff
         )
+    
+
+class PostOrOwnerOrReadOnly(permissions.BasePermission):
+
+    def has_permission(self, request, view):
+        return (
+            request.method in permissions.SAFE_METHODS
+            or request.method == 'POST'
+            or request.user.is_staff
+        )
