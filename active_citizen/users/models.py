@@ -53,7 +53,7 @@ class CustomAbstractUser(AbstractUser):
     objects = UserManager()
     REQUIRED_FIELDS = ['first_name', 'last_name']
 
-    first_name = models.CharField('Имя', max_length=40)
+    first_name = models.CharField('Имя', max_length=40) 
     last_name = models.CharField('Фамилия', max_length=40)
     given_name = models.CharField('Отчество', max_length=40, null=True)
     avatar = models.ImageField(null=True)
