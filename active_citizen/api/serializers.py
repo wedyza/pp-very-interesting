@@ -104,6 +104,7 @@ class TicketCreateSerializer(serializers.ModelSerializer):
 class TicketSerializer(serializers.ModelSerializer):
     category = serializers.StringRelatedField()
     subcategory = serializers.StringRelatedField()
+    status_code = serializers.StringRelatedField()
 
     class Meta:
         model = Ticket
@@ -157,6 +158,7 @@ class CustomUserSerializer(UserSerializer):
     class Meta:
         model = get_user_model()
         fields = ('phone_number', 'id', 'first_name', 'last_name', 'given_name', 'rating', 'avatar', 'avatar_url', 'user_group')
+
 
     def get_avatar_url(self, obj):
         if obj.avatar:

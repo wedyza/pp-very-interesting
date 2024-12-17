@@ -38,12 +38,17 @@ class CustomUserViewSet(
             return ModeratorBoolSerializer
         return super().get_serializer_class()
 
-    @action(detail=False, url_path='me', methods=['GET'], permission_classes=(permissions.IsAuthenticated,))
+    @action(detail=False, url_path='me', methods=['GET', 'PATCH'], permission_classes=(permissions.IsAuthenticated,))
     def active_user(self, request, *args, **kwargs):
-        if self.action == 'GET':
+        if self.request.method == 'GET':
             serializer = self.serializer_class(request.user)
             return Response(serializer.data)
-
+        if self.request.method == 'PATCH':
+            serializer = self.serializer_class(request.user, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors)
 
 
     @action(detail=True, url_path='tickets', methods=['GET'])
