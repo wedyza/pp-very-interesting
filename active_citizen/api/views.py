@@ -40,9 +40,8 @@ class CustomUserViewSet(
 
     @action(detail=False, url_path='me', methods=['GET'], permission_classes=(permissions.IsAuthenticated,))
     def active_user(self, request, *args, **kwargs):
-        if self.action == 'GET':
-            serializer = self.serializer_class(request.user)
-            return Response(serializer.data)
+        serializer = self.serializer_class(request.user)
+        return Response(serializer.data)
 
 
 
