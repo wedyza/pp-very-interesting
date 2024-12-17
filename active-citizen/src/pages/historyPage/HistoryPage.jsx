@@ -2,29 +2,42 @@ import './historyPage.css'
 import Header from '../../components/header/Header'
 import Filter from '../../components/filter/Filter'
 import AppealCard from '../../components/appealCard/AppealCard'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { API_URL } from '../../constants'
 
 function HistoryPage () {
-    const historyData = [
-        {title: 'Невероятно кривая дорога', datetime: '10:15, 18.02.2024', status: 'На проверке', comment: '-'},
-        {title: 'Кривая дорога', datetime: '10:15, 17.02.2024', status: 'Отклонено', comment: 'Недопустимые материелы'},
-        {title: 'Очень кривая дорога', datetime: '20:15, 17.02.2024', status: 'Принято', comment: 'Все отлично'},
-    ];
-
+    const accessToken = localStorage.getItem('accessToken');
+    const [historyData, setHistoryData] = useState([]);
     const [statusFilter, setStatusFilter] = useState('Статус');
     const [sortOrder, setSortOrder] = useState('Сначала новые');
+    const [error, setError] = useState(null);
 
-    const parseDateTime = (datetimeStr) => {
-        const [time, date] = datetimeStr.split(', ');
-        const [day, month, year] = date.split('.').map(Number);
-        const [hours, minutes] = time.split(':').map(Number);
-        return new Date(year, month - 1, day, hours, minutes);
-    };
+    useEffect(() => {
+        const fetchHistoryData = async () => {
+            setError(null);
+            try {
+                const response = await fetch(`${API_URL}/tickets/?draft=false`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error('Ошибка при загрузке данных');
+                }
+                const data = await response.json();
+                setHistoryData(data);
+            } catch (err) {
+                setError(err.message);
+            }
+        };
+        fetchHistoryData();
+    }, []);
 
     const sortData = (data) => {
         return data.slice().sort((a, b) => {
-            const dateA = parseDateTime(a.datetime);
-            const dateB = parseDateTime(b.datetime);
+            const dateA = new Date(a.created_at);
+            const dateB = new Date(b.created_at);
             return sortOrder === 'Сначала новые' ? dateB - dateA : dateA - dateB;
         });
     };
@@ -50,13 +63,17 @@ function HistoryPage () {
                             onSelect={(selected) => setStatusFilter(selected)}/>
                     </div>
                 </div>
-                <ul className="history__list">
-                    {filteredAndSortedData.map((appeal, index) => (
-                        <li key={index} className='history__list_item'>
-                            <AppealCard appeal={appeal} />
-                        </li>
-                    ))}
-                </ul>
+                {error ? (
+                    <p className="error-message">{error}</p>
+                ) : (
+                    <ul className="history__list">
+                        {filteredAndSortedData.map((appeal, index) => (
+                            <li key={index} className="history__list_item">
+                                <AppealCard appeal={appeal} />
+                            </li>
+                        ))}
+                    </ul>
+                )}
             </section>
         </div>
     )

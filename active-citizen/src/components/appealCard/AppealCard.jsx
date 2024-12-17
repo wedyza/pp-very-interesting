@@ -1,6 +1,7 @@
 import './appealCard.css'
 import AppealOptions from '../appealOptions/AppealOptions'
 import icon from '../../img/community.svg'
+import DateDisplay from '../dateDisplay/DateDisplay';
 
 function AppealCard ({appeal}) {
     const statusConfig = {
@@ -22,15 +23,17 @@ function AppealCard ({appeal}) {
             <div className="appeal-card__info">
                 <div className="appeal-card__info_main">
                     <div className='appeal-card__title'><span>{appeal.title}</span></div>
-                    <span className='appeal-card__datetime'>{appeal.datetime}</span>
+                    <span className='appeal-card__datetime'>
+                        <DateDisplay isoDate={appeal.created_at} />
+                    </span>
                 </div>
                 <div className='appeal-card__status'>
                     <span className='appeal-card__status_label appeal-card__label'>Статус:</span>
-                    <span className={`appeal-card__status_value ${textClass}`}>{appeal.status}</span>
+                    <span className={`appeal-card__status_value ${textClass}`}>{appeal.status_code}</span>
                 </div>
                 <div className='appeal-card__comm'>
                     <span className='appeal-card__comm_label appeal-card__label'>Комментарий:</span>
-                    <span className='appeal-card__comm_value'>{appeal.comment}</span>
+                    <span className='appeal-card__comm_value'>{appeal.latest_review}</span>
                 </div>
             </div>
             {appeal.status === 'Принято' ?

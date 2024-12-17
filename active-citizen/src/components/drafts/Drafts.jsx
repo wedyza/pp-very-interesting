@@ -1,24 +1,38 @@
+import { API_URL } from '../../constants';
 import Search from '../search/Search'
 import './../drafts/drafts.css'
 import DraftCard from './draftCard/DraftCard'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 function Drafts () {
-    const drafts = [
-        {title: 'Невероятно кривая дорога', datetime: '10:15, 18.02.2024'},
-        {title: 'Очень кривая дорога', datetime: '20:15, 17.02.2024'},
-        {title: 'Кривая дорога', datetime: '10:15, 17.02.2024'},
-        {title: 'Невероятно кривая дорога', datetime: '10:15, 18.02.2024'},
-        {title: 'Очень кривая дорога', datetime: '20:15, 17.02.2024'},
-        {title: 'Кривая дорога', datetime: '10:15, 17.02.2024'},
-        {title: 'Невероятно кривая дорога', datetime: '10:15, 18.02.2024'},
-        {title: 'Невероятно кривая дорога', datetime: '10:15, 18.02.2024'},
-        {title: 'Очень кривая дорога', datetime: '20:15, 17.02.2024'},
-        {title: 'Кривая дорога', datetime: '10:15, 17.02.2024'},
-        {title: 'Невероятно кривая дорога', datetime: '10:15, 18.02.2024'},
-        {title: 'Невероятно кривая дорога', datetime: '10:15, 18.02.2024'},
-    ];
+    const accessToken = localStorage.getItem('accessToken');
+    const [drafts, setDrafts] = useState([]);
     const [filteredDrafts, setFilteredDrafts] = useState(drafts);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchDraftsData = async () => {
+            setError(null);
+            try {
+                const response = await fetch(`${API_URL}/tickets/?draft=true`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error('Ошибка при загрузке данных');
+                }
+                const data = await response.json();
+                setDrafts(data);
+                setFilteredDrafts(data);
+            } catch (err) {
+                setError(err.message);
+            }
+        };
+        fetchDraftsData();
+    }, []);
+
     const handleSearchResults = (results) => {
         setFilteredDrafts(results);
     };

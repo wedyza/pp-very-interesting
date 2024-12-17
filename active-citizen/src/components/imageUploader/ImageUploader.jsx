@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 import './imageUploader.css'
 
-function ImageUploader() {
-    const [images, setImages] = useState([]);
-
+function ImageUploader({ images, setImages }) {
     const handleFileChange = (event) => {
         const files = Array.from(event.target.files);
 

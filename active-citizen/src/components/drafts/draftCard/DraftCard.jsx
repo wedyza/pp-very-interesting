@@ -2,9 +2,10 @@ import './../draftCard/draftCard.css'
 import AppealOptions from '../../appealOptions/AppealOptions'
 
 function DraftCard ({draft}) {
-    const datetime = draft.datetime.split(', '); 
-    const date = datetime[0]; 
-    const time = datetime[1]; 
+    const datetime = new Date(draft.created_at);
+    const date = `${String(datetime.getDate()).padStart(2, '0')}
+        .${String(datetime.getMonth() + 1).padStart(2, '0')}.${datetime.getFullYear()}`;
+    const time = `${String(datetime.getHours()).padStart(2, '0')}:${String(datetime.getMinutes()).padStart(2, '0')}`;
 
     return (
         <div className="draft-card">
@@ -17,7 +18,7 @@ function DraftCard ({draft}) {
                         Когда
                     </span>
                     <span className="draft-card__date_value draft-card__datetime_value">
-                        {time}
+                        {date}
                     </span>
                 </div>
                 <div className="draft-card__time">
@@ -25,7 +26,7 @@ function DraftCard ({draft}) {
                         Во сколько
                     </span>
                     <span className="draft-card__time_value draft-card__datetime_value">
-                        {date}
+                        {time}
                     </span>
                 </div>
             </div>

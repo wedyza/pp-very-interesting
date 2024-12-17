@@ -37,7 +37,6 @@ function Registration() {
             });
 
             if (response.ok) {
-                //const data = await response.json();
                 setSuccessMessage('Аккаунт успешно создан!');
                 navigate('/login');
             } else {

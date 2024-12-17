@@ -32,10 +32,10 @@ function CreateAppeal() {
     const [selectedSubcategoryId, setSelectedSubcategoryId] = useState(initialSubcategoryId || '');
     const [selectedSubcategory, setSelectedSubcategory] = useState(initialSubcategory || '');
     const [error, setError] = useState(null);
-    const [address, setAddress] = useState('');
+    //const [address, setAddress] = useState('');
     const [latitude, setLatitude] = useState(null);
     const [longtitude, setlongtitude] = useState(null);
-
+    const [images, setImages] = useState([]);
 
     const titleRef = useRef();
     const bodyRef = useRef();
@@ -113,8 +113,16 @@ function CreateAppeal() {
             return;
         }
 
-        const roundedLatitude = parseFloat(latitude.toFixed(6));
-        const roundedlongtitude = parseFloat(longtitude.toFixed(6));
+        // const roundedLatitude = parseFloat(latitude.toFixed(6));
+        // const roundedlongtitude = parseFloat(longtitude.toFixed(6));
+        const requestData = {
+            title,
+            body,
+            latitude: parseFloat(latitude.toFixed(6)),
+            longtitude: parseFloat(longtitude.toFixed(6)),
+            category: selectedCategoryId,
+            subcategory: selectedSubcategoryId,
+        };
     
         try {
             const response = await fetch(`${API_URL}/tickets/`, {
@@ -123,14 +131,15 @@ function CreateAppeal() {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${accessToken}`,
                 },
-                body: JSON.stringify({
-                    title,
-                    body,
-                    latitude: roundedLatitude,
-                    longtitude: roundedlongtitude,
-                    category: selectedCategoryId,
-                    subcategory: selectedSubcategoryId,
-                }),
+                // body: JSON.stringify({
+                //     title,
+                //     body,
+                //     latitude: roundedLatitude,
+                //     longtitude: roundedlongtitude,
+                //     category: selectedCategoryId,
+                //     subcategory: selectedSubcategoryId,
+                // }),
+                body: JSON.stringify(requestData),
             });
     
             if (!response.ok) {
@@ -250,7 +259,7 @@ function CreateAppeal() {
                                 </div>                                
                             </div>
                             <div className="appeal-form__images">
-                                <ImageUploader/>
+                                <ImageUploader images={images} setImages={setImages} />
                             </div>
                         </div>
                     </div>
