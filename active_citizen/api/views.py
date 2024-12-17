@@ -40,15 +40,16 @@ class CustomUserViewSet(
 
     @action(detail=False, url_path='me', methods=['GET'], permission_classes=(permissions.IsAuthenticated,))
     def active_user(self, request, *args, **kwargs):
-        serializer = self.serializer_class(request.user)
-        return Response(serializer.data)
+        if self.action == 'GET':
+            serializer = self.serializer_class(request.user)
+            return Response(serializer.data)
 
 
 
     @action(detail=True, url_path='tickets', methods=['GET'])
     def tickets(self, request, pk):
         user = User.objects.filter(id=pk).get()
-        tickets = Ticket.objects.filter(user=user)
+        tickets = Ticket.objects.filter(user_id=user)
         serializer = TicketSerializer(tickets, many=True)
         return Response(serializer.data)
     
@@ -79,7 +80,7 @@ class NotificationViewSet(
     serializer_class = NotificationSerializer
 
     def get_queryset(self):
-        return Notification.objects.filter(user=self.request.user)
+        return Notification.objects.filter(user_id=self.request.user.id)
 
 class TicketViewSet(viewsets.ModelViewSet):
     queryset = Ticket.objects.all()
@@ -95,17 +96,17 @@ class TicketViewSet(viewsets.ModelViewSet):
         return super().get_serializer(*args, **kwargs)
 
     def get_queryset(self):
-        return Ticket.objects.filter(user__id=self. request.user.id)
+        return Ticket.objects.filter(user_id=self.request.user.id)
 
     def perform_update(self, serializer):
         if not serializer.instance.draft:
             ticket_audit = TicketAuditSerializer(data=serializer.instance.__dict__)
             if ticket_audit.is_valid():
-                ticket_audit.save(ticket=serializer.instance, user=self.request.user)
+                ticket_audit.save(ticket=serializer.instance, user_id=self.request.user.id)
         return super().perform_update(serializer)
     
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        serializer.save(user_id=self.request.user.id)
 
     @action(detail=False, url_path='all', methods=['GET'])
     def all(self, request):
@@ -141,10 +142,10 @@ class ReviewViewSet(viewsets.ModelViewSet):
         ticket.status_code = status_code
         ticket.save()
 
-        notification = Notification.objects.create(status_code_changed_on=status_code, user=self.request.user, ticket=ticket)
+        notification = Notification.objects.create(status_code_changed_on=status_code, user_id=self.request.user.id, ticket=ticket)
         notification.save()
 
-        serializer.save(user=self.request.user, ticket=ticket)
+        serializer.save(user_id=self.request.user.id, ticket=ticket)
 
 
 class TicketAuditViewSet(viewsets.ReadOnlyModelViewSet):
@@ -159,7 +160,7 @@ class ModeratorReviewViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ReviewSerializer
 
     def get_queryset(self):
-        reviews = Review.objects.filter(user=self.request.user)
+        reviews = Review.objects.filter(user_id=self.request.user)
         return Response(reviews)
 
     @action(detail=False, url_path='all', methods=['GET'])

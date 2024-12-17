@@ -37,17 +37,17 @@ router.register('users', CustomUserViewSet)
 router.register('tickets', TicketViewSet)
 router.register('notifications', NotificationViewSet, basename='notifications')
 router.register(
-    r'categories/(?P<category>\d+)/subcategories',
+    r'categories/(?P<category_id>\d+)/subcategories',
     SubCategoryViewSet,
     basename='subcategories'
 )
 router.register(
-    r'tickets/(?P<ticket>\d+)/reviews',
+    r'tickets/(?P<ticket_id>\d+)/reviews',
     ReviewViewSet,
     basename='reviews'
 )
 router.register(
-    r'tickets/(?P<ticket>\d+)/audit',
+    r'tickets/(?P<ticket_id>\d+)/audit',
     TicketAuditViewSet,
     basename='ticket-audit'
 )
@@ -65,14 +65,15 @@ router.register(
     ModeratorSubcategoryViewSet
 )
 router.register(
-    'status_code',
-    StatusCodeViewSet    
+    'status_codes/',
+    StatusCodeViewSet
 )
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
-    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls')),  
     path('auth/', include('djoser.urls.jwt')),
 ]
 
