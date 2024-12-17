@@ -11,27 +11,41 @@ from .serializers import (
     SubCategorySerializer, ReviewSerializer,
     TicketAuditSerializer, TicketCreateSerializer,
     TicketWithLastCommentSerializer,
-    CategoryAdminSerializer, SubcategoryAdminSerializer
+    CategoryAdminSerializer, SubcategoryAdminSerializer,
+    StatusCodeTextSerializer, ModeratorBoolSerializer
 )
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from django_filters.rest_framework import DjangoFilterBackend
-from .permissions import AdminOrReadOnly, OwnerOrReadOnly
+from .permissions import AdminOrReadOnly, OwnerOrReadOnly, PostOrOwnerOrReadOnly
+from users.models import UserManager
+from django.core.exceptions import ValidationError
 
 User = get_user_model()
 
 
-class CustomUserViewSet(viewsets.ModelViewSet):
+class CustomUserViewSet(
+    viewsets.GenericViewSet,
+    mixins.ListModelMixin,
+    mixins.UpdateModelMixin
+):
     queryset = User.objects.all()
-    serializer_class = CustomUserSerializer
     permission_classes = (OwnerOrReadOnly,)
+    serializer_class = CustomUserSerializer
 
-    @action(detail=False, url_path='me', methods=['GET'])
-    def active_user(self, request):
-        user = User.objects.filter(id=request.user.id).get()
-        serializer = self.serializer_class(user)
-        return Response(serializer.data)
-    
+    def get_serializer_class(self):
+        if self.action == 'moderator_manage':
+            return ModeratorBoolSerializer
+        return super().get_serializer_class()
+
+    @action(detail=False, url_path='me', methods=['GET'], permission_classes=(permissions.IsAuthenticated,))
+    def active_user(self, request, *args, **kwargs):
+        if self.action == 'GET':
+            serializer = self.serializer_class(request.user)
+            return Response(serializer.data)
+
+
+
     @action(detail=True, url_path='tickets', methods=['GET'])
     def tickets(self, request, pk):
         user = User.objects.filter(id=pk).get()
@@ -40,9 +54,22 @@ class CustomUserViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
     
 
+    @action(detail=True, url_path='moderator_manage', methods=['POST'], permission_classes=(permissions.IsAdminUser ,))
+    def moderator_manage(self, request, pk):
+        if not 'moderator' in request.data or request.data['moderator'] != 0 and request.data['moderator']:
+            raise ValidationError("Поле moderator предоставлено не в формате True/False!")
+        user = User.objects.filter(id=pk).get()
+        user.is_staff = request.data['moderator']
+        user.save()
+        user_serializer = CustomUserSerializer(user)
+        return Response(user_serializer.data)
+
+    
+
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    permission_classes = (AdminOrReadOnly,)
 
 
 class NotificationViewSet(
@@ -64,6 +91,8 @@ class TicketViewSet(viewsets.ModelViewSet):
     def get_serializer(self, *args, **kwargs):
         if self.action == 'create' or self.action == 'update' or self.action == 'partial_update':
             return TicketCreateSerializer(*args, **kwargs)
+        elif self.action == 'all':
+            return TicketWithLastCommentSerializer(*args, **kwargs)
         return super().get_serializer(*args, **kwargs)
 
     def get_queryset(self):
@@ -77,12 +106,11 @@ class TicketViewSet(viewsets.ModelViewSet):
         return super().perform_update(serializer)
     
     def perform_create(self, serializer):
-        # print(serializer.data)
         serializer.save(user=self.request.user)
 
     @action(detail=False, url_path='all', methods=['GET'])
     def all(self, request):
-        tickets = TicketWithLastCommentSerializer(Ticket.objects.filter(draft=False), many=True)
+        tickets = self.serializer_class(Ticket.objects.filter(draft=False), many=True)
         return Response(tickets.data)
     
     # @action(detail=True, url_path='last_review', methods=['GET'])
@@ -94,6 +122,7 @@ class TicketViewSet(viewsets.ModelViewSet):
 
 class SubCategoryViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = SubCategorySerializer
+    permission_classes = (AdminOrReadOnly,)
 
     def get_queryset(self):
         category = get_object_or_404(Category, pk=self.kwargs['category'])
@@ -149,3 +178,8 @@ class ModeratorSubcategoryViewSet(viewsets.ModelViewSet):
     queryset = SubCategory.objects.all()
     serializer_class = SubcategoryAdminSerializer
     permission_classes = (permissions.IsAdminUser,)
+
+
+class StatusCodeViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
+    queryset = StatusCode.objects.all()
+    serializer_class = StatusCodeTextSerializer

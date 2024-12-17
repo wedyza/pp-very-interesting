@@ -24,7 +24,8 @@ from api.views import (
     CategoryViewSet, TicketViewSet, ReviewViewSet,
     CustomUserViewSet, NotificationViewSet, SubCategoryViewSet,
     TicketAuditViewSet, ModeratorReviewViewSet,
-    ModeratorCategoryViewSet, ModeratorSubcategoryViewSet
+    ModeratorCategoryViewSet, ModeratorSubcategoryViewSet,
+    StatusCodeViewSet
 )
 from django.conf import settings
 from django.conf.urls.static import static
@@ -63,7 +64,10 @@ router.register(
     'admin_section/subcategories',
     ModeratorSubcategoryViewSet
 )
-
+router.register(
+    'status_code',
+    StatusCodeViewSet    
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
