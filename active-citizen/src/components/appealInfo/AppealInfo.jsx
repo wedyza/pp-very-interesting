@@ -36,7 +36,7 @@ function AppealInfo ({appeal, coords, address}) {
                     Дата и время заявки
                 </div>
                 <div className="appeal-info__item_value">
-                <DateDisplay isoDate={appeal.created_at} />
+                    <DateDisplay isoDate={appeal.created_at} />
                 </div>
             </div>
             <div className="appeal-info__item appeal-info__desc">

@@ -8,6 +8,10 @@ function PersonalData() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isEditingName, setIsEditingName] = useState(false);
+    const [isEditingPhone, setIsEditingPhone] = useState(false);
+    const [editNameValue, setEditNameValue] = useState('');
+    const [editPhoneValue, setEditPhoneValue] = useState('');
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -33,6 +37,63 @@ function PersonalData() {
 
         fetchUserData();
     }, []);
+
+    const handleSaveName = async () => {
+        const nameParts = editNameValue.trim().split(' ');
+        const updatedUser = {
+            last_name: nameParts[0] || user.last_name,
+            first_name: nameParts[1] || user.first_name,
+            given_name: nameParts.slice(2).join(' ') || user.given_name,
+        };
+
+        try {
+            const response = await fetch(`${API_URL}/auth/users/me/`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify(updatedUser),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.statusText}`);
+            }
+
+            const updatedData = await response.json();
+            setUser(updatedData);
+            setIsEditingName(false);
+        } catch (err) {
+            setError(err.message);
+        }
+    };
+
+    const handleSavePhone = async () => {
+        const updatedUser = {
+            phone_number: editPhoneValue,
+        };
+
+        try {
+            const response = await fetch(`${API_URL}/auth/users/me/`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify(updatedUser),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.statusText}`);
+            }
+
+            const updatedData = await response.json();
+            setUser(updatedData);
+            setIsEditingPhone(false);
+        } catch (err) {
+            setError(err.message);
+        }
+    };
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
@@ -87,24 +148,65 @@ function PersonalData() {
                 <div className="user-info__item user-info__name">
                     <div className="user-info__item_header">
                         <span className="user-info__item_label">ФИО</span>
-                        <button className='user-info__item_edit'>
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M14.3632 5.65156L15.8431 4.17157C16.6242 3.39052 17.8905 3.39052 18.6716 4.17157L20.0858 5.58579C20.8668 6.36683 20.8668 7.63316 20.0858 8.41421L18.6058 9.8942M14.3632 5.65156L4.74749 15.2672C4.41542 15.5993 4.21079 16.0376 4.16947 16.5054L3.92738 19.2459C3.87261 19.8659 4.39148 20.3848 5.0115 20.33L7.75191 20.0879C8.21972 20.0466 8.65806 19.8419 8.99013 19.5099L18.6058 9.8942M14.3632 5.65156L18.6058 9.8942" stroke="#656368" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
-                        </button>
+                        {!isEditingName && 
+                            <button
+                                className='user-info__item_edit'
+                                onClick={() => {
+                                    setIsEditingName(true);
+                                    setEditNameValue(`${user.last_name} ${user.first_name} ${user.given_name || ''}`);
+                                }}
+                            >
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M14.3632 5.65156L15.8431 4.17157C16.6242 3.39052 17.8905 3.39052 18.6716 4.17157L20.0858 5.58579C20.8668 6.36683 20.8668 7.63316 20.0858 8.41421L18.6058 9.8942M14.3632 5.65156L4.74749 15.2672C4.41542 15.5993 4.21079 16.0376 4.16947 16.5054L3.92738 19.2459C3.87261 19.8659 4.39148 20.3848 5.0115 20.33L7.75191 20.0879C8.21972 20.0466 8.65806 19.8419 8.99013 19.5099L18.6058 9.8942M14.3632 5.65156L18.6058 9.8942" stroke="#656368" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                            </button>
+                        }
                     </div>
-                    <span className="user-info__item_value">{`${user.first_name} ${user.last_name} ${user.given_name || ''}` || 'Нет данных'}</span>
+                    {isEditingName ? (
+                        <div className="edit_container edit-name_container">
+                            <input
+                                type="text"
+                                value={editNameValue}
+                                onChange={(e) => setEditNameValue(e.target.value)}
+                                className="user-info__edit-input"
+                            />
+                            <button onClick={handleSaveName} className="user-info__save-button">Сохранить</button>
+                        </div>
+                    ) : (
+                        <span className="user-info__item_value">{`${user.last_name} ${user.first_name} ${user.given_name || ''}` || 'Нет данных'}</span>
+                    )}
                 </div>
+
                 <div className="user-info__item user-info__phone">
                     <div className="user-info__item_header">
                         <span className="user-info__item_label">Номер телефона</span>
-                        <button className='user-info__item_edit'>
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M14.3632 5.65156L15.8431 4.17157C16.6242 3.39052 17.8905 3.39052 18.6716 4.17157L20.0858 5.58579C20.8668 6.36683 20.8668 7.63316 20.0858 8.41421L18.6058 9.8942M14.3632 5.65156L4.74749 15.2672C4.41542 15.5993 4.21079 16.0376 4.16947 16.5054L3.92738 19.2459C3.87261 19.8659 4.39148 20.3848 5.0115 20.33L7.75191 20.0879C8.21972 20.0466 8.65806 19.8419 8.99013 19.5099L18.6058 9.8942M14.3632 5.65156L18.6058 9.8942" stroke="#656368" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
-                        </button>
+                        {!isEditingPhone && 
+                            <button
+                                className='user-info__item_edit'
+                                onClick={() => {
+                                    setIsEditingPhone(true);
+                                    setEditPhoneValue(user.phone_number);
+                                }}
+                            >
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M14.3632 5.65156L15.8431 4.17157C16.6242 3.39052 17.8905 3.39052 18.6716 4.17157L20.0858 5.58579C20.8668 6.36683 20.8668 7.63316 20.0858 8.41421L18.6058 9.8942M14.3632 5.65156L4.74749 15.2672C4.41542 15.5993 4.21079 16.0376 4.16947 16.5054L3.92738 19.2459C3.87261 19.8659 4.39148 20.3848 5.0115 20.33L7.75191 20.0879C8.21972 20.0466 8.65806 19.8419 8.99013 19.5099L18.6058 9.8942M14.3632 5.65156L18.6058 9.8942" stroke="#656368" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                            </button>
+                        }
                     </div>
-                    <span className="user-info__item_value">{user.phone_number}</span>
+                    {isEditingPhone ? (
+                        <div className="edit_container edit-phone_container">
+                            <input
+                                type="text"
+                                value={editPhoneValue}
+                                onChange={(e) => setEditPhoneValue(e.target.value)}
+                                className="user-info__edit-input"
+                            />
+                            <button onClick={handleSavePhone} className="user-info__save-button">Сохранить</button>
+                        </div>
+                    ) : (
+                        <span className="user-info__item_value">{user.phone_number}</span>
+                    )}
                 </div>
                 <div className="user-info__item user-info-rating">
                     <div className="user-info__item_header">

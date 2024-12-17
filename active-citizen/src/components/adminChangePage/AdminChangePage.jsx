@@ -4,8 +4,10 @@ import React, { useEffect, useState } from 'react'
 import Search from '../search/Search'
 import { Link, useParams } from 'react-router-dom'
 import { API_URL } from '../../constants'
+import DateDisplay from '../dateDisplay/DateDisplay'
 
 function AdminChangePage ({id}) {
+    const accessToken = localStorage.getItem('accessToken');
     const [items, setItems] = useState([]);
     const [filteredItems, setFilteredItems] = useState([]);
     const [error, setError] = useState(null);
@@ -17,9 +19,10 @@ function AdminChangePage ({id}) {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await fetch(`${API_URL}/${id}/`, {
+                const response = await fetch(`${API_URL}/admin_section/${id}/`, {
                     headers: {
                         'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
                     },
                 });
                 if (!response.ok) {
@@ -75,7 +78,7 @@ function AdminChangePage ({id}) {
                                     Кто добавил:
                                 </div>
                                 <div className='change_item-card__value'>
-                                    {'и правда)) а кто))'}
+                                    {`${item.created_by.first_name} ${item.created_by.last_name}`}
                                 </div>
                             </div>
                             <div className="change_item-card__info">
@@ -83,7 +86,7 @@ function AdminChangePage ({id}) {
                                     Дата добавления:
                                 </div>
                                 <div className='change_item-card__value'>
-                                    {'точно раньше апи'}
+                                    <DateDisplay isoDate={item.created_at} />
                                 </div>
                             </div>
                         </AdminChangeItem>
