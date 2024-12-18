@@ -190,7 +190,7 @@ class ModeratorSubcategoryViewSet(viewsets.ModelViewSet):
 
     def get_serializer(self, *args, **kwargs):
         if self.action == 'create':
-            return SubcategoryAdminCreateSerializer
+            return SubcategoryAdminCreateSerializer(*args, **kwargs)
         return super().get_serializer(*args, **kwargs)
 
     def create(self, request, *args, **kwargs):
