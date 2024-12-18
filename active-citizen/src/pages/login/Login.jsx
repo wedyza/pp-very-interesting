@@ -10,7 +10,7 @@ function Login() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
     const navigate = useNavigate();
-    const { setIsAuthenticated } = useContext(AuthContext);
+    const { setIsAuthenticated, setUserGroup } = useContext(AuthContext);
 
     const handlePhoneChange = (e) => setPhone(e.target.value);
     const handlePasswordChange = (e) => setPassword(e.target.value);
@@ -18,7 +18,7 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
-
+    
         try {
             const response = await fetch(`${API_URL}/auth/jwt/create/`, {
                 method: 'POST',
@@ -30,13 +30,25 @@ function Login() {
                     password: password,
                 }),
             });
-
+    
             if (response.ok) {
                 const data = await response.json();
                 localStorage.setItem('accessToken', data.access);
                 localStorage.setItem('refreshToken', data.refresh);
                 setIsAuthenticated(true);
-                navigate('/');
+                const userResponse = await fetch(`${API_URL}/users/me/`, {
+                    headers: {
+                        Authorization: `Bearer ${data.access}`,
+                    },
+                });
+    
+                if (userResponse.ok) {
+                    const userData = await userResponse.json();
+                    setUserGroup(userData.user_group);
+                    navigate('/');
+                } else {
+                    setError('Ошибка получения данных пользователя');
+                }
             } else {
                 const errorData = await response.json();
                 setError(errorData.detail || 'Не удалось войти');
@@ -45,6 +57,7 @@ function Login() {
             setError('Ошибка соединения с сервером');
         }
     };
+    
 
     return (
         <div className='App'>

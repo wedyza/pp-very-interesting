@@ -17,22 +17,58 @@ import AdminIndex from './pages/adminIndex/AdminIndex'
 import AdminCategories from './pages/adminCategories/AdminCategories'
 import AdminSubcategories from './pages/adminSubcategories/AdminSubcategories'
 import AdminModerators from './pages/adminModerators/AdminModerators'
+import HomePage from './components/HomePage'
 
 function App() {
   return (
     <Routes>
       <Route path="/login" element={<Login />}/>
       <Route path="/registration" element={<Registration />}/>
-      <Route path="/" element={<UserIndex />}/>
-      <Route path="/moderator" element={<ModeratorIndex />}/>
-      <Route path="/admin" element={<AdminIndex />}/>
-      <Route path="/admin-categories" element={<AdminCategories />}/>
-      <Route path="/admin-subcategories" element={<AdminSubcategories />}/>
-      <Route path="/admin-moderators" element={<AdminModerators />}/>
+      <Route path="/" element={<HomePage />}/>
+      <Route 
+        path="/moderator" 
+        element={
+          <ProtectedRoute allowedGroups={[1]}>
+            <ModeratorIndex />
+          </ProtectedRoute>
+        }
+      />
+      <Route 
+        path="/admin" 
+        element={
+          <ProtectedRoute allowedGroups={[2]}>
+            <AdminIndex />
+          </ProtectedRoute>
+        }
+      />
+      <Route 
+        path="/admin-categories" 
+        element={
+          <ProtectedRoute allowedGroups={[2]}>
+            <AdminCategories />
+          </ProtectedRoute>
+        }
+      />
+      <Route 
+        path="/admin-subcategories" 
+        element={
+          <ProtectedRoute allowedGroups={[2]}>
+            <AdminSubcategories />
+          </ProtectedRoute>
+        }
+      />
+      <Route 
+        path="/admin-moderators" 
+        element={
+          <ProtectedRoute allowedGroups={[2]}>
+            <AdminModerators />
+          </ProtectedRoute>
+        }
+      />
       <Route 
         path="/notifications" 
         element={
-          <ProtectedRoute>
+          <ProtectedRoute allowedGroups={[0]}>
             <NotificationsPage />
           </ProtectedRoute>
         }
@@ -40,7 +76,7 @@ function App() {
       <Route 
         path="/history" 
         element={
-          <ProtectedRoute>
+          <ProtectedRoute allowedGroups={[0]}>
             <HistoryPage />
           </ProtectedRoute>
         }
@@ -57,7 +93,7 @@ function App() {
       <Route 
         path="/moderator-appeal/:appealId" 
         element={
-          <ProtectedRoute>
+          <ProtectedRoute allowedGroups={[1]}>
             <ModeratorAppealPage />
           </ProtectedRoute>
         }
@@ -65,7 +101,7 @@ function App() {
       <Route 
         path="/appeal/:appealId" 
         element={
-          <ProtectedRoute>
+          <ProtectedRoute allowedGroups={[0]}>
             <AppealPage />
           </ProtectedRoute>
         }
@@ -73,7 +109,7 @@ function App() {
       <Route 
         path="/create-appeal" 
         element={
-          <ProtectedRoute>
+          <ProtectedRoute allowedGroups={[0]}>
             <CreateAppeal />
           </ProtectedRoute>
         }

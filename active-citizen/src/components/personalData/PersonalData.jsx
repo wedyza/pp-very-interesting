@@ -47,7 +47,7 @@ function PersonalData() {
         };
 
         try {
-            const response = await fetch(`${API_URL}/auth/users/me/`, {
+            const response = await fetch(`${API_URL}/users/me/`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ function PersonalData() {
         };
 
         try {
-            const response = await fetch(`${API_URL}/auth/users/me/`, {
+            const response = await fetch(`${API_URL}/users/me/`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
