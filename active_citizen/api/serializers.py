@@ -120,9 +120,6 @@ class NotificationSerializer(serializers.ModelSerializer):
         model = Notification
         fields = ('ticket', 'is_read', 'user', 'created_at', 'status_code_changed_on')
 
-    def create(self, validated_data):
-        return super().create(validated_data)
-
     def get_ticket_title(self, obj):
         return obj.ticket.title
 
@@ -203,9 +200,7 @@ class ReviewSerializer(serializers.ModelSerializer):
 #         model = SupportTicket
 #         fields = '__all__'
 
-class SubcategoryAdminSerializer(serializers.ModelSerializer):
-    created_by = CustomUserSerializer()
-    category = CategorySerializer()
+class SubcategoryAdminCreateSerializer(serializers.ModelSerializer):
     source = Base64ImageField(required=False, allow_null=True)
     source_url = serializers.SerializerMethodField(
         'get_source_url',
@@ -221,10 +216,13 @@ class SubcategoryAdminSerializer(serializers.ModelSerializer):
         if obj.source:
             return obj.source.url
         return None
+    
+
+class SubcategoryAdminSerializer(SubcategoryAdminCreateSerializer):
+    category = CategorySerializer()
 
 
 class CategoryAdminSerializer(serializers.ModelSerializer):
-    created_by = CustomUserSerializer()
     source = Base64ImageField(required=False, allow_null=True)
     source_url = serializers.SerializerMethodField(
         'get_source_url',

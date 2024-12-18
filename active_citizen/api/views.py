@@ -12,7 +12,8 @@ from .serializers import (
     TicketAuditSerializer, TicketCreateSerializer,
     TicketWithLastCommentSerializer,
     CategoryAdminSerializer, SubcategoryAdminSerializer,
-    StatusCodeTextSerializer, ModeratorBoolSerializer
+    StatusCodeTextSerializer, ModeratorBoolSerializer,
+    SubcategoryAdminCreateSerializer
 )
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -179,10 +180,27 @@ class ModeratorCategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategoryAdminSerializer
     permission_classes = (permissions.IsAdminUser,)
 
+    def perform_create(self, serializer):
+        serializer.save(created_by=self.request.user)
+
 class ModeratorSubcategoryViewSet(viewsets.ModelViewSet):
     queryset = SubCategory.objects.all()
     serializer_class = SubcategoryAdminSerializer
     permission_classes = (permissions.IsAdminUser,)
+
+    def get_serializer(self, *args, **kwargs):
+        if self.action == 'create':
+            return SubcategoryAdminCreateSerializer
+        return super().get_serializer(*args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(created_by=request.user)
+        return Response(serializer.data)
+
+    # def perform_create(self, serializer):
+    #     serializer.save(created_by=self.request.user)
 
 
 class StatusCodeViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):

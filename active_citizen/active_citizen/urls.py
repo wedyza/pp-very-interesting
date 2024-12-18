@@ -37,17 +37,17 @@ router.register('users', CustomUserViewSet)
 router.register('tickets', TicketViewSet)
 router.register('notifications', NotificationViewSet, basename='notifications')
 router.register(
-    r'categories/(?P<category_id>\d+)/subcategories',
+    r'categories/(?P<category>\d+)/subcategories',
     SubCategoryViewSet,
     basename='subcategories'
 )
 router.register(
-    r'tickets/(?P<ticket_id>\d+)/reviews',
+    r'tickets/(?P<ticket>\d+)/reviews',
     ReviewViewSet,
     basename='reviews'
 )
 router.register(
-    r'tickets/(?P<ticket_id>\d+)/audit',
+    r'tickets/(?P<ticket>\d+)/audit',
     TicketAuditViewSet,
     basename='ticket-audit'
 )
