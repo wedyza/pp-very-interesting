@@ -159,11 +159,10 @@ class CategorySerializer(serializers.ModelSerializer):
         'get_source_url',
         read_only=True
     )
-    created_by = CustomUserSerializer(read_only=True)
 
     class Meta:
         model = Category
-        fields = ('id', 'title', 'description', 'source', 'source_url', 'created_by', 'created_at')
+        fields = ('id', 'title', 'description', 'source', 'source_url')
 
     def get_source_url(self, obj):
         if obj.source:
@@ -178,11 +177,10 @@ class SubCategorySerializer(serializers.ModelSerializer):
         'get_source_url',
         read_only=True
     )
-    created_by = CustomUserSerializer(read_only=True)
 
     class Meta:
         model = SubCategory
-        fields = '__all__'
+        fields = ('id', 'title', 'description', 'source', 'source_url', 'category')
 
     def get_source_url(self, obj):
         if obj.source:
@@ -208,6 +206,7 @@ class SubcategoryAdminCreateSerializer(serializers.ModelSerializer):
         'get_source_url',
         read_only=True
     )
+    created_by = CustomUserSerializer(read_only=True)
 
     class Meta:
         model = SubCategory
@@ -220,16 +219,13 @@ class SubcategoryAdminCreateSerializer(serializers.ModelSerializer):
         return None
     
 
-class SubcategoryAdminSerializer(SubcategoryAdminCreateSerializer):
-    category = CategorySerializer()
-
-
 class CategoryAdminSerializer(serializers.ModelSerializer):
     source = Base64ImageField(required=False, allow_null=True)
     source_url = serializers.SerializerMethodField(
         'get_source_url',
         read_only=True
     )
+    created_by = CustomUserSerializer(read_only=True)
 
     class Meta:
         model = Category
@@ -240,3 +236,7 @@ class CategoryAdminSerializer(serializers.ModelSerializer):
         if obj.source:
             return obj.source.url
         return None
+
+
+class SubcategoryAdminSerializer(SubcategoryAdminCreateSerializer):
+    category = CategoryAdminSerializer()
