@@ -30,6 +30,35 @@ class StatusCodeTextSerializer(serializers.ModelSerializer):
         fields = ('title',)
 
 
+class CustomUserSerializer(UserSerializer):
+    avatar = Base64ImageField(required=False, allow_null=True)
+    avatar_url = serializers.SerializerMethodField(
+        'get_avatar_url',
+        read_only=True
+    )
+    user_group = serializers.SerializerMethodField(
+        'get_user_group',
+        read_only=True
+    )
+
+    class Meta:
+        model = get_user_model()
+        fields = ('phone_number', 'id', 'first_name', 'last_name', 'given_name', 'rating', 'avatar', 'avatar_url', 'user_group')
+
+
+    def get_avatar_url(self, obj):
+        if obj.avatar:
+            return obj.avatar.url
+        return None
+
+    def get_user_group(self, obj):
+        if obj.is_superuser:
+            return 2
+        elif obj.is_staff:
+            return 1
+        return 0
+
+
 class TicketNotificationSerializer(serializers.ModelSerializer):
     # url = serializers.SerializerMethodField()
 
@@ -130,44 +159,16 @@ class CategorySerializer(serializers.ModelSerializer):
         'get_source_url',
         read_only=True
     )
+    created_by = CustomUserSerializer(read_only=True)
 
     class Meta:
         model = Category
-        fields = ('id', 'title', 'description', 'source', 'source_url')
+        fields = ('id', 'title', 'description', 'source', 'source_url', 'created_by', 'created_at')
 
     def get_source_url(self, obj):
         if obj.source:
             return obj.source.url
         return None
-    
-
-class CustomUserSerializer(UserSerializer):
-    avatar = Base64ImageField(required=False, allow_null=True)
-    avatar_url = serializers.SerializerMethodField(
-        'get_avatar_url',
-        read_only=True
-    )
-    user_group = serializers.SerializerMethodField(
-        'get_user_group',
-        read_only=True
-    )
-
-    class Meta:
-        model = get_user_model()
-        fields = ('phone_number', 'id', 'first_name', 'last_name', 'given_name', 'rating', 'avatar', 'avatar_url', 'user_group')
-
-
-    def get_avatar_url(self, obj):
-        if obj.avatar:
-            return obj.avatar.url
-        return None
-
-    def get_user_group(self, obj):
-        if obj.is_superuser:
-            return 2
-        elif obj.is_staff:
-            return 1
-        return 0
 
 
 class SubCategorySerializer(serializers.ModelSerializer):
@@ -177,6 +178,7 @@ class SubCategorySerializer(serializers.ModelSerializer):
         'get_source_url',
         read_only=True
     )
+    created_by = CustomUserSerializer(read_only=True)
 
     class Meta:
         model = SubCategory
