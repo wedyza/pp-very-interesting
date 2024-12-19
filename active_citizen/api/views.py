@@ -102,7 +102,9 @@ class TicketViewSet(viewsets.ModelViewSet):
         return super().get_serializer(*args, **kwargs)
 
     def get_queryset(self):
-        return Ticket.objects.filter(user_id=self.request.user.id)
+        if self.action == 'list':
+            return Ticket.objects.filter(user_id=self.request.user.id)
+        return Ticket.objects.all()
 
     def perform_update(self, serializer):
         if not serializer.instance.draft:
