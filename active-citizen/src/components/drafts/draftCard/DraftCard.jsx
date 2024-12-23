@@ -3,8 +3,7 @@ import AppealOptions from '../../appealOptions/AppealOptions'
 
 function DraftCard ({draft}) {
     const datetime = new Date(draft.created_at);
-    const date = `${String(datetime.getDate()).padStart(2, '0')}
-        .${String(datetime.getMonth() + 1).padStart(2, '0')}.${datetime.getFullYear()}`;
+    const date = `${String(datetime.getDate()).padStart(2, '0')}.${String(datetime.getMonth() + 1).padStart(2, '0')}.${datetime.getFullYear()}`;
     const time = `${String(datetime.getHours()).padStart(2, '0')}:${String(datetime.getMinutes()).padStart(2, '0')}`;
 
     return (

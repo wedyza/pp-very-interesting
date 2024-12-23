@@ -9,53 +9,35 @@ import CustomCheckbox from '../../components/customCheckbox/CustomCheckbox'
 
 function ModeratorIndex() {
     const accessToken = localStorage.getItem('accessToken');
-    const appeals = [
-        {
-            id: 1,
-            status: 'Ожидает проверки',
-            title: 'Кривая дорога',
-            category: 'Название категории',
-            subcategory: 'подкатегория 1',
-            user: 'Аа Бб Вв',
-            rating: '4.3',
-            current_number: '1',
-            time: '10:15',
-            date: '17.02.2024',
-            comment: '-',
-        },
-        {
-            id: 2,
-            status: 'Ожидает проверки',
-            title: 'Очень кривая дорога',
-            category: 'Второе название категории',
-            subcategory: 'подкатегория 1',
-            user: 'Аа Бб Вв',
-            rating: '4.3',
-            current_number: '1',
-            time: '10:15',
-            date: '17.03.2024',
-            comment: '-',
-        },
-        {
-            id: 3,
-            status: 'Отклонено',
-            title: 'Жесть кривая дорога',
-            category: 'Название категории',
-            subcategory: 'подкатегория 1',
-            user: 'Аа Бб Вв',
-            rating: '4.3',
-            current_number: '1',
-            time: '10:16',
-            date: '17.03.2024',
-            comment: '-',
-        },
-    ];
-
+    const [appeals, setAppeals] = useState([]);
     const [filteredAppeals, setFilteredAppeals] = useState(appeals);
     const [categories, setCategories] = useState([]);
     const [selectedStatuses, setSelectedStatuses] = useState([]);
     const [selectedCategories, setSelectedCategories] = useState(['Все категории']);
     const [sortOrder, setSortOrder] = useState('Сначала новые');
+
+    useEffect(() => {
+        const fetchAppeals = async () => {
+            try {
+                const response = await fetch(`${API_URL}/tickets/all/`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                });
+
+                if (!response.ok) throw new Error('Failed to fetch appeals');
+
+                const data = await response.json();
+                setAppeals(data);
+                setFilteredAppeals(data);
+            } catch (error) {
+                console.error('Ошибка загрузки заявок:', error);
+            }
+        };
+
+        fetchAppeals();
+    }, [accessToken]);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -88,8 +70,8 @@ function ModeratorIndex() {
 
     const sortByDate = (data) => {
         return data.slice().sort((a, b) => {
-            const dateA = parseDateTime(a.date, a.time);
-            const dateB = parseDateTime(b.date, b.time);
+            const dateA = new Date(a.created_at);
+            const dateB = new Date(b.created_at);
             return sortOrder === 'Сначала новые' ? dateB - dateA : dateA - dateB;
         });
     };

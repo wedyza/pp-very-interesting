@@ -2,6 +2,10 @@ import './moderatorAppeal.css'
 import { Link } from 'react-router-dom'
 
 function ModeratorAppeal ( {appeal} ) {
+    const datetime = new Date(appeal.created_at);
+    const date = `${String(datetime.getDate()).padStart(2, '0')}.${String(datetime.getMonth() + 1).padStart(2, '0')}.${datetime.getFullYear()}`;
+    const time = `${String(datetime.getHours()).padStart(2, '0')}:${String(datetime.getMinutes()).padStart(2, '0')}`;
+
     return (
         <div className='moderator-appeal'>
             <div className="moderator-appeal_header">
@@ -39,7 +43,7 @@ function ModeratorAppeal ( {appeal} ) {
                             Автор:
                         </p>
                         <p className="moderator-appeal_info__value">
-                            {appeal.user}
+                            {appeal.user.first_name}
                         </p>
                     </div>
                     <div className="moderator-appeal_info__item">
@@ -47,7 +51,7 @@ function ModeratorAppeal ( {appeal} ) {
                             Рейтинг пользователя:
                         </p>
                         <p className="moderator-appeal_info__value">
-                            {appeal.rating}
+                            {appeal.user.rating}
                         </p>
                     </div>
                 </div>
@@ -57,7 +61,7 @@ function ModeratorAppeal ( {appeal} ) {
                             Номер проверки:
                         </p>
                         <p className="moderator-appeal_info__value">
-                            {appeal.current_number}
+                            {appeal.reviews_count}
                         </p>
                     </div>
                     <div className="moderator-appeal_info__item">
@@ -65,7 +69,7 @@ function ModeratorAppeal ( {appeal} ) {
                             Время заявки:
                         </p>
                         <p className="moderator-appeal_info__value">
-                            {appeal.time}
+                            {time}
                         </p>
                     </div>
                     <div className="moderator-appeal_info__item">
@@ -73,7 +77,7 @@ function ModeratorAppeal ( {appeal} ) {
                             Дата заявки:
                         </p>
                         <p className="moderator-appeal_info__value">
-                            {appeal.date}
+                            {date}
                         </p>
                     </div>
                     <div className="moderator-appeal_info__item">
@@ -81,12 +85,12 @@ function ModeratorAppeal ( {appeal} ) {
                             Комментарий:
                         </p>
                         <p className="moderator-appeal_info__value">
-                            {appeal.comment}
+                            {appeal.latest_review}
                         </p>
                     </div>
                 </div>
             </div>
-            <Link to={'#'}>
+            <Link to={`/moderator-appeal/${appeal.id}`}>
                 <div className="moderator-appeal_open">
                     Проверить заявку
                 </div>
