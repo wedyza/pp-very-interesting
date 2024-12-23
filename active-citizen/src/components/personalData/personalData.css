@@ -9,7 +9,8 @@
     grid-template-areas: 
         "avatar name"
         "avatar number"
-        ". rating";
+        ". rating"
+        ". exit";
     width: 100%;
     justify-content: space-between;
     column-gap: 32px;
@@ -172,4 +173,18 @@
     border-radius: 10px;
     color: var(--blue950);
     font-weight: 600;
+}
+
+.profile__exit .profile__nav__item_icon path {
+    stroke: none;
+    fill: var(--gray-text);
+}
+
+.profile__exit {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--gray-text);
+    margin-top: 100px;
+    grid-area: exit;
 }

@@ -1,9 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import './personalData.css'
 import avatar from '../../img/empty.jpg'
 import { API_URL } from '../../constants'
+import { AuthContext } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 function PersonalData() {
+    const { logout, userGroup } = useContext(AuthContext);
     const accessToken = localStorage.getItem('accessToken');
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -12,6 +15,12 @@ function PersonalData() {
     const [isEditingPhone, setIsEditingPhone] = useState(false);
     const [editNameValue, setEditNameValue] = useState('');
     const [editPhoneValue, setEditPhoneValue] = useState('');
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        navigate('/');
+    };
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -208,26 +217,45 @@ function PersonalData() {
                         <span className="user-info__item_value">{user.phone_number}</span>
                     )}
                 </div>
-                <div className="user-info__item user-info-rating">
-                    <div className="user-info__item_header">
-                        <span className="user-info__item_label">Ваш рейтинг</span>
-                        <button className='user-info__item_info'>
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 11.5V16.5" stroke="#656368" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                                <path d="M12 7.51L12.01 7.49889" stroke="#656368" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#656368" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                {userGroup === 0 ? (
+                    <div className="user-info__item user-info-rating">
+                        <div className="user-info__item_header">
+                            <span className="user-info__item_label">Ваш рейтинг</span>
+                            <button className='user-info__item_info'>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 11.5V16.5" stroke="#656368" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                    <path d="M12 7.51L12.01 7.49889" stroke="#656368" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#656368" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                            </button>                            
+                        </div>
+                        <div className="user-rating__value">
+                            <div className="user-rating__stars">
+                                {ratingStars}
+                            </div>
+                            <div className="user-info__item_value">
+                                {user.rating.toFixed(1)}
+                            </div>
+                        </div>
+                    </div>
+                    ) : (
+                        <button onClick={handleLogout} className='profile__exit'>
+                            <svg className='profile__nav__item_icon' width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fillRule="evenodd" clipRule="evenodd" d="M5 4.13086C3.75736 4.13086 2.75 5.13822 2.75 6.38086V18.3809C2.75 19.6235 3.75736 20.6309 5 20.6309H7C8.24264 20.6309 9.25 19.6235 9.25 18.3809V6.38086C9.25 5.13822 8.24264 4.13086 7 4.13086H5ZM1.25 6.38086C1.25 4.30979 2.92893 2.63086 5 2.63086H7C9.07107 2.63086 10.75 4.30979 10.75 6.38086V18.3809C10.75 20.4519 9.07107 22.1309 7 22.1309H5C2.92893 22.1309 1.25 20.4519 1.25 18.3809V6.38086Z" fill="url(#paint0_linear_8_1648)"/>
+                                <path fillRule="evenodd" clipRule="evenodd" d="M15.25 3.38086C15.25 2.96665 15.5858 2.63086 16 2.63086H18C20.6234 2.63086 22.75 4.75751 22.75 7.38086V17.3809C22.75 20.0042 20.6234 22.1309 18 22.1309H16C15.5858 22.1309 15.25 21.7951 15.25 21.3809C15.25 20.9666 15.5858 20.6309 16 20.6309H18C19.7949 20.6309 21.25 19.1758 21.25 17.3809V7.38086C21.25 5.58593 19.7949 4.13086 18 4.13086H16C15.5858 4.13086 15.25 3.79507 15.25 3.38086Z" fill="url(#paint1_linear_8_1648)"/>
+                                <path fillRule="evenodd" clipRule="evenodd" d="M18.5303 12.9112C18.8232 12.6183 18.8232 12.1434 18.5303 11.8505L15.5303 8.85053C15.2374 8.55764 14.7626 8.55764 14.4697 8.85053C14.1768 9.14342 14.1768 9.6183 14.4697 9.91119L16.1893 11.6309H10C9.58579 11.6309 9.25 11.9666 9.25 12.3809C9.25 12.7951 9.58579 13.1309 10 13.1309H16.1893L14.4697 14.8505C14.1768 15.1434 14.1768 15.6183 14.4697 15.9112C14.7626 16.2041 15.2374 16.2041 15.5303 15.9112L18.5303 12.9112Z" fill="url(#paint2_linear_8_1648)"/>
+                                <defs>
+                                <linearGradient id="paint0_linear_8_1648" x1="10.0456" y1="2.63086" x2="-3.81488" y2="16.3866" gradientUnits="userSpaceOnUse">
+                                <stop stopColor="#FFF200"/>
+                                <stop offset="0.468465" stopColor="#ECBF2A"/>
+                                <stop offset="1" stopColor="#6219E8"/>
+                                </linearGradient>
+                                </defs>
                             </svg>
-                        </button>                            
-                    </div>
-                    <div className="user-rating__value">
-                        <div className="user-rating__stars">
-                            {ratingStars}
-                        </div>
-                        <div className="user-info__item_value">
-                            {user.rating.toFixed(1)}
-                        </div>
-                    </div>
-                </div>
+                            <span>Выйти</span>
+                        </button>
+                    )
+                }
             </div>
         </div>
     )
