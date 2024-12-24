@@ -69,6 +69,13 @@ function CreateAppeal() {
             console.error('Ошибка при сохранении черновика:', err);
         }
     };
+
+    const handleSubmitDraft = async (e) => {
+        e.preventDefault();
+        saveDraft();
+        navigate('/');
+
+    }
     
     useEffect(() => {
         const handleBeforeUnload = (event) => {
@@ -204,7 +211,7 @@ function CreateAppeal() {
             <Header />
             <section className='page_content'>
                 <h1 className='text-title'>Создание заявки</h1>
-                <form className='create-appeal__form' onSubmit={handleSubmit}>
+                <form className='create-appeal__form'>
                     <div className="appeal-form__title">
                         <h2 className='appeal-form__title_text'>Категории</h2>
                         <hr className='appeal-form__title_line' />
@@ -304,7 +311,10 @@ function CreateAppeal() {
                         </div>
                     </div>
                     {error && <div>{error}</div>}
-                    <button type='submit' className='appeal-form_button'>Отправить на модерацию</button>
+                    <div className="appeal-form_buttons">
+                        <button type='submit' className='appeal-form_button' onClick={handleSubmit}>Отправить на модерацию</button>
+                        <button type='submit' className='appeal-form_button_draft' onClick={handleSubmitDraft}>Сохранить черновик</button>
+                    </div>
                 </form>
             </section>
             <Modal isOpen={isModalOpen} onClose={closeModal} modalClass='appeal_modal'>

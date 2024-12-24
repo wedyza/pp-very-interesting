@@ -107,13 +107,18 @@
     display: none;
 }
 
+.appeal-form_buttons {
+    margin-top: 48px;
+    display: flex;
+    gap: 64px;
+}
+
 .appeal-form_button {
     background-color: var(--yellow);
     width: 370px;
     height: 55px;
     border-radius: 15px;
     font-weight: 600;
-    margin-top: 48px;
     position: relative;
 }
 
@@ -131,6 +136,16 @@
     transform: scale(-1, 1);
     transform: skew(-4deg, 4deg);
     z-index: -1;
+}
+
+.appeal-form_button_draft {
+    width: 370px;
+    height: 55px;
+    border: 2px solid var(--blue600);
+    border-radius: 15px;
+    color: var(--blue950);
+    font-weight: 600;
+    background-color: var(--background);
 }
 
 .appeal-form__images {
