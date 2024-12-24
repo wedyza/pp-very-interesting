@@ -110,6 +110,8 @@ class TicketWithLastCommentSerializer(serializers.ModelSerializer):
     reviews_count = serializers.SerializerMethodField()
     user = CustomUserSerializer()
     status_code = StatusCodeTextSerializer()
+    category = serializers.StringRelatedField()
+    subcategory = serializers.StringRelatedField()
 
 
     class Meta:
