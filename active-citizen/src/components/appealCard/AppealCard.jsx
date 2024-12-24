@@ -3,9 +3,9 @@ import AppealOptions from '../appealOptions/AppealOptions'
 import icon from '../../img/community.svg'
 import DateDisplay from '../dateDisplay/DateDisplay';
 
-function AppealCard ({appeal}) {
+function AppealCard ({appeal, onDelete}) {
     const statusConfig = {
-        'Принято': {
+        'Одобрена': {
             textClass: 'status_accepted'
         },
         'Отклонено': {
@@ -15,7 +15,7 @@ function AppealCard ({appeal}) {
             textClass: 'status_checking'
         }
     };
-    const { textClass } = statusConfig[appeal.status] || {};
+    const { textClass } = statusConfig[appeal.status_code] || {};
 
     return (
         <div className='history__appeal-card'>
@@ -40,9 +40,9 @@ function AppealCard ({appeal}) {
                 <AppealOptions showHistory />
             : 
             appeal.status === 'Отклонено' ?
-                <AppealOptions showDelete showHistory />
+                <AppealOptions showDelete showHistory appealId={appeal.id} onDelete={onDelete} />
             :
-                <AppealOptions showDelete showEdit showHistory />
+                <AppealOptions showDelete showEdit showHistory appealId={appeal.id} onDelete={onDelete} />
             }
             
         </div>

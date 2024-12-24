@@ -46,6 +46,10 @@ function HistoryPage () {
         return statusFilter === 'Статус' || appeal.status === statusFilter;
     }));
 
+    const handleDeleteAppeal = (id) => {
+        setHistoryData((prevAppeals) => prevAppeals.filter((appeal) => appeal.id !== id));
+    };
+
     return (
         <div className='App'>
             <Header />
@@ -69,7 +73,7 @@ function HistoryPage () {
                     <ul className="history__list">
                         {filteredAndSortedData.map((appeal, index) => (
                             <li key={index} className="history__list_item">
-                                <AppealCard appeal={appeal} />
+                                <AppealCard appeal={appeal} onDelete={handleDeleteAppeal} />
                             </li>
                         ))}
                     </ul>

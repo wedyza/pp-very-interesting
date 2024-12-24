@@ -37,6 +37,11 @@ function Drafts () {
         setFilteredDrafts(results);
     };
 
+    const handleDeleteAppeal = (id) => {
+        setDrafts((prevAppeals) => prevAppeals.filter((appeal) => appeal.id !== id));
+        setFilteredDrafts((prevAppeals) => prevAppeals.filter((appeal) => appeal.id !== id));
+    };
+
     return (
         <div className="drafts">
             <div className="drafts__header">
@@ -58,7 +63,7 @@ function Drafts () {
             <ul className="drafts-list">
                 {filteredDrafts.map((draft, index) => (
                     <li key={index} className="draft-list__item">
-                        <DraftCard draft={draft} />
+                        <DraftCard draft={draft} onDelete={handleDeleteAppeal} />
                     </li>
                 ))}
             </ul>

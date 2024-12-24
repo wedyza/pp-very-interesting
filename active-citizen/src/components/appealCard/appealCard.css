@@ -48,6 +48,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: normal;
+    word-wrap: break-word;
+    padding: 3px 0;
 }
 
 .appeal-card__datetime {

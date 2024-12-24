@@ -10,7 +10,7 @@ function ModeratorAppeal ( {appeal} ) {
         <div className='moderator-appeal'>
             <div className="moderator-appeal_header">
                 <span className='moderator-appeal_id'>{`№ ${appeal.id}`}</span>
-                <span className='moderator-appeal_status'>{appeal.status}</span>
+                <span className='moderator-appeal_status'>{appeal.status_code.title}</span>
             </div>
             <div className="moderator-appeal_info">
                 <div className="moderator-appeal_info__first">
@@ -43,7 +43,7 @@ function ModeratorAppeal ( {appeal} ) {
                             Автор:
                         </p>
                         <p className="moderator-appeal_info__value">
-                            {appeal.user.first_name}
+                            {`${appeal.user.first_name} ${appeal.user.last_name} ${appeal.user.given_name}`}
                         </p>
                     </div>
                     <div className="moderator-appeal_info__item">

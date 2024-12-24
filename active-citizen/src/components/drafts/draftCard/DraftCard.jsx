@@ -1,7 +1,7 @@
 import './../draftCard/draftCard.css'
 import AppealOptions from '../../appealOptions/AppealOptions'
 
-function DraftCard ({draft}) {
+function DraftCard ({draft, onDelete}) {
     const datetime = new Date(draft.created_at);
     const date = `${String(datetime.getDate()).padStart(2, '0')}.${String(datetime.getMonth() + 1).padStart(2, '0')}.${datetime.getFullYear()}`;
     const time = `${String(datetime.getHours()).padStart(2, '0')}:${String(datetime.getMinutes()).padStart(2, '0')}`;
@@ -29,7 +29,7 @@ function DraftCard ({draft}) {
                     </span>
                 </div>
             </div>
-            <AppealOptions showDelete showEdit />
+            <AppealOptions showDelete showEdit appealId={draft.id} onDelete={onDelete} />
         </div>
     )
 }
