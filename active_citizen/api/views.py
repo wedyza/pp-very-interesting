@@ -90,6 +90,7 @@ class NotificationViewSet(
 
 class TicketViewSet(viewsets.ModelViewSet):
     queryset = Ticket.objects.all()
+    serializer_class = TicketSerializer
     filter_backends = (DjangoFilterBackend, )
     filterset_fields = ('draft',)
 
@@ -98,7 +99,7 @@ class TicketViewSet(viewsets.ModelViewSet):
             return TicketCreateSerializer(*args, **kwargs)
         elif self.action == 'all':
             return TicketWithLastCommentSerializer(*args, **kwargs)
-        return super().get_serializer(*args, **kwargs)
+        return TicketSerializer(*args, **kwargs)
 
     def get_queryset(self):
         if self.action == 'list':
