@@ -1,13 +1,12 @@
 import Header from '../../components/header/Header'
 import './createAppeal.css'
-import { useLocation } from 'react-router-dom'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import SelectList from '../../components/selectList/SelectList'
 import ImageUploader from '../../components/imageUploader/ImageUploader'
 import AddressPicker from '../../components/addressPicker/AddressPicker'
 import { API_URL } from '../../constants'
 import Modal from '../../components/modal/Modal'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 function CreateAppeal() {
     const [isModalOpen, setModalOpen] = useState(false);
@@ -32,13 +31,54 @@ function CreateAppeal() {
     const [selectedSubcategoryId, setSelectedSubcategoryId] = useState(initialSubcategoryId || '');
     const [selectedSubcategory, setSelectedSubcategory] = useState(initialSubcategory || '');
     const [error, setError] = useState(null);
-    //const [address, setAddress] = useState('');
     const [latitude, setLatitude] = useState(null);
     const [longtitude, setlongtitude] = useState(null);
     const [images, setImages] = useState([]);
 
     const titleRef = useRef();
     const bodyRef = useRef();
+
+    const saveDraft = async () => {
+        const title = titleRef.current?.value || '';
+        const body = bodyRef.current?.value || '';
+
+        if (!title) {
+            return;
+        }
+
+        const draftData = {
+            title,
+            body,
+            latitude: latitude ? parseFloat(latitude.toFixed(6)) : null,
+            longtitude: longtitude ? parseFloat(longtitude.toFixed(6)) : null,
+            category: selectedCategoryId || null,
+            subcategory: selectedSubcategoryId || null,
+            draft: 1,
+        };
+
+        try {
+            await fetch(`${API_URL}/tickets/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify(draftData),
+            });
+        } catch (err) {
+            console.error('Ошибка при сохранении черновика:', err);
+        }
+    };
+    
+    useEffect(() => {
+        const handleBeforeUnload = (event) => {
+            saveDraft();
+        };
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, [saveDraft]);
 
     useEffect(() => {
         const fetchCategories = async () => {
