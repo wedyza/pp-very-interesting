@@ -114,7 +114,7 @@ class TicketWithLastCommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ticket
-        fields = ('title', 'body', 'longtitude', 'latitude', 'time', 'draft', 'latest_review', 'reviews_count', 'user', 'media', 'status_code')
+        fields = ('title', 'body', 'longtitude', 'latitude', 'time', 'draft', 'latest_review', 'reviews_count', 'user', 'media', 'status_code', 'created_at', 'id')
 
     def get_latest_review(self, obj):
         reviews = Review.objects.filter(ticket_id=obj.id)
