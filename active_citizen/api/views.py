@@ -150,7 +150,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
         ticket.status_code = status_code
         ticket.save()
 
-        notification = Notification.objects.create(status_code_changed_on=status_code, user_id=self.request.user.id, ticket=ticket)
+        notification = Notification.objects.create(status_code_changed_on=status_code, user_id=ticket.user, ticket=ticket)
         notification.save()
 
         serializer.save(user_id=self.request.user.id, ticket=ticket)
