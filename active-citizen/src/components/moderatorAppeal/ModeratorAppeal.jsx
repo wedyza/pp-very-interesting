@@ -43,7 +43,7 @@ function ModeratorAppeal ( {appeal} ) {
                             Автор:
                         </p>
                         <p className="moderator-appeal_info__value">
-                            {`${appeal.user.first_name} ${appeal.user.last_name} ${appeal.user.given_name}`}
+                            {`${appeal.user.first_name} ${appeal.user.last_name} ${appeal.user.given_name || ''}`}
                         </p>
                     </div>
                     <div className="moderator-appeal_info__item">
@@ -85,7 +85,7 @@ function ModeratorAppeal ( {appeal} ) {
                             Комментарий:
                         </p>
                         <p className="moderator-appeal_info__value">
-                            {appeal.latest_review}
+                            {appeal.latest_review || '-'}
                         </p>
                     </div>
                 </div>

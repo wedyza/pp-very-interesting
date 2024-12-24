@@ -12,6 +12,7 @@ function ModeratorIndex() {
     const [appeals, setAppeals] = useState([]);
     const [filteredAppeals, setFilteredAppeals] = useState(appeals);
     const [categories, setCategories] = useState([]);
+    const [statuses, setStatuses] = useState([]);
     const [selectedStatuses, setSelectedStatuses] = useState([]);
     const [selectedCategories, setSelectedCategories] = useState(['Все категории']);
     const [sortOrder, setSortOrder] = useState('Сначала новые');
@@ -58,14 +59,27 @@ function ModeratorIndex() {
         fetchCategories();
     }, []);
 
+    useEffect(() => {
+        const fetchStatus = async () => {
+            try {
+                const response = await fetch(`${API_URL}/status_codes//`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                });
+                if (!response.ok) throw new Error('Failed to fetch categories');
+                const data = await response.json();
+                setStatuses([...data.map((cat) => cat.title)]);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchStatus();
+    }, []);
+
     const handleSearchResults = (results) => {
         setFilteredAppeals(results);
-    };
-
-    const parseDateTime = (date, time) => {
-        const [day, month, year] = date.split('.').map(Number);
-        const [hours, minutes] = time.split(':').map(Number);
-        return new Date(year, month - 1, day, hours, minutes);
     };
 
     const sortByDate = (data) => {
@@ -78,7 +92,7 @@ function ModeratorIndex() {
 
     const filterByStatus = (data) => {
         if (selectedStatuses.length === 0) return data;
-        return data.filter((item) => selectedStatuses.includes(item.status));
+        return data.filter((item) => selectedStatuses.includes(item.status_code.title));
     };
 
     const filterByCategory = (data) => {
@@ -138,7 +152,7 @@ function ModeratorIndex() {
                     />
                     <div className="moderator_status-filter moderator_checkbox-filter">
                         <p className='moderator_checkbox-filter__title'>Статус</p>
-                        {['Ожидает проверки', 'Одобрено', 'Отправлено на доработку', 'Отклонено'].map((status) => (
+                        {statuses.map((status) => (
                             <CustomCheckbox 
                                 label={status}
                                 onChangeFunction={() => handleStatusFilterChange(status)}
