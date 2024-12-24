@@ -109,13 +109,18 @@ class TicketWithLastCommentSerializer(serializers.ModelSerializer):
     latest_review = serializers.SerializerMethodField()
     reviews_count = serializers.SerializerMethodField()
     user = CustomUserSerializer()
+    status_code = StatusCodeTextSerializer()
+
 
     class Meta:
         model = Ticket
-        fields = ('title', 'body', 'longtitude', 'latitude', 'time', 'draft', 'latest_review', 'reviews_count', 'user', 'media')
+        fields = ('title', 'body', 'longtitude', 'latitude', 'time', 'draft', 'latest_review', 'reviews_count', 'user', 'media', 'status_code')
 
     def get_latest_review(self, obj):
-        review = Review.objects.filter(ticket_id=obj.id).last()
+        reviews = Review.objects.filter(ticket_id=obj.id)
+        if reviews.count() == 0:
+            return None
+        review = reviews.last()
         serializer = ReviewSerializer(review)
         return serializer.data
     
