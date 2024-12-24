@@ -108,6 +108,7 @@ class TicketWithLastCommentSerializer(serializers.ModelSerializer):
     media = MediaSerializer(many=True)
     latest_review = serializers.SerializerMethodField()
     reviews_count = serializers.SerializerMethodField()
+    user = CustomUserSerializer()
 
     class Meta:
         model = Ticket
