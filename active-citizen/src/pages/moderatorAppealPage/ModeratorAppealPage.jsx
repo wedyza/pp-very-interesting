@@ -1,6 +1,6 @@
 import './moderatorAppealPage.css'
 import Header from '../../components/header/Header'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
 import empty from './../../img/empty.jpg'
 import { YMaps, Map, Placemark } from 'react-yandex-maps'
@@ -15,9 +15,11 @@ function ModeratorAppealPage () {
     const [error, setError] = useState(null);
     const [address, setAddress] = useState('');
     const [isFetching, setIsFetching] = useState(false);
+    const [reviewComment, setReviewComment] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchNotifications = async () => {
+        const fetchAppeal = async () => {
             try {
                 const response = await fetch(`${API_URL}/tickets/${appealId}`, {
                     headers: {
@@ -34,8 +36,52 @@ function ModeratorAppealPage () {
                 setError(err.message);
             }
         };
-        fetchNotifications();
+        fetchAppeal();
     }, []);
+
+    const handleApproved = () => {
+        const review = {
+            comment: reviewComment,
+            status_code_changed_on: 2
+        };
+        handleSubmit(review);
+    };
+
+    const handleRejected = () => {
+        const review = {
+            comment: reviewComment,
+            status_code_changed_on: 3
+        };
+        handleSubmit(review);
+    };
+
+    const handleRevision = () => {
+        const review = {
+            comment: reviewComment,
+            status_code_changed_on: 4
+        };
+        handleSubmit(review);
+    };
+
+    const handleSubmit = async (review) => {
+        try {
+            const response = await fetch(`${API_URL}/tickets/${appeal.id}/reviews/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify(review),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.statusText}`);
+            }
+            navigate('/');
+        } catch (err) {
+            setError(err.message);
+        }
+    };
 
 
     useEffect(() => {
@@ -80,11 +126,24 @@ function ModeratorAppealPage () {
                         <span className='verify-appeal_comment__disc'>
                             Оставьте ваш комментарий
                         </span>
-                        <input className='verify-appeal_comment__input' type="text" placeholder='Комментарий' />
+                        <input className='verify-appeal_comment__input' type="text" 
+                            placeholder='Комментарий' onChange={(e) => setReviewComment(e.target.value)} />
                         <div className='verify-appeal_comment__btns'>
-                            <button className='verify-appeal_btns__fix verify-appeal_comment__btn'>Отправить на доработку</button>
-                            <button className='verify-appeal_btns__approve verify-appeal_comment__btn'>Одобрить заявку</button>
-                            <button className='verify-appeal_btns__reject verify-appeal_comment__btn'>Отклонить заявку</button>
+                            <button className='verify-appeal_btns__fix verify-appeal_comment__btn'
+                                onClick={handleRevision}
+                            >
+                                Отправить на доработку
+                            </button>
+                            <button className='verify-appeal_btns__approve verify-appeal_comment__btn'
+                                onClick={handleApproved}
+                            >
+                                Одобрить заявку
+                            </button>
+                            <button className='verify-appeal_btns__reject verify-appeal_comment__btn'
+                                onClick={handleRejected}
+                            >
+                                Отклонить заявку
+                            </button>
                         </div>
                     </div>
                 </div>

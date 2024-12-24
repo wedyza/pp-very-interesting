@@ -85,7 +85,7 @@ function ModeratorAppeal ( {appeal} ) {
                             Комментарий:
                         </p>
                         <p className="moderator-appeal_info__value">
-                            {appeal.latest_review || '-'}
+                            {appeal.latest_review.comment || '-'}
                         </p>
                     </div>
                 </div>
