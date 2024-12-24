@@ -61,7 +61,7 @@ class SubCategory(models.Model):
 
 
 class BaseTicket(models.Model):
-    body = models.TextField('Тело')
+    body = models.TextField('Тело', null=True)
     title = models.CharField('Заголовок', max_length=100)
     created_at = models.DateTimeField('Создано', default=timezone.now())
     status_code = models.ForeignKey(
