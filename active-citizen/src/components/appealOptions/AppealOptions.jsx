@@ -31,7 +31,7 @@ function AppealOptions ({ showDelete = false, showEdit = false, showHistory = fa
     };
 
     const handleEdit = () => {
-        //navigate(`/edit-appeal/${appealId}`);
+        navigate(`/edit-appeal/${appealId}`);
     };
 
     return (

@@ -1,12 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './addressPicker.css';
 import { YMaps, Map, Placemark } from 'react-yandex-maps';
 import { API_KEY } from '../../constants';
 
-const AddressPicker = ({ onAddressChange }) => {
-    const [coords, setCoords] = useState([55.751574, 37.573856]);
+const AddressPicker = ({ onAddressChange, initialCoords }) => {
+    const [coords, setCoords] = useState(initialCoords || [55.751574, 37.573856]);
     const [address, setAddress] = useState('');
     const [prevAddress, setPrevAddress] = useState('');
+
+    useEffect(() => {
+        if (initialCoords) {
+            const fetchAddress = async () => {
+                const geocodeUrl = `https://geocode-maps.yandex.ru/1.x/?apikey=${API_KEY}&geocode=${initialCoords[1]},${initialCoords[0]}&format=json`;
+                try {
+                    const response = await fetch(geocodeUrl);
+                    const data = await response.json();
+                    const result =
+                        data.response.GeoObjectCollection.featureMember[0]?.GeoObject?.metaDataProperty?.GeocoderMetaData?.text;
+
+                    setAddress(result || 'Адрес не найден');
+                } catch (error) {
+                    console.error('Ошибка при обратном геокодировании:', error);
+                    setAddress('Ошибка получения адреса');
+                }
+            };
+
+            fetchAddress();
+        }
+    }, [initialCoords]);
 
     const handleAddressChange = (e) => {
         const newAddress = e.target.value;
