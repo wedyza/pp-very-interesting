@@ -74,7 +74,7 @@ class TicketAuditSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TicketAudit
-        fields = ('title', 'body', 'longtitude', 'latitude', 'time', 'draft', 'last_review', 'reviews_count', 'user')
+        fields = ('title', 'body', 'longtitude', 'latitude', 'time', 'draft', 'latest_review', 'reviews_count', 'user', 'ticket')
         read_only_fields = ("user", )
 
     def get_latest_review(self, obj):
@@ -138,29 +138,6 @@ class TicketCreateSerializer(serializers.ModelSerializer):
         read_only_fields = ("user", )
 
 
-class TicketSerializer(serializers.ModelSerializer):
-    category = serializers.StringRelatedField()
-    subcategory = serializers.StringRelatedField()
-    status_code = serializers.StringRelatedField()
-
-    class Meta:
-        model = Ticket
-        fields = '__all__'
-        read_only_fields = ("user", )
-
-
-class NotificationSerializer(serializers.ModelSerializer):
-    ticket = TicketNotificationSerializer()
-    status_code_changed_on = serializers.StringRelatedField()
-
-    class Meta:
-        model = Notification
-        fields = ('ticket', 'is_read', 'user', 'created_at', 'status_code_changed_on')
-
-    def get_ticket_title(self, obj):
-        return obj.ticket.title
-
-
 class CategorySerializer(serializers.ModelSerializer):
     source = Base64ImageField(required=False, allow_null=True)
     source_url = serializers.SerializerMethodField(
@@ -171,6 +148,23 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ('id', 'title', 'description', 'source', 'source_url')
+
+    def get_source_url(self, obj):
+        if obj.source:
+            return obj.source.url
+        return None
+
+
+class SubCategoryPairWithCategorySerializer(serializers.ModelSerializer):
+    source = Base64ImageField(required=False, allow_null=True)
+    source_url = serializers.SerializerMethodField(
+        'get_source_url',
+        read_only=True
+    )
+
+    class Meta:
+        model = SubCategory
+        fields = ('id', 'title', 'description', 'source', 'source_url', 'category')
 
     def get_source_url(self, obj):
         if obj.source:
@@ -194,6 +188,29 @@ class SubCategorySerializer(serializers.ModelSerializer):
         if obj.source:
             return obj.source.url
         return None
+
+
+class TicketSerializer(serializers.ModelSerializer):
+    category = CategorySerializer()
+    subcategory = SubCategoryPairWithCategorySerializer()
+    status_code = serializers.StringRelatedField()
+
+    class Meta:
+        model = Ticket
+        fields = '__all__'
+        read_only_fields = ("user", )
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    ticket = TicketNotificationSerializer()
+    status_code_changed_on = serializers.StringRelatedField()
+
+    class Meta:
+        model = Notification
+        fields = ('ticket', 'is_read', 'user', 'created_at', 'status_code_changed_on')
+
+    def get_ticket_title(self, obj):
+        return obj.ticket.title
 
 
 class ReviewSerializer(serializers.ModelSerializer):
