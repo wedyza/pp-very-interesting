@@ -194,11 +194,17 @@ class TicketSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
     subcategory = SubCategoryPairWithCategorySerializer()
     status_code = serializers.StringRelatedField()
+    latest_review = serializers.SerializerMethodField()
 
     class Meta:
         model = Ticket
-        fields = '__all__'
+        fields = ('title', 'body', 'longtitude', 'latitude', 'time', 'draft', 'latest_review', 'user', 'media', 'status_code', 'created_at', 'id', 'category', 'subcategory')
         read_only_fields = ("user", )
+    
+    def get_latest_review(self, obj):
+        review = Review.objects.filter(ticket_id=obj.id).last()
+        serializer = ReviewSerializer(review)
+        return serializer.data
 
 
 class NotificationSerializer(serializers.ModelSerializer):
