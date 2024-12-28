@@ -24,7 +24,6 @@ function PersonalData() {
 
     useEffect(() => {
         const fetchUserData = async () => {
-            console.log(accessToken);
             try {
                 const response = await fetch(`${API_URL}/users/me/`, {
                     headers: {

@@ -21,7 +21,7 @@
     position: relative;
 }
 
-.appeal-options > * svg {
+.appeal-options__svg svg {
     stroke: white;
     transition: .3s;
 }
@@ -30,7 +30,7 @@
     stroke: none;
 }
 
-.appeal-options > *:hover svg {
+.appeal-options__svg:hover svg {
     stroke: #E7B510;
 }
 
@@ -70,4 +70,18 @@
 
 .appeal-options > *:only-child::after {
     border-radius: 0 20px 20px 0;
+}
+
+
+.history-modal {
+    width: 100%;
+    max-width: 764px;
+}
+
+.history-modal_header__title {
+    font-family: Roboto Condensed;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 36px;
+    letter-spacing: -0.02em;
 }

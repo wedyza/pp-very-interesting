@@ -1,11 +1,15 @@
-import { useState } from 'react';
-import './../appealOptions/appealOptions.css'
+import { useEffect, useState } from 'react';
+import './appealOptions.css'
 import Modal from '../modal/Modal';
 import { API_URL } from '../../constants';
 import { Link, useNavigate } from 'react-router-dom';
+import AuditCard from './auditCard/AuditCard';
+import AuditsModal from './auditsModal/AuditsModal';
 
 function AppealOptions ({ showDelete = false, showEdit = false, showHistory = false, appealId, onDelete }) {
+    const accessToken = localStorage.getItem('accessToken');
     const [isModalOpen, setModalOpen] = useState(false);
+    const [audits, setAudits] = useState([]);
     const navigate = useNavigate();
 
     const openModal = () => setModalOpen(true);
@@ -33,14 +37,14 @@ function AppealOptions ({ showDelete = false, showEdit = false, showHistory = fa
     return (
         <div className="appeal-options">
             {showDelete &&
-                <button className='appeal-options__delete' onClick={handleDelete}>
+                <button className='appeal-options__delete appeal-options__svg' onClick={handleDelete}>
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12.5 12.5L7.00002 7.00002M7.00002 7.00002L1.5 1.5M7.00002 7.00002L12.5 1.5M7.00002 7.00002L1.5 12.5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                 </button>
             }
             {showEdit &&
-                <Link href='#' to={showHistory ? `/edit-appeal/${appealId}` : `/edit-draft/${appealId}`} className='appeal-options__edit'>
+                <Link href='#' to={showHistory ? `/edit-appeal/${appealId}` : `/edit-draft/${appealId}`} className='appeal-options__edit appeal-options__svg'>
                     <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M13.1659 5.18093L14.4047 3.94212C15.1858 3.16107 16.4521 3.16107 17.2331 3.94212L18.2938 5.00278C19.0748 5.78383 19.0748 7.05016 18.2938 7.83121L17.055 9.07001M13.1659 5.18093L4.39438 13.9524C4.06231 14.2845 3.85768 14.7229 3.81635 15.1907L3.60853 17.5433C3.55376 18.1633 4.07263 18.6822 4.69264 18.6274L7.04525 18.4196C7.51305 18.3782 7.95139 18.1736 8.28347 17.8415L17.055 9.07001M13.1659 5.18093L17.055 9.07001" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
@@ -55,8 +59,8 @@ function AppealOptions ({ showDelete = false, showEdit = false, showHistory = fa
                     </svg>
                 </button>
             }
-            <Modal isOpen={isModalOpen} onClose={closeModal}>
-                <h1>Однажды здесь будет история</h1>
+            <Modal isOpen={isModalOpen} onClose={closeModal} modalClass="history-modal">
+                <AuditsModal appealId={appealId} />
             </Modal>
         </div>
     )
