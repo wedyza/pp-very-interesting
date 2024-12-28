@@ -49,7 +49,7 @@ function AuditsModal ({appealId}) {
             </div>
             <div className="history-modal__audits">
                 {filteredAndSortedData.map((audit) => (
-                    <AuditCard appeal={audit} />
+                    <AuditCard appeal={audit} appealId={appealId} />
                 ))}
             </div>
         </div>

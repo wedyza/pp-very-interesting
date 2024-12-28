@@ -109,6 +109,14 @@ function App() {
         }
       />
       <Route 
+        path="/appeal/:appealId/audit/:auditId" 
+        element={
+          <ProtectedRoute allowedGroups={[0]}>
+            <AppealPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route 
         path="/edit-appeal/:appealId" 
         element={
           <ProtectedRoute allowedGroups={[0]}>

@@ -11,7 +11,7 @@ import DateDisplay from '../../components/dateDisplay/DateDisplay'
 import AppealInfo from '../../components/appealInfo/AppealInfo'
 
 function AppealPage () {
-    const { appealId } = useParams();
+    const { appealId, auditId } = useParams();
     const accessToken = localStorage.getItem('accessToken');
     const [appeal, setAppeal] = useState([]);
     const [error, setError] = useState(null);
@@ -21,7 +21,7 @@ function AppealPage () {
     useEffect(() => {
         const fetchNotifications = async () => {
             try {
-                const response = await fetch(`${API_URL}/tickets/${appealId}`, {
+                const response = await fetch(`${API_URL}/tickets/${appealId}${auditId ? `/audit/${auditId}` : ''}`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${accessToken}`,
