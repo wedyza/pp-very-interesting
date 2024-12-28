@@ -18,10 +18,10 @@ function AppealForm({openModal, mainAction, draftAction, initialData = {}, appea
     } = location.state || {};
     const [categories, setCategories] = useState([]);
     const [subcategories, setSubcategories] = useState([]);
-    const [selectedCategoryId, setSelectedCategoryId] = useState(initialCategoryId || '');
-    const [selectedCategoryTitle, setSelectedCategoryTitle] = useState(initialData.category || initialCategoryTitle || '');
-    const [selectedSubcategoryId, setSelectedSubcategoryId] = useState(initialSubcategoryId || '');
-    const [selectedSubcategory, setSelectedSubcategory] = useState(initialData.subcategory || initialSubcategory || '');
+    const [selectedCategoryId, setSelectedCategoryId] = useState(initialData.category?.id ||initialCategoryId || '');
+    const [selectedCategoryTitle, setSelectedCategoryTitle] = useState(initialData.category?.title || initialCategoryTitle || '');
+    const [selectedSubcategoryId, setSelectedSubcategoryId] = useState(initialData.subcategory?.id || initialSubcategoryId || '');
+    const [selectedSubcategory, setSelectedSubcategory] = useState(initialData.subcategory?.title || initialSubcategory || '');
     const [error, setError] = useState(null);
     const [latitude, setLatitude] = useState(initialData.latitude ? Number(initialData.latitude) : null);
     const [longtitude, setlongtitude] = useState(initialData.longtitude ? Number(initialData.longtitude) : null);
@@ -116,7 +116,7 @@ function AppealForm({openModal, mainAction, draftAction, initialData = {}, appea
         if (selectedSubcategoryId) requestData.subcategory = selectedSubcategoryId;
     
         try {
-            const response = await fetch(`${API_URL}/tickets/${appealId || ''}`, {
+            const response = await fetch(`${API_URL}/tickets/${appealId || ''}${mainAction === 'PATCH' ? '/' : ''}`, {
                 method: mainAction,
                 headers: {
                     'Content-Type': 'application/json',

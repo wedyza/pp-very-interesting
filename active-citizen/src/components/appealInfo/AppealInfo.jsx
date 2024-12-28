@@ -20,7 +20,7 @@ function AppealInfo ({appeal, coords, address}) {
                     Категория
                 </div>
                 <div className="appeal-info__item_value">
-                    {appeal.category}                            
+                    {appeal.category ? appeal.category.title : 'Не указано'}
                 </div>
             </div>
             <div className="appeal-info__item appeal-info__subcategory">
@@ -28,7 +28,7 @@ function AppealInfo ({appeal, coords, address}) {
                     Подкатегория
                 </div>
                 <div className="appeal-info__item_value">
-                    {appeal.subcategory}                            
+                    {appeal.subcategory ? appeal.subcategory.title : 'Не указано'}
                 </div>
             </div>
             <div className="appeal-info__item appeal-info__datetime">
