@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './../appealOptions/appealOptions.css'
 import Modal from '../modal/Modal';
 import { API_URL } from '../../constants';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function AppealOptions ({ showDelete = false, showEdit = false, showHistory = false, appealId, onDelete }) {
     const [isModalOpen, setModalOpen] = useState(false);
@@ -30,10 +30,6 @@ function AppealOptions ({ showDelete = false, showEdit = false, showHistory = fa
         }
     };
 
-    const handleEdit = () => {
-        navigate(`/edit-appeal/${appealId}`);
-    };
-
     return (
         <div className="appeal-options">
             {showDelete &&
@@ -44,11 +40,11 @@ function AppealOptions ({ showDelete = false, showEdit = false, showHistory = fa
                 </button>
             }
             {showEdit &&
-                <a href='#' className='appeal-options__edit' onClick={handleEdit}>
+                <Link href='#' to={showHistory ? `/edit-appeal/${appealId}` : `/edit-draft/${appealId}`} className='appeal-options__edit'>
                     <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M13.1659 5.18093L14.4047 3.94212C15.1858 3.16107 16.4521 3.16107 17.2331 3.94212L18.2938 5.00278C19.0748 5.78383 19.0748 7.05016 18.2938 7.83121L17.055 9.07001M13.1659 5.18093L4.39438 13.9524C4.06231 14.2845 3.85768 14.7229 3.81635 15.1907L3.60853 17.5433C3.55376 18.1633 4.07263 18.6822 4.69264 18.6274L7.04525 18.4196C7.51305 18.3782 7.95139 18.1736 8.28347 17.8415L17.055 9.07001M13.1659 5.18093L17.055 9.07001" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
-                </a>
+                </Link>
             }
             {showHistory &&
                 <button href='#' className='appeal-options__history' onClick={openModal}>

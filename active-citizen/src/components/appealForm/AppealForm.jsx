@@ -54,7 +54,7 @@ function AppealForm({openModal, mainAction, draftAction, initialData = {}, appea
         };
 
         try {
-            await fetch(`${API_URL}/tickets/`, {
+            await fetch(`${API_URL}/tickets/${draftAction === 'PATCH' ? `${appealId}/` : ''}`, {
                 method: draftAction,
                 headers: {
                     'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ function AppealForm({openModal, mainAction, draftAction, initialData = {}, appea
             setError('Укажите описание проблемы.');
             return;
         }
-        if (mainAction === "POST"){
+        if (mainAction === "POST" || draftAction === "PATCH"){
             if (!latitude || !longtitude) {
                 setError('Выберите местоположение.');
                 return;
@@ -107,13 +107,17 @@ function AppealForm({openModal, mainAction, draftAction, initialData = {}, appea
         // const roundedLatitude = parseFloat(latitude.toFixed(6));
         // const roundedlongtitude = parseFloat(longtitude.toFixed(6));
         const requestData = {};
-
-        if (title) requestData.title = title;
-        if (body) requestData.body = body;
-        if (latitude) requestData.latitude = parseFloat(latitude.toFixed(6));
-        if (longtitude) requestData.longtitude = parseFloat(longtitude.toFixed(6));
-        if (selectedCategoryId) requestData.category = selectedCategoryId;
-        if (selectedSubcategoryId) requestData.subcategory = selectedSubcategoryId;
+        if (draftAction === 'PATCH') {
+            requestData.draft = 0;
+        }
+        else{
+            if (title) requestData.title = title;
+            if (body) requestData.body = body;
+            if (latitude) requestData.latitude = parseFloat(latitude.toFixed(6));
+            if (longtitude) requestData.longtitude = parseFloat(longtitude.toFixed(6));
+            if (selectedCategoryId) requestData.category = selectedCategoryId;
+            if (selectedSubcategoryId) requestData.subcategory = selectedSubcategoryId;
+        }
     
         try {
             const response = await fetch(`${API_URL}/tickets/${appealId || ''}${mainAction === 'PATCH' ? '/' : ''}`, {

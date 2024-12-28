@@ -19,6 +19,7 @@ import AdminSubcategories from './pages/adminSubcategories/AdminSubcategories'
 import AdminModerators from './pages/adminModerators/AdminModerators'
 import HomePage from './components/HomePage'
 import EditAppeal from './pages/editAppeal/EditAppeal'
+import EditDraft from './pages/editDraft/EditDraft'
 
 function App() {
   return (
@@ -112,6 +113,14 @@ function App() {
         element={
           <ProtectedRoute allowedGroups={[0]}>
             <EditAppeal />
+          </ProtectedRoute>
+        }
+      />
+      <Route 
+        path="/edit-draft/:appealId" 
+        element={
+          <ProtectedRoute allowedGroups={[0]}>
+            <EditDraft />
           </ProtectedRoute>
         }
       />
