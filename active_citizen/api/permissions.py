@@ -29,3 +29,10 @@ class PostOrOwnerOrReadOnly(permissions.BasePermission):
             or request.method == 'POST'
             or request.user.is_staff
         )
+
+class ModeratorOrAdmin(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return (
+            request.user.is_staff or
+            request.user.is_superuser
+        )

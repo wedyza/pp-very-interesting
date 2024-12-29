@@ -18,7 +18,7 @@ from .serializers import (
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from django_filters.rest_framework import DjangoFilterBackend
-from .permissions import AdminOrReadOnly, OwnerOrReadOnly, PostOrOwnerOrReadOnly
+from .permissions import AdminOrReadOnly, OwnerOrReadOnly, PostOrOwnerOrReadOnly, ModeratorOrAdmin
 from users.models import UserManager
 from django.core.exceptions import ValidationError
 
@@ -112,8 +112,8 @@ class TicketViewSet(viewsets.ModelViewSet):
             if ticket_audit.is_valid():
                 ticket_audit.save(ticket=serializer.instance, user_id=self.request.user.id, category=serializer.instance.category, subcategory=serializer.instance.subcategory)
         if serializer.is_valid():
-            if serializer.instance.status_code.id == 3:
-                return serializer.save(status_code_id=4)
+            if serializer.instance.status_code.id == 2 or serializer.instance.status_code.id == 4:
+                return serializer.save(status_code_id=1)
             else:
                 return serializer.save()
     
@@ -184,7 +184,7 @@ class ModeratorReviewViewSet(viewsets.ReadOnlyModelViewSet):
 class ModeratorCategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategoryAdminSerializer
-    permission_classes = (permissions.IsAdminUser,)
+    permission_classes = (ModeratorOrAdmin,)
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
@@ -192,7 +192,7 @@ class ModeratorCategoryViewSet(viewsets.ModelViewSet):
 class ModeratorSubcategoryViewSet(viewsets.ModelViewSet):
     queryset = SubCategory.objects.all()
     serializer_class = SubcategoryAdminSerializer
-    permission_classes = (permissions.IsAdminUser,)
+    permission_classes = (ModeratorOrAdmin,)
 
     def get_serializer(self, *args, **kwargs):
         if self.action == 'create':
