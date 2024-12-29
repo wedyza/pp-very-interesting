@@ -8,7 +8,7 @@ function AppealCard ({appeal, onDelete}) {
         'Одобрена': {
             textClass: 'status_accepted'
         },
-        'Отклонено': {
+        'Отклонена': {
             textClass: 'status_rejected'
         },
         'На проверке': {
@@ -33,13 +33,13 @@ function AppealCard ({appeal, onDelete}) {
                 </div>
                 <div className='appeal-card__comm'>
                     <span className='appeal-card__comm_label appeal-card__label'>Комментарий:</span>
-                    <span className='appeal-card__comm_value'>{appeal.latest_review}</span>
+                    <span className='appeal-card__comm_value'>{appeal.latest_review.comment}</span>
                 </div>
             </div>
-            {appeal.status === 'Принято' ?
+            {appeal.status_code === 'Одобрена' ?
                 <AppealOptions showHistory />
             : 
-            appeal.status === 'Отклонено' ?
+            appeal.status_code === 'Отклонена' ?
                 <AppealOptions showDelete showHistory appealId={appeal.id} onDelete={onDelete} />
             :
                 <AppealOptions showDelete showEdit showHistory appealId={appeal.id} onDelete={onDelete} />

@@ -2,7 +2,7 @@ import './registration.css'
 import logo from '../../img/login-logo.svg'
 import { useState } from 'react'
 import { API_URL } from '../../constants'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function Registration() {
     const [formData, setFormData] = useState({
@@ -105,6 +105,9 @@ function Registration() {
                                 required
                             />
                         </div>
+                        <Link to='/login' id='registration-link'>
+                            Уже есть аккаунт? Войдите!
+                        </Link>
                         <button className='login-form__button' type='submit'>Создать аккаунт</button>
                     </form>
                     {errorMessage && <p className="error-message">{errorMessage}</p>}

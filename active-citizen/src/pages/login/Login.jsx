@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import './login.css'
 import logo from '../../img/login-logo.svg'
 import { API_URL } from '../../constants'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../context/AuthContext'
 
 function Login() {
@@ -87,6 +87,9 @@ function Login() {
                             />
                         </div>
                         {error && <p className="error">{error}</p>}
+                        <Link to='/registration' id='registration-link'>
+                            Еще нет аккаунта? Создайте его!
+                        </Link>
                         <button className='login-form__button' type='submit'>Войти</button>
                     </form>
                 </div>

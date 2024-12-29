@@ -90,7 +90,7 @@ function AppealInfo ({appeal, coords, address}) {
                 </div>
                 <div className="appeal-info__item_value appeal-comm__value">
                     <p className='appeal__comm_label'>Комментарий модератора:</p>
-                    {appeal.comment}                            
+                    {appeal.latest_review && appeal.latest_review.comment}                            
                 </div>
             </div>
         </div>
