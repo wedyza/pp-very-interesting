@@ -7,12 +7,16 @@ function Search({ list, onResults, placeholder }) {
     const handleInputChange = (e) => {
         const searchQuery = e.target.value.toLowerCase();
         setQuery(searchQuery);
+        console.log(searchQuery);
 
         const filtered = list.filter((item) => {
             const titleMatch = item.title?.toLowerCase().includes(searchQuery);
             const descMatch = item.description?.toLowerCase().includes(searchQuery);
             const themeMatch = item.theme?.toLowerCase().includes(searchQuery);
-            return titleMatch || descMatch || themeMatch;
+            const firstNameMatch = item.first_name?.toLowerCase().includes(searchQuery);
+            const lastNameMatch = item.last_name?.toLowerCase().includes(searchQuery);
+            const givenNameMatch = item.given_name?.toLowerCase().includes(searchQuery);
+            return titleMatch || descMatch || themeMatch || firstNameMatch || lastNameMatch || givenNameMatch;
         });
 
         onResults(filtered);

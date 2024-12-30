@@ -40,7 +40,7 @@ function SelectList({ options, value, onChange, placeholder }) {
                             className={'custom-select__option filter__option'}
                             onClick={() => handleOptionClick(option)}
                         >
-                            {option}
+                            {option.name}
                         </li>
                     ))}
                 </ul>
