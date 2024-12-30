@@ -3,6 +3,7 @@ from ticket_system.models import (
     Category, Notification, Ticket, SubCategory, Review,
     TicketAudit, StatusCode
 )
+from users.models import ModeratorSetuped
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from .serializers import (
@@ -13,7 +14,8 @@ from .serializers import (
     TicketWithLastCommentSerializer,
     CategoryAdminSerializer, SubcategoryAdminSerializer,
     StatusCodeTextSerializer, ModeratorBoolSerializer,
-    SubcategoryAdminCreateSerializer
+    SubcategoryAdminCreateSerializer, ModeratorSetupedSerializer,
+    CustomUserModeratorSerializer
 )
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -34,6 +36,7 @@ class CustomUserViewSet(
     permission_classes = (OwnerOrReadOnly,)
     serializer_class = CustomUserSerializer
 
+
     def get_serializer_class(self):
         if self.action == 'moderator_manage':
             return ModeratorBoolSerializer
@@ -50,6 +53,12 @@ class CustomUserViewSet(
                 serializer.save()
                 return Response(serializer.data)
             return Response(serializer.errors)
+        
+    @action(detail=False, url_path='moderators', methods=['GET'], permission_classes=(permissions.IsAdminUser,))
+    def moderators(self, request, *args, **kwargs):
+        users = User.objects.filter(is_staff=True)
+        serializer = CustomUserModeratorSerializer(users, many=True)
+        return Response(serializer.data)
 
 
     @action(detail=True, url_path='tickets', methods=['GET'])
@@ -62,12 +71,18 @@ class CustomUserViewSet(
 
     @action(detail=True, url_path='moderator_manage', methods=['POST'], permission_classes=(permissions.IsAdminUser ,))
     def moderator_manage(self, request, pk):
-        if not 'moderator' in request.data or request.data['moderator'] != 0 and request.data['moderator']:
+        if not 'moderator' in request.data or request.data['moderator'] != 0 and request.data['moderator'] != 1:
             raise ValidationError("Поле moderator предоставлено не в формате True/False!")
         user = User.objects.filter(id=pk).get()
         user.is_staff = request.data['moderator']
         user.save()
         user_serializer = CustomUserSerializer(user)
+        if user.is_staff:
+            moderator_info_serializer = ModeratorSetuped(user=user, admin=request.user)
+            moderator_info_serializer.save()
+        else:
+            moderator_info = ModeratorSetuped.objects.filter(user=user).first()
+            moderator_info.delete()
         return Response(user_serializer.data)
 
     

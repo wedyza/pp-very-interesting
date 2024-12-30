@@ -2,6 +2,7 @@ from ticket_system.models import (
     Ticket, Category, Notification, SubCategory, Review,
     StatusCode, TicketAudit, Media
 )
+from users.models import ModeratorSetuped
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from djoser.serializers import UserSerializer
@@ -40,6 +41,7 @@ class CustomUserSerializer(UserSerializer):
         'get_user_group',
         read_only=True
     )
+    
 
     class Meta:
         model = get_user_model()
@@ -58,6 +60,33 @@ class CustomUserSerializer(UserSerializer):
             return 1
         return 0
 
+
+
+class ModeratorSetupedSerializer(serializers.ModelSerializer):
+    admin = CustomUserSerializer()
+    class Meta:
+        model = ModeratorSetuped
+        fields = ('admin', 'created_at')
+        read_only_fields = ('admin',)
+        
+
+
+class CustomUserModeratorSerializer(CustomUserSerializer):
+    moderator_info = serializers.SerializerMethodField(
+        'get_moderator_info',
+        read_only=True
+    )
+
+    class Meta:
+        model = get_user_model()
+        fields = ('phone_number', 'id', 'first_name', 'last_name', 'given_name', 'rating', 'avatar', 'avatar_url', 'user_group', 'moderator_info')
+
+    def get_moderator_info(self, obj):
+        moderator_info = ModeratorSetuped.objects.filter(user=obj)
+        if moderator_info.count() == 0:
+            return None
+        serializer = ModeratorSetupedSerializer(moderator_info.last())
+        return serializer.data
 
 class TicketNotificationSerializer(serializers.ModelSerializer):
     # url = serializers.SerializerMethodField()

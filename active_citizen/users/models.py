@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.core.validators import (
     RegexValidator, MaxValueValidator, MinValueValidator
 )
+from django.utils import timezone
 
 
 class UserManager(BaseUserManager):
@@ -80,3 +81,16 @@ class CustomAbstractUser(AbstractUser):
     #     on_delete=models.SET_DEFAULT,
     #     default=0
     # )
+
+class ModeratorSetuped(models.Model):
+    user = models.ForeignKey(
+        CustomAbstractUser,
+        related_name='Пользователь',
+        on_delete=models.CASCADE
+    )
+    admin = models.ForeignKey(
+        CustomAbstractUser,
+        related_name='Админ',
+        on_delete=models.CASCADE
+    )
+    created_at = models.DateTimeField(default=timezone.now())
