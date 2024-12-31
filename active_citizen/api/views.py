@@ -20,7 +20,7 @@ from .serializers import (
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from django_filters.rest_framework import DjangoFilterBackend
-from .permissions import AdminOrReadOnly, OwnerOrReadOnly, PostOrOwnerOrReadOnly, ModeratorOrAdmin
+from .permissions import AdminOrReadOnly, OwnerOrReadOnly, PostOrOwnerOrReadOnly, ModeratorOrAdmin, IsAdmin
 from users.models import UserManager
 from django.core.exceptions import ValidationError
 
@@ -69,7 +69,7 @@ class CustomUserViewSet(
         return Response(serializer.data)
     
 
-    @action(detail=True, url_path='moderator_manage', methods=['POST'], permission_classes=(permissions.IsAdminUser ,))
+    @action(detail=True, url_path='moderator_manage', methods=['POST'], permission_classes=(IsAdmin ,))
     def moderator_manage(self, request, pk):
         if not 'moderator' in request.data or request.data['moderator'] != 0 and request.data['moderator'] != 1:
             raise ValidationError("Поле moderator предоставлено не в формате True/False!")
