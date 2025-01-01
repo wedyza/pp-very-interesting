@@ -121,3 +121,55 @@
     font-weight: 600;
     color: var(--white-text);
 }
+
+
+.admin-search {
+    width: 100%;
+}
+
+.admin-search > .search {
+    max-width: 100%;
+}
+
+.moderator-list_container {
+    max-height: 250px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.moderator-list_container::-webkit-scrollbar {
+    display: none;
+}
+
+.moderator-list {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.moderator-item {
+    border: 2px solid var(--light-gray-text);
+    height: 55px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    font-size: 14px;
+}
+
+.moderator-list_select {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19.2px;
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: var(--gray-text);
+}
+
+.moderator-list_selected {
+    color: var(--blue700);
+}

@@ -337,30 +337,33 @@ function AdminChangePage({ id }) {
                         </>
                     )}
                     {isModerator && (
-                        <>
+                        <div className='admin-search'>
                             <Search
                                 list={users}
                                 onResults={handleUsersSearchResults}
                                 placeholder='Найти пользователя...'
                             />
-                            <ul className='moderator-list'>
-                                {filteredUsers.map((user) => (
-                                    <li key={user.id} className='moderator-item'>
-                                        <span>{`${user.first_name} ${user.last_name}`}</span>
-                                        <button
-                                            onClick={() =>
-                                                handleFormDataChange(
-                                                    'moderator',
-                                                    formData.moderator === user.id ? null : user.id
-                                                )
-                                            }
-                                        >
-                                            {formData.moderator === user.id ? 'Выбрано' : 'Выбрать'}
-                                        </button>
-                                    </li>
-                                ))}
-                            </ul>
-                        </>
+                            <div className="moderator-list_container">
+                                <ul className='moderator-list'>
+                                    {filteredUsers.map((user) => (
+                                        <li key={user.id} className='moderator-item'>
+                                            <span>{`${user.first_name} ${user.last_name}`}</span>
+                                            <button
+                                                className={`moderator-list_select ${formData.moderator === user.id ? 'moderator-list_selected' : ''}`}
+                                                onClick={() =>
+                                                    handleFormDataChange(
+                                                        'moderator',
+                                                        formData.moderator === user.id ? null : user.id
+                                                    )
+                                                }
+                                            >
+                                                {formData.moderator === user.id ? 'Выбрано' : 'Выбрать'}
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
                     )}
                     <button onClick={handleSave} className='admin_save-button'>
                         Сохранить
