@@ -129,7 +129,7 @@ class MediaSerializer(serializers.ModelSerializer):
 
     def get_source_url(self, obj):
         if obj.source:
-            return obj.image.url
+            return obj.source.url
         return None
 
 
@@ -161,11 +161,26 @@ class TicketWithLastCommentSerializer(serializers.ModelSerializer):
 
 
 class TicketCreateSerializer(serializers.ModelSerializer):
+    media = MediaSerializer(required=False, many=True)
+
     class Meta:
         model = Ticket
-        fields = '__all__'
-        read_only_fields = ("user", )
+        fields = ('title', 'body', 'longtitude', 'latitude', 'time', 'draft', 'user', 'media', 'status_code', 'created_at', 'id', 'category', 'subcategory')
+        read_only_fields = ("user",)
 
+
+    def create(self, validated_data):
+        ticket = Ticket.objects.create(**validated_data)
+        if 'media' not in self.initial_data:
+            return ticket
+        ticket.save()
+        medias = self.initial_data.pop('media')
+        for media in medias:
+            new_media = Media.objects.create(ticket=ticket)
+            # new_media.ticket = ticket
+            new_media.source.save(media.name, media)
+        return ticket
+    
 
 class CategorySerializer(serializers.ModelSerializer):
     source = Base64ImageField(required=False, allow_null=True)
@@ -224,6 +239,7 @@ class TicketSerializer(serializers.ModelSerializer):
     subcategory = SubCategoryPairWithCategorySerializer()
     status_code = serializers.StringRelatedField()
     latest_review = serializers.SerializerMethodField()
+    media = MediaSerializer(many=True)
 
     class Meta:
         model = Ticket

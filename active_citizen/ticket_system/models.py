@@ -89,14 +89,6 @@ class BaseTicket(models.Model):
         abstract = True
 
 
-class Media(models.Model):
-    source = models.ImageField('Изображение', upload_to='media/')
-
-    class Meta:
-        verbose_name = 'Медиа'
-        verbose_name_plural = 'Медиа'
-
-
 class BaseMainTicket(BaseTicket):
     longtitude = models.DecimalField(
         'Долгота',
@@ -114,15 +106,6 @@ class BaseMainTicket(BaseTicket):
         'Время проишествия',
         null=True
     )
-    # edited = models.BooleanField(
-    #     'Редактировано',
-    #     default=False
-    # )
-    media = models.ManyToManyField(
-        Media,
-        verbose_name='Медиа',
-        null=True
-    )
     draft = models.BooleanField(
         'Черновик',
         default=False
@@ -138,6 +121,20 @@ class Ticket(BaseMainTicket):
     class Meta:
         verbose_name = 'Тикет'
         verbose_name_plural = 'Тикеты'
+
+
+class Media(models.Model):
+    source = models.ImageField('Изображение', upload_to='ticket/media/')
+    ticket = models.ForeignKey(
+        Ticket,
+        on_delete=models.CASCADE,
+        null=False,
+        related_name='media'
+    )
+
+    class Meta:
+        verbose_name = 'Медиа'
+        verbose_name_plural = 'Медиа'
 
 
 class TicketAudit(BaseMainTicket):

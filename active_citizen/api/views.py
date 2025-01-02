@@ -1,7 +1,7 @@
 from rest_framework import viewsets, mixins, permissions
 from ticket_system.models import (
     Category, Notification, Ticket, SubCategory, Review,
-    TicketAudit, StatusCode
+    TicketAudit, StatusCode, Media
 )
 from users.models import ModeratorSetuped
 from django.contrib.auth import get_user_model
@@ -15,7 +15,7 @@ from .serializers import (
     CategoryAdminSerializer, SubcategoryAdminSerializer,
     StatusCodeTextSerializer, ModeratorBoolSerializer,
     SubcategoryAdminCreateSerializer, ModeratorSetupedSerializer,
-    CustomUserModeratorSerializer
+    CustomUserModeratorSerializer, MediaSerializer
 )
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -35,11 +35,15 @@ class CustomUserViewSet(
     queryset = User.objects.all()
     permission_classes = (OwnerOrReadOnly,)
     serializer_class = CustomUserSerializer
+    filter_backends = (DjangoFilterBackend, )
+    filterset_fields = ('is_staff',)
 
 
     def get_serializer_class(self):
         if self.action == 'moderator_manage':
             return ModeratorBoolSerializer
+        if 'is_staff' in self.request.GET:
+            return CustomUserModeratorSerializer
         return super().get_serializer_class()
 
     @action(detail=False, url_path='me', methods=['GET', 'PATCH'], permission_classes=(permissions.IsAuthenticated,))
@@ -131,8 +135,10 @@ class TicketViewSet(viewsets.ModelViewSet):
                 return serializer.save(status_code_id=1)
             else:
                 return serializer.save()
-    
+
+
     def perform_create(self, serializer):
+        print(serializer.validated_data)
         serializer.save(user_id=self.request.user.id)
 
     @action(detail=False, url_path='all', methods=['GET'])
