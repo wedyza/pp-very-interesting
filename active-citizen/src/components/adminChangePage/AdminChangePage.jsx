@@ -34,7 +34,7 @@ function AdminChangePage({ id }) {
         const fetchData = async () => {
             try {
                 const response = await fetch(
-                    `${id === 'moderators' ? `${API_URL}/users/?is_staff=true` : `${API_URL}/admin_section/${id}/`}`,
+                    `${id === 'moderators' ? `${API_URL}/users/?is_staff=1` : `${API_URL}/admin_section/${id}/`}`,
                     {
                         headers: {
                             'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ function AdminChangePage({ id }) {
 
         const fetchUsers = async () => {
             try {
-                const response = await fetch(`${API_URL}/users/`, {
+                const response = await fetch(`${API_URL}/users/?is_staff=0`, {
                     headers: { Authorization: `Bearer ${accessToken}` },
                 });
                 const result = await response.json();
@@ -278,22 +278,26 @@ function AdminChangePage({ id }) {
                                     </div>
                                 </div>
                             }
-                            <div className="change_item-card__info">
-                                <div className='change_item-card__label'>
-                                    Кто добавил:
+                            {!isModerator &&
+                                <div className="change_item-card__info">
+                                    <div className='change_item-card__label'>
+                                        Кто добавил:
+                                    </div>
+                                    <div className='change_item-card__value'>
+                                        {item.created_by && `${item.created_by.first_name} ${item.created_by.last_name}`}
+                                    </div>
                                 </div>
-                                <div className='change_item-card__value'>
-                                    {item.created_by && `${item.created_by.first_name} ${item.created_by.last_name}`}
+                            }
+                            {!isModerator &&
+                                <div className="change_item-card__info">
+                                    <div className='change_item-card__label'>
+                                        Дата добавления:
+                                    </div>
+                                    <div className='change_item-card__value'>
+                                        <DateDisplay isoDate={item.created_at} />
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="change_item-card__info">
-                                <div className='change_item-card__label'>
-                                    Дата добавления:
-                                </div>
-                                <div className='change_item-card__value'>
-                                    <DateDisplay isoDate={item.created_at} />
-                                </div>
-                            </div>
+                            }
                         </AdminChangeItem>
                     </li>
                 ))}
