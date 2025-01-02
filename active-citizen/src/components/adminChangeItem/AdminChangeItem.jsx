@@ -6,12 +6,13 @@ function AdminChangeItem({ id, itemId, children, onDelete }) {
     const accessToken = localStorage.getItem('accessToken');
     const handleDelete = async () => {
         try {
-            const response = await fetch(`${id === 'moderators' ? `${API_URL}/users/?is_staff=true` : `${API_URL}/admin_section/${id}/`}${itemId}`, {
-                method: 'DELETE',
+            const response = await fetch(`${id === 'moderators' ? `${API_URL}/users/${itemId}/moderator_manage/` : `${API_URL}/admin_section/${id}/${itemId}`}`, {
+                method: id === 'moderators' ? 'POST' : 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${accessToken}`,
                 },
+                body: JSON.stringify(id === 'moderators' ? {moderator: 0} : {}),
             });
 
             if (!response.ok) {

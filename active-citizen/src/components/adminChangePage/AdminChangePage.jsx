@@ -149,7 +149,7 @@ function AdminChangePage({ id }) {
     const handleSave = async () => {
         try {
             formData.category = formData.category.id;
-            const body = id === 'moderators' ? {} : formData;
+            const body = id === 'moderators' ? {moderator: 1} : formData;
             const response = await fetch(`${API_URL}/${isModerator ? `users/${formData.moderator}/moderator_manage/` : `admin_section/${id}/`}`, {
                 method: 'POST',
                 headers: {

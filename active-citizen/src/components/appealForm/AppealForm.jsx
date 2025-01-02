@@ -74,6 +74,19 @@ function AppealForm({openModal, mainAction, draftAction, initialData = {}, appea
 
     }
 
+    const getBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            if (!(file instanceof File || file instanceof Blob)) {
+                reject(new Error('Переданный объект не является файлом.'));
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result.split(',')[1]);
+            reader.onerror = (error) => reject(error);
+            reader.readAsDataURL(file);
+        });
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
@@ -89,7 +102,7 @@ function AppealForm({openModal, mainAction, draftAction, initialData = {}, appea
             setError('Укажите описание проблемы.');
             return;
         }
-        if (mainAction === "POST" || draftAction === "PATCH"){
+        if (mainAction === "POST" || draftAction === "PATCH") {
             if (!latitude || !longtitude) {
                 setError('Выберите местоположение.');
                 return;
@@ -103,37 +116,33 @@ function AppealForm({openModal, mainAction, draftAction, initialData = {}, appea
                 return;
             }
         }
-        
-        // const roundedLatitude = parseFloat(latitude.toFixed(6));
-        // const roundedlongtitude = parseFloat(longtitude.toFixed(6));
-        const requestData = {};
-        if (draftAction === 'PATCH') {
-            requestData.draft = 0;
-        }
-        else{
-            if (title) requestData.title = title;
-            if (body) requestData.body = body;
-            if (latitude) requestData.latitude = parseFloat(latitude.toFixed(6));
-            if (longtitude) requestData.longtitude = parseFloat(longtitude.toFixed(6));
-            if (selectedCategoryId) requestData.category = selectedCategoryId;
-            if (selectedSubcategoryId) requestData.subcategory = selectedSubcategoryId;
-        }
     
         try {
+            // Преобразуем изображения в Base64
+            const base64Images = await Promise.all(
+                images.map((image) => getBase64(image.file))
+            );
+    
+            const requestData = {
+                title,
+                body,
+                latitude: parseFloat(latitude.toFixed(6)),
+                longtitude: parseFloat(longtitude.toFixed(6)),
+                category: selectedCategoryId,
+                subcategory: selectedSubcategoryId,
+                media: base64Images, // Массив изображений в Base64
+            };
+    
+            if (draftAction === 'PATCH') {
+                requestData.draft = 0;
+            }
+    
             const response = await fetch(`${API_URL}/tickets/${appealId || ''}${mainAction === 'PATCH' ? '/' : ''}`, {
                 method: mainAction,
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${accessToken}`,
                 },
-                // body: JSON.stringify({
-                //     title,
-                //     body,
-                //     latitude: roundedLatitude,
-                //     longtitude: roundedlongtitude,
-                //     category: selectedCategoryId,
-                //     subcategory: selectedSubcategoryId,
-                // }),
                 body: JSON.stringify(requestData),
             });
     
@@ -142,9 +151,11 @@ function AppealForm({openModal, mainAction, draftAction, initialData = {}, appea
                 setError(errorData.detail || 'Ошибка при создании заявки.');
                 return;
             }
+    
             openModal();
         } catch (err) {
             setError('Ошибка при отправке данных на сервер.');
+            console.error('Ошибка:', err);
         }
     };
 
