@@ -3,6 +3,7 @@ import React from 'react'
 import empty from './../../img/empty.jpg'
 import { YMaps, Map, Placemark } from 'react-yandex-maps'
 import DateDisplay from '../../components/dateDisplay/DateDisplay'
+import { API_URL } from '../../constants'
 
 function AppealInfo ({appeal, coords, address}) {
     return (
@@ -78,10 +79,18 @@ function AppealInfo ({appeal, coords, address}) {
                     Медиафайлы
                 </div>
                 <div className="appeal-info__item_value appeal__images">
-                    <img src={empty} alt="" className='appeal__image' />
-                    <img src={empty} alt="" className='appeal__image' />
-                    <img src={empty} alt="" className='appeal__image' />
-                    <img src={empty} alt="" className='appeal__image' />
+                {appeal.media && appeal.media.length > 0 ? (
+                        appeal.media.map((media, index) => (
+                            <img
+                                key={index}
+                                src={`${API_URL}${media.source_url}`}
+                                alt={`Медиафайл ${index + 1}`}
+                                className="appeal__image"
+                            />
+                        ))
+                    ) : (
+                        <div>Нет медиафайлов</div>
+                    )}
                 </div>
             </div>
             <div className="appeal-info__item appeal-info__comm">

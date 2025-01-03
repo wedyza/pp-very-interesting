@@ -216,28 +216,28 @@ function PersonalData() {
                         <span className="user-info__item_value">{user.phone_number}</span>
                     )}
                 </div>
-                {userGroup === 0 ? (
-                    <div className="user-info__item user-info-rating">
-                        <div className="user-info__item_header">
-                            <span className="user-info__item_label">Ваш рейтинг</span>
-                            <button className='user-info__item_info'>
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12 11.5V16.5" stroke="#656368" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                                    <path d="M12 7.51L12.01 7.49889" stroke="#656368" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                                    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#656368" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                                </svg>
-                            </button>                            
-                        </div>
-                        <div className="user-rating__value">
-                            <div className="user-rating__stars">
-                                {ratingStars}
-                            </div>
-                            <div className="user-info__item_value">
-                                {user.rating.toFixed(1)}
-                            </div>
-                        </div>
-                    </div>
-                    ) : (
+                {userGroup !== 0 &&
+                    // <div className="user-info__item user-info-rating">
+                    //     <div className="user-info__item_header">
+                    //         <span className="user-info__item_label">Ваш рейтинг</span>
+                    //         <button className='user-info__item_info'>
+                    //             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    //                 <path d="M12 11.5V16.5" stroke="#656368" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    //                 <path d="M12 7.51L12.01 7.49889" stroke="#656368" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    //                 <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#656368" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    //             </svg>
+                    //         </button>                            
+                    //     </div>
+                    //     <div className="user-rating__value">
+                    //         <div className="user-rating__stars">
+                    //             {ratingStars}
+                    //         </div>
+                    //         <div className="user-info__item_value">
+                    //             {user.rating.toFixed(1)}
+                    //         </div>
+                    //     </div>
+                    // </div>
+                    (
                         <button onClick={handleLogout} className='profile__exit'>
                             <svg className='profile__nav__item_icon' width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path fillRule="evenodd" clipRule="evenodd" d="M5 4.13086C3.75736 4.13086 2.75 5.13822 2.75 6.38086V18.3809C2.75 19.6235 3.75736 20.6309 5 20.6309H7C8.24264 20.6309 9.25 19.6235 9.25 18.3809V6.38086C9.25 5.13822 8.24264 4.13086 7 4.13086H5ZM1.25 6.38086C1.25 4.30979 2.92893 2.63086 5 2.63086H7C9.07107 2.63086 10.75 4.30979 10.75 6.38086V18.3809C10.75 20.4519 9.07107 22.1309 7 22.1309H5C2.92893 22.1309 1.25 20.4519 1.25 18.3809V6.38086Z" fill="url(#paint0_linear_8_1648)"/>

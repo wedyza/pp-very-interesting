@@ -25,7 +25,8 @@ function AppealForm({openModal, mainAction, draftAction, initialData = {}, appea
     const [error, setError] = useState(null);
     const [latitude, setLatitude] = useState(initialData.latitude ? Number(initialData.latitude) : null);
     const [longtitude, setlongtitude] = useState(initialData.longtitude ? Number(initialData.longtitude) : null);
-    const [images, setImages] = useState([]);
+    const [images, setImages] = useState(initialData.media || []);
+    const [deletedImages, setDeletedImages] = useState([]);
 
     const titleRef = useRef();
     const bodyRef = useRef();
@@ -43,24 +44,40 @@ function AppealForm({openModal, mainAction, draftAction, initialData = {}, appea
             return;
         }
 
-        const draftData = {
-            title: title || null,
-            body: body || null,
-            latitude: latitude ? parseFloat(latitude.toFixed(6)) : null,
-            longtitude: longtitude ? parseFloat(longtitude.toFixed(6)) : null,
-            category: selectedCategoryId || null,
-            subcategory: selectedSubcategoryId || null,
-            draft: 1,
-        };
+        const draftData = new FormData();
+        draftData.append('title', title || null);        
+        if (body) {
+            draftData.append('body', body);
+        }
+        if (latitude !== null && latitude !== undefined) {
+            draftData.append('latitude', parseFloat(latitude.toFixed(6)));
+        }
+        if (longtitude !== null && longtitude !== undefined) {
+            draftData.append('longtitude', parseFloat(longtitude.toFixed(6)));
+        }
+        if (selectedCategoryId !== null && selectedCategoryId !== undefined) {
+            draftData.append('category', selectedCategoryId);
+        }
+        if (selectedSubcategoryId !== null && selectedSubcategoryId !== undefined) {
+            draftData.append('subcategory', selectedSubcategoryId);
+        }
+        draftData.append('draft', 1);
+    
+        images.forEach((image) => {
+            if (image.file) {
+                draftData.append('media', image.file);
+            }
+        });
+
+        console.log(deletedImages)
 
         try {
             await fetch(`${API_URL}/tickets/${draftAction === 'PATCH' ? `${appealId}/` : ''}`, {
                 method: draftAction,
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${accessToken}`,
                 },
-                body: JSON.stringify(draftData),
+                body: draftData,
             });
         } catch (err) {
             console.error('Ошибка при сохранении черновика:', err);
@@ -73,19 +90,6 @@ function AppealForm({openModal, mainAction, draftAction, initialData = {}, appea
         navigate('/');
 
     }
-
-    const getBase64 = (file) => {
-        return new Promise((resolve, reject) => {
-            if (!(file instanceof File || file instanceof Blob)) {
-                reject(new Error('Переданный объект не является файлом.'));
-                return;
-            }
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result.split(',')[1]);
-            reader.onerror = (error) => reject(error);
-            reader.readAsDataURL(file);
-        });
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -118,38 +122,52 @@ function AppealForm({openModal, mainAction, draftAction, initialData = {}, appea
         }
     
         try {
-            // Преобразуем изображения в Base64
-            const base64Images = await Promise.all(
-                images.map((image) => getBase64(image.file))
-            );
-    
-            const requestData = {
-                title,
-                body,
-                latitude: parseFloat(latitude.toFixed(6)),
-                longtitude: parseFloat(longtitude.toFixed(6)),
-                category: selectedCategoryId,
-                subcategory: selectedSubcategoryId,
-                media: base64Images, // Массив изображений в Base64
-            };
+            const formData = new FormData();
+            formData.append('title', title);
+            formData.append('body', body);
+            formData.append('latitude', parseFloat(latitude.toFixed(6)));
+            formData.append('longtitude', parseFloat(longtitude.toFixed(6)));
+            formData.append('category', selectedCategoryId);
+            formData.append('subcategory', selectedSubcategoryId);
     
             if (draftAction === 'PATCH') {
-                requestData.draft = 0;
+                formData.append('draft', 0);
             }
+    
+            images.forEach((image) => {
+                if (image.file) {
+                    formData.append('media', image.file);
+                }
+            });    
     
             const response = await fetch(`${API_URL}/tickets/${appealId || ''}${mainAction === 'PATCH' ? '/' : ''}`, {
                 method: mainAction,
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${accessToken}`,
                 },
-                body: JSON.stringify(requestData),
+                body: formData,
             });
     
             if (!response.ok) {
                 const errorData = await response.json();
                 setError(errorData.detail || 'Ошибка при создании заявки.');
                 return;
+            }
+
+            if (deletedImages.length > 0 && appealId) {
+                const deleteResponse = await fetch(`${API_URL}/tickets/${appealId}/delete_media/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                    body: JSON.stringify({ media: deletedImages }),
+                });
+    
+                if (!deleteResponse.ok) {
+                    const deleteErrorData = await deleteResponse.json();
+                    console.error('Ошибка при удалении изображений:', deleteErrorData);
+                }
             }
     
             openModal();
@@ -321,7 +339,7 @@ function AppealForm({openModal, mainAction, draftAction, initialData = {}, appea
                         </div>                                
                     </div>
                     <div className="appeal-form__images">
-                        <ImageUploader images={images} setImages={setImages} />
+                        <ImageUploader images={images} setImages={setImages} setDeletedImages={setDeletedImages} />
                     </div>
                 </div>
             </div>

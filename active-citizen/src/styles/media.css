@@ -203,7 +203,7 @@
         grid-template-areas: 
             "avatar name"
             "number number"
-            "rating rating";
+            "exit exit";
         gap: 16px;
     }
 
@@ -354,7 +354,7 @@
             "avatar"
             "name"
             "number"
-            "rating";
+            "exit";
         gap: 12px;
     }
 
