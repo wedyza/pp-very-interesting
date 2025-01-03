@@ -125,7 +125,7 @@ class MediaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Media
-        fields = ('source', 'source_url')
+        fields = ('source', 'source_url', 'id')
 
     def get_source_url(self, obj):
         if obj.source:
@@ -168,6 +168,12 @@ class TicketCreateSerializer(serializers.ModelSerializer):
         fields = ('title', 'body', 'longtitude', 'latitude', 'time', 'draft', 'user', 'media', 'status_code', 'created_at', 'id', 'category', 'subcategory')
         read_only_fields = ("user",)
 
+    def update(self, instance, validated_data):
+        medias = self.initial_data.pop('media')
+        for media in medias:
+            new_media = Media.objects.create(ticket=instance)
+            new_media.source.save(media.name, media)
+        return super().update(instance, validated_data)
 
     def create(self, validated_data):
         ticket = Ticket.objects.create(**validated_data)
@@ -177,7 +183,6 @@ class TicketCreateSerializer(serializers.ModelSerializer):
         medias = self.initial_data.pop('media')
         for media in medias:
             new_media = Media.objects.create(ticket=ticket)
-            # new_media.ticket = ticket
             new_media.source.save(media.name, media)
         return ticket
     
@@ -316,3 +321,7 @@ class CategoryAdminSerializer(serializers.ModelSerializer):
 
 class SubcategoryAdminSerializer(SubcategoryAdminCreateSerializer):
     category = CategoryAdminSerializer()
+
+
+class SomeMediaToDeleteSerializer(serializers.Serializer):
+    medias = serializers.ListField('Список медиа')

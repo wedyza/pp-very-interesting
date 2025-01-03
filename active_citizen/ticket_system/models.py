@@ -22,7 +22,7 @@ class StatusCode(models.Model):
 class Category(models.Model):
     title = models.CharField('Тип тикета', max_length=100)
     description = models.CharField('Описание', max_length=500)
-    source = models.ImageField('Изображение', null=True, upload_to='categories/f')
+    source = models.ImageField('Изображение', null=True, upload_to='categories/media/')
     created_by = models.ForeignKey(
         User,
         on_delete=models.CASCADE
@@ -41,7 +41,7 @@ class Category(models.Model):
 class SubCategory(models.Model):
     title = models.CharField('Тип тикета', max_length=100)
     description = models.CharField('Описание', max_length=500)
-    source = models.ImageField('Изображение', null=True, upload_to='subcategories/')
+    source = models.ImageField('Изображение', null=True, upload_to='subcategories/media/')
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE

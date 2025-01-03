@@ -15,7 +15,8 @@ from .serializers import (
     CategoryAdminSerializer, SubcategoryAdminSerializer,
     StatusCodeTextSerializer, ModeratorBoolSerializer,
     SubcategoryAdminCreateSerializer, ModeratorSetupedSerializer,
-    CustomUserModeratorSerializer, MediaSerializer
+    CustomUserModeratorSerializer, MediaSerializer,
+    SomeMediaToDeleteSerializer
 )
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -118,6 +119,8 @@ class TicketViewSet(viewsets.ModelViewSet):
             return TicketCreateSerializer(*args, **kwargs)
         elif self.action == 'all':
             return TicketWithLastCommentSerializer(*args, **kwargs)
+        elif self.action == 'delete_media':
+            return SomeMediaToDeleteSerializer(*args, **kwargs)
         return TicketSerializer(*args, **kwargs)
 
     def get_queryset(self):
@@ -138,7 +141,6 @@ class TicketViewSet(viewsets.ModelViewSet):
 
 
     def perform_create(self, serializer):
-        print(serializer.validated_data)
         serializer.save(user_id=self.request.user.id)
 
     @action(detail=False, url_path='all', methods=['GET'])
@@ -151,6 +153,18 @@ class TicketViewSet(viewsets.ModelViewSet):
     #     reviews = Review.objects.filter(ticket_id=pk).last()
     #     serializer = ReviewSerializer(reviews)
     #     return Response(serializer.data)
+
+
+    @action(detail=True, url_path='delete_media', methods=['POST'])
+    def delete_media(self, request, pk):
+        ticket = Ticket.objects.get(id=pk)
+        if 'media' not in request.data or type(request.data['media']) != list:
+            raise ValidationError('Нет ключа media, либо вернут не массив из id Media')
+        data = request.data['media']
+        media = Media.objects.filter(id__in=data, ticket=ticket)
+        media.delete()
+        return Response(TicketSerializer(ticket).data)
+        
 
 
 class SubCategoryViewSet(viewsets.ReadOnlyModelViewSet):
