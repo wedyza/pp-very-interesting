@@ -118,9 +118,10 @@ class TicketAuditSerializer(serializers.ModelSerializer):
     reviews_count = serializers.SerializerMethodField()
     media = MediaSerializer(many=True, required=False)
 
+
     class Meta:
         model = TicketAudit
-        fields = ('title', 'body', 'longtitude', 'latitude', 'time', 'draft', 'latest_review', 'reviews_count', 'user', 'ticket', 'media')
+        fields = ('title', 'body', 'longtitude', 'latitude', 'time', 'draft', 'latest_review', 'reviews_count', 'user', 'ticket', 'media', 'status_code', 'id', 'created_at')
         read_only_fields = ("user", )
 
     def get_latest_review(self, obj):
