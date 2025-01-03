@@ -416,7 +416,7 @@
         flex-shrink: 0;
     }
 
-    .appeal-card__icon img {
+    .appeal-card__icon_container {
         width: 28px;
         height: 28px;
     }

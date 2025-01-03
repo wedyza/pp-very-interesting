@@ -2,6 +2,7 @@ import './appealCard.css'
 import AppealOptions from '../appealOptions/AppealOptions'
 import icon from '../../img/community.svg'
 import DateDisplay from '../dateDisplay/DateDisplay';
+import { API_URL } from '../../constants';
 
 function AppealCard ({appeal, onDelete}) {
     const statusConfig = {
@@ -19,7 +20,11 @@ function AppealCard ({appeal, onDelete}) {
 
     return (
         <div className='history__appeal-card'>
-            <div className='appeal-card__icon'><img src={icon} /></div>
+            <div className='appeal-card__icon'>
+                <div className='appeal-card__icon_container'>
+                    <img src={API_URL + appeal.category.source_url} />
+                </div>
+            </div>
             <div className="appeal-card__info">
                 <div className="appeal-card__info_main">
                     <div className='appeal-card__title'><span>{appeal.title}</span></div>

@@ -2,6 +2,7 @@ import './auditCard.css'
 import icon from '../../../img/community.svg'
 import DateDisplay from '../../dateDisplay/DateDisplay';
 import { Link } from 'react-router-dom';
+import { API_URL } from '../../../constants';
 
 function AuditCard ({appeal: audit, appealId}) {
     console.log(audit);
@@ -20,7 +21,11 @@ function AuditCard ({appeal: audit, appealId}) {
 
     return (
         <div className='history__appeal-card history__audit-card'>
-            <div className='appeal-card__icon'><img src={icon} /></div>
+            <div className='appeal-card__icon'>
+                <div className='appeal-card__icon_container'>
+                    <img src={API_URL + audit.category.source_url} />
+                </div>
+            </div>
             <div className="appeal-card__info">
                 <div className="appeal-card__info_main audit-card__info_main">
                     <div className='appeal-card__title audit-card__title'><span>{audit.title}</span></div>

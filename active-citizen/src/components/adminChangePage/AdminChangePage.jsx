@@ -148,26 +148,56 @@ function AdminChangePage({ id }) {
 
     const handleSave = async () => {
         try {
-            formData.category = formData.category.id;
-            const body = id === 'moderators' ? {moderator: 1} : formData;
-            const response = await fetch(`${API_URL}/${isModerator ? `users/${formData.moderator}/moderator_manage/` : `admin_section/${id}/`}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${accessToken}`,
-                },
-                body: JSON.stringify(body),
-            });
-            if (!response.ok) throw new Error('Error saving item');
-            const newItem = await response.json();
-            setItems((prevItems) => [newItem, ...prevItems]);
-            setFilteredItems((prevItems) => [newItem, ...prevItems]);
+            if (id === 'categories') {
+                // Обработка для категории (с изображением)
+                const formDataObj = new FormData();
+                formDataObj.append('title', formData.title);
+                formDataObj.append('description', formData.description);
+                if (formData.icon) {
+                    formDataObj.append('source', formData.icon);
+                }
+    
+                const response = await fetch(`${API_URL}/admin_section/${id}/`, {
+                    method: 'POST',
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                    body: formDataObj,
+                });
+    
+                if (!response.ok) throw new Error('Error saving category');
+                const newCategory = await response.json();
+                setItems((prevItems) => [newCategory, ...prevItems]);
+                setFilteredItems((prevItems) => [newCategory, ...prevItems]);
+            } else {
+                // Обработка для остальных случаев
+                formData.category = formData.category.id;
+                const body = id === 'moderators' ? { moderator: 1 } : formData;
+                const response = await fetch(
+                    `${API_URL}/${isModerator ? `users/${formData.moderator}/moderator_manage/` : `admin_section/${id}/`}`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                        body: JSON.stringify(body),
+                    }
+                );
+    
+                if (!response.ok) throw new Error('Error saving item');
+                const newItem = await response.json();
+                setItems((prevItems) => [newItem, ...prevItems]);
+                setFilteredItems((prevItems) => [newItem, ...prevItems]);
+            }
+    
             closeModal();
-            setFormData({ title: '', description: '', category: { title: '', id: 0 }, moderator: null });
+            setFormData({ title: '', description: '', category: { title: '', id: 0 }, icon: null, moderator: null });
         } catch (error) {
             console.error(error);
         }
     };
+    
 
     const handleUsersSearchResults = (results) => {
         setFilteredUsers(results);
@@ -319,6 +349,26 @@ function AdminChangePage({ id }) {
                                     onChange={(option) => handleFormDataChange('category', option)}
                                     placeholder='Выберите категорию'
                                 />
+                            </div>
+                        )}
+                        {id === 'categories' && (
+                            <div className="admin-modal_item">
+                                <span className='admin-modal_label'>Иконка:</span>                                    
+                                <input
+                                    type="file"
+                                    id="icon-upload"
+                                    style={{ display: 'none' }}
+                                    accept="image/*"
+                                    onChange={(e) => handleFormDataChange('icon', e.target.files[0])}
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => document.getElementById('icon-upload').click()}
+                                    className="admin-modal_button"
+                                >
+                                    Прикрепить изображение
+                                </button>
+                                {formData.icon && <span className="admin-modal_file-name">{formData.icon.name}</span>}
                             </div>
                         )}
                             <div className="admin-modal_item">
