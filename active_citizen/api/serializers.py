@@ -95,27 +95,6 @@ class TicketNotificationSerializer(serializers.ModelSerializer):
         model = Ticket
         fields = ('title', 'id')
 
-
-class TicketAuditSerializer(serializers.ModelSerializer):
-    ticket = serializers.PrimaryKeyRelatedField(read_only=True)
-    latest_review = serializers.SerializerMethodField()
-    reviews_count = serializers.SerializerMethodField()
-
-    class Meta:
-        model = TicketAudit
-        fields = ('title', 'body', 'longtitude', 'latitude', 'time', 'draft', 'latest_review', 'reviews_count', 'user', 'ticket')
-        read_only_fields = ("user", )
-
-    def get_latest_review(self, obj):
-        review = Review.objects.filter(ticket_id=obj.id).last()
-        serializer = ReviewSerializer(review)
-        return serializer.data
-    
-    def get_reviews_count(self, obj):
-        reviews = Review.objects.filter(ticket_id=obj.id).count()
-        return reviews
-    
-
 class MediaSerializer(serializers.ModelSerializer):
     source = Base64ImageField(required=False, allow_null=True)
     source_url = serializers.SerializerMethodField(
@@ -131,6 +110,28 @@ class MediaSerializer(serializers.ModelSerializer):
         if obj.source:
             return obj.source.url
         return None
+
+
+class TicketAuditSerializer(serializers.ModelSerializer):
+    ticket = serializers.PrimaryKeyRelatedField(read_only=True)
+    latest_review = serializers.SerializerMethodField()
+    reviews_count = serializers.SerializerMethodField()
+    media = MediaSerializer(many=True)
+
+    class Meta:
+        model = TicketAudit
+        fields = ('title', 'body', 'longtitude', 'latitude', 'time', 'draft', 'latest_review', 'reviews_count', 'user', 'ticket', 'media')
+        read_only_fields = ("user", )
+
+    def get_latest_review(self, obj):
+        review = Review.objects.filter(ticket_id=obj.id).last()
+        serializer = ReviewSerializer(review)
+        return serializer.data
+    
+    def get_reviews_count(self, obj):
+        reviews = Review.objects.filter(ticket_id=obj.id).count()
+        return reviews
+    
 
 
 class TicketWithLastCommentSerializer(serializers.ModelSerializer):

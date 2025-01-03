@@ -149,6 +149,19 @@ class TicketAudit(BaseMainTicket):
         verbose_name_plural = 'Изменения тикетов'
 
 
+class MediaAudit(models.Model):
+    source = models.ImageField('Изображение')
+    ticket_audit = models.ForeignKey(
+        TicketAudit,
+        on_delete=models.CASCADE,
+        null=False,
+        related_name='media'
+    )
+    class Meta:
+        verbose_name = 'Медиа для аудита',
+        verbose_name_plural = 'Медиа для аудита'
+
+
 class SupportTicket(BaseTicket):
     pass
 

@@ -1,7 +1,7 @@
 from rest_framework import viewsets, mixins, permissions
 from ticket_system.models import (
     Category, Notification, Ticket, SubCategory, Review,
-    TicketAudit, StatusCode, Media
+    TicketAudit, StatusCode, Media, MediaAudit
 )
 from users.models import ModeratorSetuped
 from django.contrib.auth import get_user_model
@@ -131,8 +131,12 @@ class TicketViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         if not serializer.instance.draft:
             ticket_audit = TicketAuditSerializer(data=serializer.instance.__dict__)
+            ticket_media = Media.objects.filter(ticket=serializer.instance)
             if ticket_audit.is_valid():
                 ticket_audit.save(ticket=serializer.instance, user_id=self.request.user.id, category=serializer.instance.category, subcategory=serializer.instance.subcategory)
+            for media in ticket_media:
+                audit_media = MediaAudit.objects.create(source=media.source, ticket_audit=ticket_audit.instance)
+                audit_media.save()
         if serializer.is_valid():
             if serializer.instance.status_code.id == 2 or serializer.instance.status_code.id == 4:
                 return serializer.save(status_code_id=1)
@@ -196,7 +200,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
 
 
 class TicketAuditViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = TicketWithLastCommentSerializer
+    serializer_class = TicketAuditSerializer
 
     def get_queryset(self):
         ticket = get_object_or_404(Ticket, pk=self.kwargs['ticket'])
