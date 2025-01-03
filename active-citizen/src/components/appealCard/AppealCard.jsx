@@ -37,7 +37,7 @@ function AppealCard ({appeal, onDelete}) {
                 </div>
             </div>
             {appeal.status_code === 'Одобрена' ?
-                <AppealOptions showHistory />
+                <AppealOptions showHistory appealId={appeal.id} />
             : 
             appeal.status_code === 'Отклонена' ?
                 <AppealOptions showDelete showHistory appealId={appeal.id} onDelete={onDelete} />

@@ -24,7 +24,7 @@ function NotificationsPage () {
                     throw new Error(`${response.statusText}`);
                 }
                 const data = await response.json();
-                setNotifications(data);
+                setNotifications(data.reverse());
             } catch (err) {
                 setError(err.message);
             }

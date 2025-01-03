@@ -7,6 +7,7 @@ import AuditCard from './auditCard/AuditCard';
 import AuditsModal from './auditsModal/AuditsModal';
 
 function AppealOptions ({ showDelete = false, showEdit = false, showHistory = false, appealId, onDelete }) {
+    console.log(appealId);
     const accessToken = localStorage.getItem('accessToken');
     const [isModalOpen, setModalOpen] = useState(false);
     const [audits, setAudits] = useState([]);

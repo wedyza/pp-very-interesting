@@ -34,7 +34,7 @@ function AuditCard ({appeal: audit, appealId}) {
                 </div>
                 <div className='appeal-card__comm'>
                     <span className='appeal-card__comm_label appeal-card__label'>Комментарий:</span>
-                    <span className='appeal-card__comm_value'>{audit.latest_review}</span>
+                    <span className='appeal-card__comm_value'>{audit.latest_review.comment}</span>
                 </div>
             </div>
             <Link to={`/appeal/${appealId}/audit/${audit.id}`} className='audit_open'>
