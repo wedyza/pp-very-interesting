@@ -10,7 +10,7 @@ function Login() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
     const navigate = useNavigate();
-    const { setIsAuthenticated, setUserGroup } = useContext(AuthContext);
+    const { setIsAuthenticated, setUserGroup, setUserAvatar } = useContext(AuthContext);
 
     const handlePhoneChange = (e) => setPhone(e.target.value);
     const handlePasswordChange = (e) => setPassword(e.target.value);
@@ -45,6 +45,7 @@ function Login() {
                 if (userResponse.ok) {
                     const userData = await userResponse.json();
                     setUserGroup(userData.user_group);
+                    setUserAvatar(userData.avatar);
                     navigate('/');
                 } else {
                     setError('Ошибка получения данных пользователя');

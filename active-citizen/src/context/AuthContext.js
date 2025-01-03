@@ -6,6 +6,7 @@ export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [userGroup, setUserGroup] = useState(null);
+    const [userAvatar, setUserAvatar] = useState(null);
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -46,6 +47,7 @@ export const AuthProvider = ({ children }) => {
                     const userData = await userResponse.json();
                     setIsAuthenticated(true);
                     setUserGroup(userData.user_group);
+                    setUserAvatar(userData.avatar);
                 } else {
                     setIsAuthenticated(false);
                     setUserGroup(null);
@@ -71,6 +73,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('accessToken');
         setIsAuthenticated(false);
         setUserGroup(null);
+        setUserAvatar(null);
     };
 
     return (
@@ -79,6 +82,8 @@ export const AuthProvider = ({ children }) => {
                 isAuthenticated,
                 isLoading,
                 userGroup,
+                userAvatar,
+                setUserAvatar,
                 setUserGroup,
                 setIsAuthenticated,
                 logout,

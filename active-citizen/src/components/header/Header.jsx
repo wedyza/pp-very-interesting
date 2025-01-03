@@ -4,9 +4,10 @@ import avatar from './../../img/empty.jpg'
 import { Link } from 'react-router-dom'
 import { AuthContext } from '../../context/AuthContext'
 import { useContext } from 'react'
+import { API_URL } from '../../constants'
 
 function Header () {
-    const { isAuthenticated, userGroup } = useContext(AuthContext);
+    const { isAuthenticated, userGroup, userAvatar } = useContext(AuthContext);
     return (
         <header className={`header ${userGroup === 0 ? '' : 'header_mod'}`}>
             <div className="header__overlay"></div>
@@ -43,7 +44,7 @@ function Header () {
                         )}
                         <Link to={'/profile'} className="menu__item">
                             <div className="header__menu-avatar">     
-                                <img src={avatar} alt="Профиль" />
+                                <img src={API_URL + userAvatar} alt="Профиль" />
                             </div>
                         </Link>
                     </div>
