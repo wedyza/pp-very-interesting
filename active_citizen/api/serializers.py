@@ -111,17 +111,55 @@ class MediaSerializer(serializers.ModelSerializer):
             return obj.source.url
         return None
 
+    
+class CategorySerializer(serializers.ModelSerializer):
+    source = Base64ImageField(required=False, allow_null=True)
+    source_url = serializers.SerializerMethodField(
+        'get_source_url',
+        read_only=True
+    )
+
+    class Meta:
+        model = Category
+        fields = ('id', 'title', 'description', 'source', 'source_url')
+
+    def get_source_url(self, obj):
+        if obj.source:
+            return obj.source.url
+        return None
+
+
+class SubCategorySerializer(serializers.ModelSerializer):
+    category = CategorySerializer(read_only=True)
+    source = Base64ImageField(required=False, allow_null=True)
+    source_url = serializers.SerializerMethodField(
+        'get_source_url',
+        read_only=True
+    )
+
+    class Meta:
+        model = SubCategory
+        fields = ('id', 'title', 'description', 'source', 'source_url', 'category')
+
+    def get_source_url(self, obj):
+        if obj.source:
+            return obj.source.url
+        return None
+
 
 class TicketAuditSerializer(serializers.ModelSerializer):
     ticket = serializers.PrimaryKeyRelatedField(read_only=True)
     latest_review = serializers.SerializerMethodField()
     reviews_count = serializers.SerializerMethodField()
     media = MediaSerializer(many=True, required=False)
+    status_code = StatusCodeTextSerializer()
+    category = CategorySerializer()
+    subcategory = SubCategorySerializer()
 
 
     class Meta:
         model = TicketAudit
-        fields = ('title', 'body', 'longtitude', 'latitude', 'time', 'draft', 'latest_review', 'reviews_count', 'user', 'ticket', 'media', 'status_code', 'id', 'created_at')
+        fields = ('title', 'body', 'longtitude', 'latitude', 'time', 'draft', 'latest_review', 'reviews_count', 'user', 'ticket', 'media', 'status_code', 'id', 'created_at', 'category', 'subcategory')
         read_only_fields = ("user", )
 
     def get_latest_review(self, obj):
@@ -188,44 +226,9 @@ class TicketCreateSerializer(serializers.ModelSerializer):
             new_media = Media.objects.create(ticket=ticket)
             new_media.source.save(media.name, media)
         return ticket
-    
-
-class CategorySerializer(serializers.ModelSerializer):
-    source = Base64ImageField(required=False, allow_null=True)
-    source_url = serializers.SerializerMethodField(
-        'get_source_url',
-        read_only=True
-    )
-
-    class Meta:
-        model = Category
-        fields = ('id', 'title', 'description', 'source', 'source_url')
-
-    def get_source_url(self, obj):
-        if obj.source:
-            return obj.source.url
-        return None
 
 
 class SubCategoryPairWithCategorySerializer(serializers.ModelSerializer):
-    source = Base64ImageField(required=False, allow_null=True)
-    source_url = serializers.SerializerMethodField(
-        'get_source_url',
-        read_only=True
-    )
-
-    class Meta:
-        model = SubCategory
-        fields = ('id', 'title', 'description', 'source', 'source_url', 'category')
-
-    def get_source_url(self, obj):
-        if obj.source:
-            return obj.source.url
-        return None
-
-
-class SubCategorySerializer(serializers.ModelSerializer):
-    category = CategorySerializer(read_only=True)
     source = Base64ImageField(required=False, allow_null=True)
     source_url = serializers.SerializerMethodField(
         'get_source_url',
