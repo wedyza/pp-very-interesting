@@ -152,9 +152,9 @@ class TicketAuditSerializer(serializers.ModelSerializer):
     latest_review = serializers.SerializerMethodField()
     reviews_count = serializers.SerializerMethodField()
     media = MediaSerializer(many=True, required=False)
-    status_code = StatusCodeTextSerializer()
-    category = CategorySerializer()
-    subcategory = SubCategorySerializer()
+    status_code = StatusCodeTextSerializer(required=False)
+    category = CategorySerializer(required=False)
+    subcategory = SubCategorySerializer(required=False)
 
 
     class Meta:
