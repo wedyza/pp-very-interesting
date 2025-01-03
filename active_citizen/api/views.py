@@ -130,10 +130,12 @@ class TicketViewSet(viewsets.ModelViewSet):
 
     def perform_update(self, serializer):
         if not serializer.instance.draft:
-            ticket_audit = TicketAuditSerializer(data=serializer.instance.__dict__)
+            space = serializer.instance.__dict__.copy()
+            del space['created_at']
+            ticket_audit = TicketAuditSerializer(data=space)
             ticket_media = Media.objects.filter(ticket=serializer.instance)
             if ticket_audit.is_valid():
-                ticket_audit.save(ticket=serializer.instance, user_id=self.request.user.id, category=serializer.instance.category, subcategory=serializer.instance.subcategory)
+                ticket_audit.save(ticket=serializer.instance, user_id=self.request.user.id, category=serializer.instance.category, subcategory=serializer.instance.subcategory, status_code=serializer.instance.status_code)
                 for media in ticket_media:
                     audit_media = MediaAudit.objects.create(source=media.source, ticket_audit=ticket_audit.instance)
                     audit_media.save()

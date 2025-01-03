@@ -27,7 +27,7 @@ class Category(models.Model):
         User,
         on_delete=models.CASCADE
     )
-    created_at = models.DateTimeField('Создано', default=timezone.now())
+    created_at = models.DateTimeField('Создано', default=timezone.now)
 
 
     class Meta:
@@ -50,7 +50,7 @@ class SubCategory(models.Model):
         User,
         on_delete=models.CASCADE
     )
-    created_at = models.DateTimeField('Создано', default=timezone.now())
+    created_at = models.DateTimeField('Создано', default=timezone.now)
 
     class Meta:
         verbose_name = 'Подкатегория'
@@ -63,7 +63,7 @@ class SubCategory(models.Model):
 class BaseTicket(models.Model):
     body = models.TextField('Тело', null=True)
     title = models.CharField('Заголовок', max_length=100)
-    created_at = models.DateTimeField('Создано', default=timezone.now())
+    created_at = models.DateTimeField('Создано', default=timezone.now)
     status_code = models.ForeignKey(
         StatusCode,
         on_delete=models.SET_DEFAULT,
@@ -180,7 +180,7 @@ class Notification(models.Model):
         Ticket,
         on_delete=models.CASCADE
     )
-    created_at = models.DateTimeField('Создано', default=timezone.now())
+    created_at = models.DateTimeField('Создано', default=timezone.now)
     status_code_changed_on = models.ForeignKey(
         StatusCode,
         on_delete=models.CASCADE
@@ -210,7 +210,7 @@ class Review(models.Model):
         MinValueValidator(0),
         MaxValueValidator(10)
     ])
-    created_at = models.DateTimeField('Создано', default=timezone.now())
+    created_at = models.DateTimeField('Создано', default=timezone.now)
 
     class Meta:
         verbose_name = 'Комментарий'

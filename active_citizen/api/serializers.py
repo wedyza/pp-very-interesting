@@ -163,12 +163,12 @@ class TicketAuditSerializer(serializers.ModelSerializer):
         read_only_fields = ("user", )
 
     def get_latest_review(self, obj):
-        review = Review.objects.filter(ticket_id=obj.id).last()
+        review = Review.objects.filter(created_at__lt=obj.created_at, ticket=obj.ticket).order_by('created_at').last()
         serializer = ReviewSerializer(review)
         return serializer.data
     
     def get_reviews_count(self, obj):
-        reviews = Review.objects.filter(ticket_id=obj.id).count()
+        reviews = Review.objects.filter(created_at__lt=obj.created_at, ticket=obj.ticket).count()
         return reviews
     
 
@@ -188,7 +188,7 @@ class TicketWithLastCommentSerializer(serializers.ModelSerializer):
         fields = ('title', 'body', 'longtitude', 'latitude', 'time', 'draft', 'latest_review', 'reviews_count', 'user', 'media', 'status_code', 'created_at', 'id', 'category', 'subcategory')
 
     def get_latest_review(self, obj):
-        reviews = Review.objects.filter(ticket_id=obj.id)
+        reviews = Review.objects.filter(ticket_id=obj.id).order_by('created_at')
         if reviews.count() == 0:
             return None
         review = reviews.last()
@@ -258,7 +258,7 @@ class TicketSerializer(serializers.ModelSerializer):
         read_only_fields = ("user", )
     
     def get_latest_review(self, obj):
-        review = Review.objects.filter(ticket_id=obj.id).last()
+        review = Review.objects.filter(ticket_id=obj.id).order_by('created_at').last()
         serializer = ReviewSerializer(review)
         return serializer.data
 
