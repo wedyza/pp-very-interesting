@@ -116,7 +116,7 @@ class TicketAuditSerializer(serializers.ModelSerializer):
     ticket = serializers.PrimaryKeyRelatedField(read_only=True)
     latest_review = serializers.SerializerMethodField()
     reviews_count = serializers.SerializerMethodField()
-    media = MediaSerializer(many=True)
+    media = MediaSerializer(many=True, required=False)
 
     class Meta:
         model = TicketAudit
