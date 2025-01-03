@@ -169,10 +169,11 @@ class TicketCreateSerializer(serializers.ModelSerializer):
         read_only_fields = ("user",)
 
     def update(self, instance, validated_data):
-        medias = self.initial_data.pop('media')
-        for media in medias:
-            new_media = Media.objects.create(ticket=instance)
-            new_media.source.save(media.name, media)
+        if 'media' in self.initial_data:
+            medias = self.initial_data.pop('media')
+            for media in medias:
+                new_media = Media.objects.create(ticket=instance)
+                new_media.source.save(media.name, media)
         return super().update(instance, validated_data)
 
     def create(self, validated_data):
