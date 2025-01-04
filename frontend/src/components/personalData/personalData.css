@@ -1,0 +1,196 @@
+.personal-data {
+    width: 100%;
+}
+
+.user-data {
+    margin-top: 48px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas: 
+        "avatar name"
+        "avatar number"
+        ". rating"
+        ". exit";
+    width: 100%;
+    justify-content: space-between;
+    column-gap: 32px;
+    row-gap: 20px;
+}
+
+.user-info__item {
+    width: 100%;
+    height: 100px;
+    padding: 16px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    background-color: var(--background);
+    border-radius: 20px;
+}
+
+.user-info__item::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    bottom: -2px;
+    right: -2px;
+    left: -2px;
+    border-radius: 22px;
+    background: var(--gradient3);
+    z-index: -1;
+}
+
+.user-info__name {
+    grid-area: name;
+}
+
+.user-info__phone {
+    grid-area: number;
+}
+
+.user-info-rating {
+    grid-area: rating;
+}
+
+.user-info__edit-input {
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-info__item_header {
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.user-info__item_label {
+    font-size: 16px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 16px;
+    color: var(--gray-text);
+}
+
+.user-info__item_value {
+    font-family: Roboto Condensed;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 36px;
+    letter-spacing: -0.02em;
+    color: var(--blue);
+}
+
+.user-info__avatar-container {
+    width: 140px;
+    height: 140px;
+    position: relative;
+    grid-area: avatar;
+}
+
+.user-info__avatar-container::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    bottom: -2px;
+    right: -2px;
+    left: -2px;
+    border-radius: 12px;
+    background: var(--gradient3);
+    z-index: -1;
+}
+
+.user-info__avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.avatar-image_label {
+    width: 100%;
+    height: 100%;
+
+}
+
+.avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.user-rating__value {
+    padding: 8px 5.5px 0 5.5px;
+    display: flex;
+    gap: 22px;
+}
+
+.user-rating__stars {
+    display: flex;
+    gap: 12px;
+}
+
+.user-rating__number {
+    font-size: 27.41px;
+    font-weight: 600;
+    line-height: 27.41px;
+}
+
+.edit_container {
+    height: 36px;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    z-index: 1;
+}
+
+.edit_container::before {
+    content: '';
+    position: absolute;
+    border-bottom: 1px solid var(--light-gray-text);
+    padding-bottom: 8px;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    z-index: 0;
+}
+
+.user-info__edit-input {
+    height: 100%;
+    font-family: Roboto Condensed;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 36px;
+    letter-spacing: -0.02em;
+    color: var(--blue);
+}
+
+.user-info__save-button {
+    height: 100%;
+    padding: 0 16px;
+    border: 2px solid var(--blue600);
+    border-radius: 10px;
+    color: var(--blue950);
+    font-weight: 600;
+}
+
+.profile__exit .profile__nav__item_icon path {
+    stroke: none;
+    fill: var(--gray-text);
+}
+
+.profile__exit {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--gray-text);
+    margin-top: 100px;
+    grid-area: exit;
+}

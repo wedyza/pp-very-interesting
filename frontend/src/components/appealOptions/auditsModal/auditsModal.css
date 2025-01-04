@@ -1,0 +1,12 @@
+.history-modal__audits {
+    margin-top: 32px;
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+}
+
+.history-modal_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

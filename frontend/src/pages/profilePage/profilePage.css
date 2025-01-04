@@ -1,0 +1,128 @@
+.profile__title {
+    margin-top: 24px;
+}
+
+.profile-content__container {
+    width: 100%;
+}
+
+.logout-btn {
+    margin-top: 150px;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19.2px;
+    gap: 16px;
+}
+
+.logout-btn__text {
+    color: var(--red);
+    text-decoration-line: underline;
+}
+
+.profile__container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 49px;
+}
+
+.profile__nav {
+    width: 346px;
+    background-color: var(--blue50);
+    border-radius: 20px;
+    padding: 24px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 32px;
+}
+
+.profile__nav__item {
+    height: 48px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 24px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 16px;
+    color: var(--gray-text);
+    position: relative;
+}
+
+.profile__nav__item_icon path {
+    stroke: var(--gray-text);
+    transition: stroke .3s ease;
+}
+
+.profile__nav__item_btns:hover .profile__nav__item_icon path,
+.profile__nav__item_active .profile__nav__item_icon path {
+    stroke: url(#paint0_linear_242_3755);
+}
+
+.profile__nav__exit .profile__nav__item_icon path {
+    stroke: none;
+    fill: var(--gray-text);
+    transition: fill .3s ease;
+}
+
+.profile__nav__exit:hover .profile__nav__item_icon path {
+    fill: url(#paint0_linear_242_3755);
+}
+
+.profile__nav__item:hover span,
+.profile__nav__item_active span {
+    background-image: var(--gradient3);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    -webkit-box-decoration-break: clone;
+}
+
+.profile__nav__item::before {
+    position: absolute;
+    content: '';
+    height: 100%;
+    width: 3px;
+    background-image: var(--gradient3);
+    z-index: 1;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    transition: opacity .3s ease;
+}
+
+.profile__nav__item:hover::before,
+.profile__nav__item_active::before {
+    opacity: 1;
+}
+
+.profile__nav__exit {
+    padding-top: 8px;
+    border-top: 1px solid var(--light-blue);
+    height: 56px;
+}
+
+.profile__nav__exit::before {
+    height: calc(100% - 8px);
+    top: 8px;
+}
+
+.back-button__profile {
+    display: none;
+    margin-bottom: 0;
+}
+
+.profile__container_info {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile__arrow {
+    position: absolute;
+    right: 24px;
+    display: none;
+}

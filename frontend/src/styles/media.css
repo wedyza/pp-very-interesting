@@ -1,0 +1,562 @@
+@media screen and (max-width: 1060px) {
+    .drafts-list { 
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .draft-list__item {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .draft-card {
+        width: 100%;
+    }
+
+    .draft-card::before {
+        display: none;
+    }
+
+    .draft-card::after {
+        display: none;
+    }
+    
+    .draft-list__item:nth-child(4n-1) {
+        margin-left: 0;
+    }
+
+    .drafts__header,
+    .select-category__head {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .text-title::before {
+        left: 36px;
+    }
+
+    .category-card__img {
+        flex-shrink: 0;
+        width: 55px;
+        height: 55px;
+    }
+
+    .card-blue {
+        width: 100%;
+        height: 103px;
+        flex-direction: row;
+        align-items: flex-start;
+        padding: 24px;
+    }
+
+    .card-blue:hover {
+        transform: none;
+    }
+
+    .subcategory-card {
+        flex-direction: column;
+    }
+
+    .cards-list {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .card-select {
+        top: 24px;
+        bottom: auto;
+        right: 24px;
+        left: auto;
+    }
+
+    .category-card__title,
+    .category-card__disc {
+        max-width: calc(100% - 120px);
+        text-overflow: ellipsis;
+        text-wrap: nowrap;
+        overflow: hidden;
+    }
+
+    .category-list__item {
+        width: 100%;
+    }
+
+    .page_content::after {
+        top: 89px;
+        left: -1050px;
+    }
+    
+    .appeal-form__item_label {
+        padding: 16px;
+        min-width: 35vw;
+        max-width: 35vw;
+    }
+
+    .appeal-form__item {
+        width: 100%;
+    }
+
+    .map {
+        width: 450px;
+    }
+    
+    .appeal-address__value {
+        max-width: 100%;
+    }
+
+    .appeal-form_button::before {
+        display: none;
+    }
+
+    .search {
+        max-width: 100%;
+    }
+
+    .history__list_item {
+        width: 100%;
+    }
+
+    .history__appeal-card {
+        width: 100%;
+    }
+
+    .history__filters {
+        justify-content: space-between;
+    }
+
+    .history-filters__sort,
+    .history-filters__status,
+    .filter {
+        width: 100%;
+    }
+
+    /*профиль*/
+    .profile-content__container {
+        display: none;
+    }
+
+    .profile-content__container_active {
+        display: block;
+    }
+
+    .user-data,
+    .notify-set,
+    .about-project {
+        margin-top: 0;
+    }
+
+    .back-button__profile {
+        display: flex;
+    }
+
+    .profile__container_info {
+        width: 100%;
+    }
+
+    .profile__nav {
+        width: 100%;
+        background-color: transparent;
+        padding: 0;
+        margin-top: 16px;
+        gap: 16px;
+    }
+
+    .profile__nav_closed {
+        display: none;
+    }
+
+    .profile__nav__exit {
+        display: none;
+    }
+
+    .profile__nav__item {
+        height: 64px;
+        background-color: var(--background);
+        border-radius: 8px;
+    }
+
+    .profile__arrow {
+        display: flex;
+    }
+
+    .profile__nav__item::before {
+        height: calc(100% + 4px);
+        width: calc(100% + 4px);
+        z-index: -1;
+        left: -2px;
+        top: -2px;
+        opacity: 1;
+        border-radius: 10px;
+    }
+
+    .profile__container {
+        flex-direction: column;
+        gap: 32px;
+    }
+
+    .back-button__hidden {
+        display: none;
+    }
+
+    .user-data {
+        grid-template-columns: auto 1fr;
+        grid-template-areas: 
+            "avatar name"
+            "number number"
+            "exit exit";
+        gap: 16px;
+    }
+
+    .user-info__avatar-container {
+        width: 109px;
+        height: 100%;
+    }
+}
+
+/*740 для телефонов?*/
+
+@media screen and (max-width: 740px) {
+    .header {
+        height: 46px;
+        padding: 0 16px;
+    }
+    .header__logo img {
+        height: 26px;
+    }
+
+    .header__btn {
+        height: 30px;
+        padding: 0;
+        border: none;
+    }
+
+    .header__btn span {
+        display: none;
+    }
+    
+    .header__menu-avatar {
+        width: 30px;
+        height: 30px;
+        border: 1px solid #E7B510;
+    }
+
+    .header__btns {
+        gap: 16px;
+    }
+
+    .page_content {
+        padding-top: 88px;
+    }
+
+    .page_content::after {
+        top: 40px;
+    }
+
+    .text-title {
+        font-size: 30px;
+        line-height: 36px;
+    }
+
+    .text-title::before {
+        left: 20px;
+        top: 7px;
+        height: 16px;
+        width: 9px;
+        transform: skew(-75deg, 74deg);
+    }
+
+    .category-list__item,
+    .subcategory-list__item {
+        width: 100%;
+    }
+
+    .card-blue {
+        height: 114px;
+        padding: 16px 24px;
+        gap: 16px;
+    }
+    
+    .category-card__text {
+        gap: 8px;
+    }
+
+    .category-card__title {
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 16px;
+    }
+
+    .category-card__img {
+        flex-shrink: 0;
+        width: 35px;
+        height: 35px;
+    }
+
+    .category-card__img img {
+        width: 35px;
+        height: 35px;
+    }
+
+    .category-card__title, .category-card__disc {
+        max-width: calc(100% - 50px);
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    
+    .category-card__disc {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 1.4;
+        max-height: calc(1.4em * 2);
+        text-wrap: wrap;
+    }
+
+    .card-select {
+        left: 75px;
+        bottom: 16px;
+        top: auto;
+        right: auto;
+    }
+
+    .draft-card {
+        padding: 16px 24px;
+    }
+
+    .appeal-title {
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 20px;
+        max-width: calc(100% - 66px);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-wrap: nowrap;
+    }
+    
+    .draft-card__datetime > * {
+        width: 138px;
+    }
+
+    .subcategory-card {
+        gap: 8px;
+    }
+
+    .subcategory-card > .card-select {
+        left: 24px;
+    }
+
+    .user-data {
+        grid-template-columns: 100%;
+        grid-template-areas:
+            "avatar"
+            "name"
+            "number"
+            "exit";
+        gap: 12px;
+    }
+
+    .user-info__avatar-container {
+        width: 110px;
+        height: 110px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .user-info__item {
+        height: 84px;
+    }
+
+    .user-info__item_value {
+        font-family: Inter;
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 20px;
+    }
+
+    .history__filters {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .history__list {
+        margin-top: 16px;
+    }
+
+    .history__appeal-card {
+        padding: 16px;
+        height: 139px;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .appeal-card__info_main {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .appeal-card__title {
+        display: block;
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 20px;
+        width: 100%;
+        max-width: calc(100% - 82px);
+        text-wrap: nowrap;
+    }
+
+    .appeal-card__icon {
+        width: 44px;
+        height: 46px;
+        border-radius: 10px;
+        align-self: flex-start;
+        flex-shrink: 0;
+    }
+
+    .appeal-card__icon_container {
+        width: 28px;
+        height: 28px;
+    }
+
+    .appeal-card__label {
+        font-size: 14px;
+        line-height: 14px;
+        font-style: normal;
+    }
+
+    .appeal-card__datetime {
+        font-size: 14px;
+        line-height: 14px;        
+    }
+
+    .notification {
+        height: 68px;
+        padding: 8px 16px;
+        grid-template-areas: 
+            "img title"
+            "img time";
+        grid-template-columns: auto 1fr;
+        align-items: flex-start;
+        column-gap: 16px;
+    }
+
+    .notification__datetime {
+        margin-left: 0;
+        margin-top: auto;
+    }
+
+    .notification__img {
+        height: 24px;
+        width: 24px;
+    }
+
+    .notification__img svg {
+        height: 24px;
+        width: 24px;
+    }
+
+    .notification__text {
+        margin-left: 0;
+    }
+
+    .notification__text {
+        font-size: 14px;
+        line-height: 14px;
+    }
+
+    #notification__text_accent {
+        font-weight: 400;
+    }
+
+    /*создание заявки*/
+
+    .appeal-form_button {
+        width: 100%;
+    }
+
+    .create-appeal__category {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+        gap: 24px;
+        margin-top: 24px;
+    }
+    
+    .appeal-form__info {
+        margin-top: 32px;
+    }
+    
+    .appeal-form__main {
+        margin-top: 24px;
+        gap: 24px;
+    }
+
+    .appeal-form__item {
+        flex-direction: column;
+        border: none;
+    }
+
+    .appeal-form__item_label {
+        border: none;
+        min-width: 100%;
+        padding: 0;
+        margin-bottom: 8px;
+    }
+
+    .appeal-form__item_label-container {
+        width: 100%;
+        background-color: transparent;
+    }
+
+    .appeal-form__item_number {
+        display: none;
+    }
+    
+    .appeal-form__item_text {
+        padding: 0;
+        border-left: none;
+    }
+    
+    .appeal-form__item_name {
+        font-style: italic;
+        font-weight: 400;
+        color: var(--gray-text);
+    }
+    
+    .appeal-form__item_disc {
+        font-style: italic;
+        font-size: 16px;
+        line-height: 16px;
+        font-weight: 400;
+        color: var(--light-gray-text);
+    }
+
+    .appeal-form__input-container {
+        padding: 0 20px;
+        border: 2px solid var(--blue);
+        border-radius: 10px;
+        height: 300px;
+        display: flex;
+        align-items: center;
+    }
+
+    .appeal-form__input-theme {
+        height: 62px;
+    }
+
+    .appeal-form__input {
+        height: calc(100% - 40px);
+    }
+
+    .map {
+        width: 100%;
+    }
+
+    .map,
+    .appeal-form__images {
+        padding: 0;
+    }
+}

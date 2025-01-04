@@ -1,0 +1,166 @@
+.create-appeal__form {
+    margin-top: 34px;
+}
+
+.create-appeal__category {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.appeal-form__title {
+    display: flex;
+    gap: 48px;
+    align-items: center;
+}
+
+.appeal-form__title_text {
+    color: var(--blue400);
+    font-weight: 700;
+    text-wrap: nowrap;
+}
+
+.appeal-form__title_line {
+    width: 100%;
+    background-color: var(--blue400);
+    height: 1px;
+}
+
+.appeal-form__info {
+    margin-top: 48px;
+}
+
+.appeal-form__main {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    align-items: flex-start;
+}
+
+.appeal-form__item {
+    border: 2px solid var(--blue600);
+    border-radius: 20px;
+    display: flex;
+}
+
+.appeal-form__item-text {
+    width: 100%;
+}
+
+.appeal-form__item_label {
+    padding: 24px;
+    border-right: 2px solid var(--blue600);
+    min-width: 25vw;
+    max-width: 25vw;
+}
+
+.appeal-form__item_label-container {
+    background-color: var(--blue);
+    border-radius: 20px;
+    color: var(--white-text);
+    display: flex;
+    align-items: center;
+}
+
+.appeal-form__item_number {
+    font-family: 'Roboto Condensed';
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 48px;
+    letter-spacing: -0.02em;
+    padding: 0 16px;
+}
+
+.appeal-form__item_text {
+    padding: 16px 32px 16px 16px;
+    border-left: 1px solid var(--blue200);
+}
+
+.appeal-form__item_name {
+    font-weight: 600;
+}
+
+.appeal-form__item_disc {
+    color: var(--blue200);
+    font-size: 14px;
+    font-style: italic;
+    line-height: 14px;
+    margin-top: 8px;
+    font-weight: 300;
+}
+
+.appeal-form__input-container {
+    width: 100%;
+    padding: 24px;
+}
+
+.appeal-form__input {
+    width: 100%;
+    height: 100%;
+    outline: none;
+    resize: none;
+}
+
+.appeal-form__input::-webkit-scrollbar {
+    display: none;
+}
+
+.appeal-form_buttons {
+    margin-top: 48px;
+    display: flex;
+    gap: 64px;
+}
+
+.appeal-form_button {
+    background-color: var(--yellow);
+    width: 370px;
+    height: 55px;
+    border-radius: 15px;
+    font-weight: 600;
+    position: relative;
+}
+
+.appeal-form_button::before {
+    content: '';
+    width: 1500px;
+    height: 105px;
+    position: absolute;
+    right: calc(100% + 2px);
+    top: -40px;
+    left: -850px;
+    background-image: url('../../img/line.svg');
+    background-size: cover;
+    background-position: center;
+    transform: scale(-1, 1);
+    transform: skew(-4deg, 4deg);
+    z-index: -1;
+}
+
+.appeal-form_button_draft {
+    width: 370px;
+    height: 55px;
+    border: 2px solid var(--blue600);
+    border-radius: 15px;
+    color: var(--blue950);
+    font-weight: 600;
+    background-color: var(--background);
+}
+
+.appeal-form__images {
+    padding: 24px;
+}
+
+.appeal_modal {
+    max-width: 550px;
+    max-height: 257px;
+    width: calc(100% - 60px);
+    height: calc(100% - 60px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 80px 0;
+    justify-content: space-between;
+    border-radius: 20px;
+}

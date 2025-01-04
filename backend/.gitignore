@@ -1,0 +1,8 @@
+db.sqlite3
+venv/
+active_citizen/active_citizen/__pycache__
+media
+.env
+.venv
+active_citizen/static/
+env/

@@ -1,0 +1,27 @@
+.history__audit-card {
+    min-width: 100%;
+    padding: 11px 16px;
+    max-height: 112px;
+}
+
+.audit-card__info_main {
+    max-width: 300px;
+}
+
+.audit_open {
+    position: absolute;
+    top: 11px;
+    right: 16px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 14px;
+    color: var(--gray-text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.audit-arrow path{
+    fill: #656368;
+    stroke: none;
+}
