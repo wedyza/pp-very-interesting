@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
                 return;
             }
             try {
-                const verifyResponse = await fetch('http://127.0.0.1:8000/auth/jwt/verify/', {
+                const verifyResponse = await fetch(`${API_URL}/auth/jwt/verify/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
                     return;
                 }
 
-                const userResponse = await fetch('http://127.0.0.1:8000/users/me/', {
+                const userResponse = await fetch(`${API_URL}/users/me/`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
