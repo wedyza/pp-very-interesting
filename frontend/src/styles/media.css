@@ -553,6 +553,15 @@
 
     .map {
         width: 100%;
+        overflow: hidden;
+    }
+
+    .appeal-info__address_value {
+        width: 100%;
+    }
+
+    .map-container {
+        max-width: 100%;
     }
 
     .map,
