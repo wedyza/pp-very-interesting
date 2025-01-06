@@ -135,7 +135,7 @@ function PersonalData() {
     if (error) return <div>Error: {error}</div>;
 
     return (
-        <div className='personal-data'>
+        <div className={`personal-data ${userGroup !== 0 && 'personal-data_mod'}`}>
             <div className="user-data">
                 <div className="user-info__avatar-container">
                     <div className="user-info__avatar">

@@ -149,7 +149,6 @@ function AdminChangePage({ id }) {
     const handleSave = async () => {
         try {
             if (id === 'categories') {
-                // Обработка для категории (с изображением)
                 const formDataObj = new FormData();
                 formDataObj.append('title', formData.title);
                 formDataObj.append('description', formData.description);
@@ -170,7 +169,6 @@ function AdminChangePage({ id }) {
                 setItems((prevItems) => [newCategory, ...prevItems]);
                 setFilteredItems((prevItems) => [newCategory, ...prevItems]);
             } else {
-                // Обработка для остальных случаев
                 formData.category = formData.category.id;
                 const body = id === 'moderators' ? { moderator: 1 } : formData;
                 const response = await fetch(

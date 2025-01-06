@@ -8,7 +8,7 @@ function AdminChangeCard ({title, desc, id}) {
                 <h2 className='change-card_title'>{title}</h2>
                 <p className='change-card_desc'>{desc}</p>
             </div>
-            <Link to={`/admin-${id}`}>
+            <Link to={`/admin-${id}`} className='change-card_open-container'>
                 <div className='change-card_open'>Изменить</div>
             </Link>
         </div>

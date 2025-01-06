@@ -9,7 +9,6 @@ import { API_URL } from '../../constants'
 import SubcategoryCard from '../../components/subcategoryCard/SubcategoryCard'
 
 function CategoryPage() {
-    //const accessToken = localStorage.getItem('accessToken');
     const { categoryId } = useParams();
     const [subcategories, setSubcategories] = useState([]);
     const [filteredSubcategories, setFilteredSubcategories] = useState([]);
