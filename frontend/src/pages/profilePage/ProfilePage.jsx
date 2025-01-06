@@ -9,7 +9,7 @@ import AboutProject from '../../components/aboutProject/AboutProject'
 import {AuthContext} from '../../context/AuthContext'
 
 function ProfilePage() {
-    const { isAuthenticated, logout, userGroup } = useContext(AuthContext);
+    const { logout, userGroup } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -17,7 +17,7 @@ function ProfilePage() {
         navigate('/');
     };
 
-    const [activeSection, setActiveSection] = useState(window.innerWidth <= 1060 ? null : 'personalData');
+    const [activeSection, setActiveSection] = useState((window.innerWidth <= 1060 && userGroup === 0) ? null : 'personalData');
 
     const activeSectionName = {
         'personalData': 'Данные профиля',
@@ -33,7 +33,7 @@ function ProfilePage() {
         <div className='App'>
             <Header />
             <section className='page_content'>
-                <button className={`back-button back-button__profile ${activeSection ? '' : 'back-button__hidden'}`} onClick={handleBackButtonClick}>                                
+                <button className={`back-button back-button__profile ${(activeSection && userGroup === 0) ? '' : 'back-button__hidden'}`} onClick={handleBackButtonClick}>                                
                     <BackButton />
                 </button>
                 <Link to={'/'} className={`${activeSection ? 'back-button__hidden' : ''}`}>

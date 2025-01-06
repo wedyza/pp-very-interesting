@@ -161,6 +161,10 @@
         gap: 16px;
     }
 
+    .personal-data_mod {
+        margin-top: 32px;
+    }
+
     .profile__nav_closed {
         display: none;
     }
@@ -211,9 +215,37 @@
         width: 109px;
         height: 100%;
     }
-}
 
-/*740 для телефонов?*/
+    .admin-change_list {
+        flex-direction: column;
+    }
+
+    .admin-change_item {
+        width: 100%;
+    }
+
+    .moderator_index {
+        flex-direction: column-reverse;
+    }
+
+    .moderator-appeal_info {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .moderator-appeal {
+        height: auto;
+    }
+    
+    .appeal-info__address_value {
+        width: 100%;
+    }
+
+    .verify-appeal_page {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+}
 
 @media screen and (max-width: 740px) {
     .header {
@@ -553,10 +585,90 @@
 
     .map {
         width: 100%;
+        overflow: hidden;
+    }
+
+    .appeal-info__address_value {
+        width: 100%;
+    }
+
+    .map-container {
+        max-width: 100%;
     }
 
     .map,
     .appeal-form__images {
         padding: 0;
+    }
+
+    .change-card {
+        height: 159px;
+        flex-direction: column;
+        padding: 24px 18px;
+    }
+
+    .change-card_text {
+        width: 100%;
+    }
+
+    .change-card_desc {
+        margin-top: 8px;
+    }
+
+    .change-card_open-container {
+        width: 100%;
+    }
+
+    .change-card_open {
+        height: 45px;
+        width: 100%;
+    }
+
+    .change_item-card__info {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .admin_change-page__header {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .admin_change-page__add {
+        padding: 20px 0;
+        max-width: 100%;
+    }
+
+    .moderator-appeal {
+        padding: 16px;
+    }
+
+    .moderator-appeal_open {
+        position: relative;
+        right: auto;
+        bottom: auto;
+        width: 100%;
+    }
+
+    .moderator-appeal_header {
+        flex-direction: column-reverse;
+        gap: 16px;
+    }
+
+    .verify-appeal_page {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .verify-appeal {
+        padding: 0;
+        border: none;
+    }
+
+    .appeal-info__item {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 20px 0;
     }
 }

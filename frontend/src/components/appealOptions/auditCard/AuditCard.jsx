@@ -1,5 +1,4 @@
 import './auditCard.css'
-import icon from '../../../img/community.svg'
 import DateDisplay from '../../dateDisplay/DateDisplay';
 import { Link } from 'react-router-dom';
 import { API_URL } from '../../../constants';

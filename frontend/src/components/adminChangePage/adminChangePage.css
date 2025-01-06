@@ -63,6 +63,7 @@
 
 .admin-modal {
     width: 764px;
+    margin: 0 32px;
 }
 
 .admin-modal__title {

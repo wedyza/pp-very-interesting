@@ -7,7 +7,6 @@ import { Routes, Route } from 'react-router-dom';
 import Login from './pages/login/Login'
 import AppealPage from './pages/appealPage/AppealPage'
 import CreateAppeal from './pages/createAppeal/CreateAppeal'
-import './styles/media.css'
 import Registration from './pages/registration/Registration'
 import ModeratorIndex from './pages/moderatorIndex/ModeratorIndex'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -20,6 +19,7 @@ import AdminModerators from './pages/adminModerators/AdminModerators'
 import HomePage from './components/HomePage'
 import EditAppeal from './pages/editAppeal/EditAppeal'
 import EditDraft from './pages/editDraft/EditDraft'
+import './styles/media.css'
 
 function App() {
   return (
