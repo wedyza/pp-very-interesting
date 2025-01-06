@@ -15,8 +15,8 @@ services:
     image: wedyzza/active_citizen_backend
     env_file: .env
     volumes:
-      - static:/backend_static
-      - media:/media
+      - static:/backend_static/
+      - media:/app/media/
   frontend:
     env_file: .env
     image: wedyzza/active_citizen_frontend
@@ -29,5 +29,5 @@ services:
     ports:
       - 8000:80
     volumes:
-      - static:/static
+      - static:/static/
       - media:/media
