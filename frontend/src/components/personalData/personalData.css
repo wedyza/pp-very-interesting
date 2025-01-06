@@ -194,3 +194,17 @@
     margin-top: 100px;
     grid-area: exit;
 }
+
+.header__menu-avatar_none {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--background);
+}
+
+.header__menu-avatar_none > svg {
+    width: 70%;
+    height: 70%;
+}

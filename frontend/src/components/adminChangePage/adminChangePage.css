@@ -173,3 +173,22 @@
 .moderator-list_selected {
     color: var(--blue700);
 }
+
+.admin-modal_button {
+    border: 2px solid var(--blue600);
+    align-self: flex-start;
+    padding: 16px 65px;
+    border-radius: 15px;
+    font-weight: 700;
+    color: var(--blue950);
+    margin-top: 8px;
+}
+
+.admin-modal_file-name {
+    border: 1px solid var(--gray-text);
+    border-radius: 20px;
+    align-self: flex-start;
+    padding: 4px 8px;
+    display: flex;
+    gap: 16px;
+}

@@ -248,7 +248,7 @@ function AdminChangePage({ id }) {
                                             'Сохранить' 
                                         :
                                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M12.3632 3.65156L13.8431 2.17157C14.6242 1.39052 15.8905 1.39052 16.6716 2.17157L18.0858 3.58579C18.8668 4.36683 18.8668 5.63316 18.0858 6.41421L16.6058 7.8942M12.3632 3.65156L2.74749 13.2672C2.41542 13.5993 2.21079 14.0376 2.16947 14.5054L1.92738 17.2459C1.87261 17.8659 2.39148 18.3848 3.0115 18.33L5.75191 18.0879C6.21972 18.0466 6.65806 17.8419 6.99013 17.5099L16.6058 7.8942M12.3632 3.65156L16.6058 7.8942" stroke="#656368" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M12.3632 3.65156L13.8431 2.17157C14.6242 1.39052 15.8905 1.39052 16.6716 2.17157L18.0858 3.58579C18.8668 4.36683 18.8668 5.63316 18.0858 6.41421L16.6058 7.8942M12.3632 3.65156L2.74749 13.2672C2.41542 13.5993 2.21079 14.0376 2.16947 14.5054L1.92738 17.2459C1.87261 17.8659 2.39148 18.3848 3.0115 18.33L5.75191 18.0879C6.21972 18.0466 6.65806 17.8419 6.99013 17.5099L16.6058 7.8942M12.3632 3.65156L16.6058 7.8942" stroke="#656368" strokeWidth="2" stroLinecap="round" strokeLinejoin="round"/>
                                             </svg>                                        
                                         }
                                     </button>
@@ -282,7 +282,7 @@ function AdminChangePage({ id }) {
                                             'Сохранить' 
                                         :
                                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M12.3632 3.65156L13.8431 2.17157C14.6242 1.39052 15.8905 1.39052 16.6716 2.17157L18.0858 3.58579C18.8668 4.36683 18.8668 5.63316 18.0858 6.41421L16.6058 7.8942M12.3632 3.65156L2.74749 13.2672C2.41542 13.5993 2.21079 14.0376 2.16947 14.5054L1.92738 17.2459C1.87261 17.8659 2.39148 18.3848 3.0115 18.33L5.75191 18.0879C6.21972 18.0466 6.65806 17.8419 6.99013 17.5099L16.6058 7.8942M12.3632 3.65156L16.6058 7.8942" stroke="#656368" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M12.3632 3.65156L13.8431 2.17157C14.6242 1.39052 15.8905 1.39052 16.6716 2.17157L18.0858 3.58579C18.8668 4.36683 18.8668 5.63316 18.0858 6.41421L16.6058 7.8942M12.3632 3.65156L2.74749 13.2672C2.41542 13.5993 2.21079 14.0376 2.16947 14.5054L1.92738 17.2459C1.87261 17.8659 2.39148 18.3848 3.0115 18.33L5.75191 18.0879C6.21972 18.0466 6.65806 17.8419 6.99013 17.5099L16.6058 7.8942M12.3632 3.65156L16.6058 7.8942" stroke="#656368" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                                             </svg>                                        
                                         }
                                     </button>
@@ -351,26 +351,6 @@ function AdminChangePage({ id }) {
                                 />
                             </div>
                         )}
-                        {id === 'categories' && (
-                            <div className="admin-modal_item">
-                                <span className='admin-modal_label'>Иконка:</span>                                    
-                                <input
-                                    type="file"
-                                    id="icon-upload"
-                                    style={{ display: 'none' }}
-                                    accept="image/*"
-                                    onChange={(e) => handleFormDataChange('icon', e.target.files[0])}
-                                />
-                                <button
-                                    type="button"
-                                    onClick={() => document.getElementById('icon-upload').click()}
-                                    className="admin-modal_button"
-                                >
-                                    Прикрепить изображение
-                                </button>
-                                {formData.icon && <span className="admin-modal_file-name">{formData.icon.name}</span>}
-                            </div>
-                        )}
                             <div className="admin-modal_item">
                                 <span className='admin-modal_label'>Название:</span>
                                 <input
@@ -388,6 +368,35 @@ function AdminChangePage({ id }) {
                                     className='admin-modal_input'
                                 />
                             </div>
+                            {id === 'categories' && (
+                                <div className="admin-modal_item">
+                                    <span className='admin-modal_label'>Добавить иконку категории:</span>                                    
+                                    <input
+                                        type="file"
+                                        id="icon-upload"
+                                        style={{ display: 'none' }}
+                                        accept="image/*"
+                                        onChange={(e) => handleFormDataChange('icon', e.target.files[0])}
+                                    />
+                                    {!formData.icon && 
+                                        <button
+                                            type="button"
+                                            onClick={() => document.getElementById('icon-upload').click()}
+                                            className="admin-modal_button"
+                                        >
+                                            Загрузить
+                                        </button>
+                                    }
+                                    {formData.icon && <span className="admin-modal_file-name">
+                                        {formData.icon.name}
+                                        <button className='admin-modal_file-name__delete' onClick={() => handleFormDataChange('icon', undefined)}>
+                                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M13 13L7.00002 7.00002M7.00002 7.00002L1 1M7.00002 7.00002L13 1M7.00002 7.00002L1 13" stroke="#180F25" strokeLinecap="round" strokeLinejoin="round"/>
+                                            </svg>
+                                        </button>
+                                    </span>}
+                                </div>
+                            )}
                         </>
                     )}
                     {isModerator && (

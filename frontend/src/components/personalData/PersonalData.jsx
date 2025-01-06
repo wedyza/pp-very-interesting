@@ -140,11 +140,21 @@ function PersonalData() {
                 <div className="user-info__avatar-container">
                     <div className="user-info__avatar">
                         <label htmlFor="avatar-upload" className='avatar-image_label'>
-                            <img
-                                src={user?.avatar ? `${API_URL}${user.avatar}` : '/empty.jpg'}
+                            {user.avatar ? 
+                                <img
+                                src={`${API_URL}${user.avatar}`}
                                 alt="avatar"
                                 className="avatar-image"
                             />
+                            :
+                            <div className="header__menu-avatar_none">
+                                <svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M15.5007 2.58301C8.36697 2.58301 2.58398 8.366 2.58398 15.4997C2.58398 22.6334 8.36697 28.4163 15.5007 28.4163C22.6343 28.4163 28.4173 22.6334 28.4173 15.4997C28.4173 8.366 22.6343 2.58301 15.5007 2.58301Z" stroke="#D9D3FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                    <path d="M5.51758 23.6962C5.51758 23.6962 8.39674 20.0205 15.5009 20.0205C22.6051 20.0205 25.4842 23.6962 25.4842 23.6962" stroke="#D9D3FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                    <path d="M15.5 15.5C17.6401 15.5 19.375 13.7651 19.375 11.625C19.375 9.4849 17.6401 7.75 15.5 7.75C13.3599 7.75 11.625 9.4849 11.625 11.625C11.625 13.7651 13.3599 15.5 15.5 15.5Z" stroke="#D9D3FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                            </div>
+                            }
                         </label>
                         <input
                             id="avatar-upload"
