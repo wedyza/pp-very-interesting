@@ -223,6 +223,28 @@
     .admin-change_item {
         width: 100%;
     }
+
+    .moderator_index {
+        flex-direction: column-reverse;
+    }
+
+    .moderator-appeal_info {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .moderator-appeal {
+        height: auto;
+    }
+    
+    .appeal-info__address_value {
+        width: 100%;
+    }
+
+    .verify-appeal_page {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
 }
 
 @media screen and (max-width: 740px) {
@@ -615,5 +637,38 @@
     .admin_change-page__add {
         padding: 20px 0;
         max-width: 100%;
+    }
+
+    .moderator-appeal {
+        padding: 16px;
+    }
+
+    .moderator-appeal_open {
+        position: relative;
+        right: auto;
+        bottom: auto;
+        width: 100%;
+    }
+
+    .moderator-appeal_header {
+        flex-direction: column-reverse;
+        gap: 16px;
+    }
+
+    .verify-appeal_page {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .verify-appeal {
+        padding: 0;
+        border: none;
+    }
+
+    .appeal-info__item {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 20px 0;
     }
 }

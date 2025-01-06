@@ -71,3 +71,7 @@
     background-color: var(--red200);
     color: var(--light-red);
 }
+
+.appeal-address__value {
+    word-wrap: break-word;
+}
