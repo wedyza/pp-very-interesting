@@ -228,7 +228,7 @@ function PersonalData() {
                         <span className="user-info__item_value">{user.phone_number}</span>
                     )}
                 </div>
-                {userGroup !== 0 &&
+                {(userGroup !== 0 || window.innerWidth <= 1060) &&
                     (
                         <button onClick={handleLogout} className='profile__exit'>
                             <svg className='profile__nav__item_icon' width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -9,7 +9,7 @@ import AboutProject from '../../components/aboutProject/AboutProject'
 import {AuthContext} from '../../context/AuthContext'
 
 function ProfilePage() {
-    const { isAuthenticated, logout, userGroup } = useContext(AuthContext);
+    const { logout, userGroup } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleLogout = () => {
